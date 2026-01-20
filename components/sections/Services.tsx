@@ -185,8 +185,8 @@ export default function Services() {
           <div className="bg-gradient-to-r from-primary-600 to-primary-400 rounded-2xl p-6 sm:p-8 text-white mx-4 sm:mx-0">
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Ready to Start Your Project?</h3>
             <p className="mb-4 sm:mb-6 text-primary-50 text-sm sm:text-base">
-              I'm interested in long-term collaborations as well as small, well-defined projects.
-              Let's discuss how I can help bring your vision to life.
+              I&apos;m interested in long-term collaborations as well as small, well-defined projects.
+              Let&apos;s discuss how I can help bring your vision to life.
             </p>
             <a
               href="#contact"

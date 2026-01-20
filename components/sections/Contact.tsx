@@ -8,14 +8,14 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "your.email@example.com",
-    href: "mailto:your.email@example.com",
+    value: "pradeepalakruwan.d@gmail.com",
+    href: "mailto:pradeepalakruwan.d@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    value: "+94 77 9400 291",
+    href: "tel:+94779400291",
   },
   {
     icon: MapPin,
@@ -49,7 +49,7 @@ export default function Contact() {
           </h2>
           <div className="w-24 h-1 bg-primary-600 mx-auto mb-6 sm:mb-8"></div>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-            Have a project in mind? Let's discuss how I can help bring your ideas to life.
+            Have a project in mind? Let&apos;s discuss how I can help bring your ideas to life.
           </p>
         </motion.div>
 
@@ -64,12 +64,12 @@ export default function Contact() {
             >
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white">
-                  Let's Connect
+                  Let&apos;s Connect
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                  I'm always open to discussing new projects, creative ideas, or opportunities
-                  to be part of your vision. Whether you're a startup looking to build an MVP
-                  or an established business needing to scale, I'm here to help.
+                  I&apos;m always open to discussing new projects, creative ideas, or opportunities
+                  to be part of your vision. Whether you&apos;re a startup looking to build an MVP
+                  or an established business needing to scale, I&apos;m here to help.
                 </p>
               </div>
 
@@ -113,7 +113,7 @@ export default function Contact() {
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6">
                   I focus on delivering high-quality work with attention to detail, clear communication,
-                  and timely delivery. Here's what you can expect when working with me:
+                  and timely delivery. Here&apos;s what you can expect when working with me:
                 </p>
               </div>
 
