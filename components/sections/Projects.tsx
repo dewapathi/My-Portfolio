@@ -7,66 +7,76 @@ import { useState } from "react";
 import Image from "next/image";
 
 const projects = [
+  // {
+  //   title: "E-Commerce Platform",
+  //   description:
+  //     "Full-stack e-commerce solution with Django REST Framework backend, React frontend, and AWS deployment. Features include user authentication, payment integration, order management, and admin dashboard.",
+  //   image: "/images/projects/ecommerce.jpg",
+  //   technologies: ["Django", "React", "PostgreSQL", "AWS", "Stripe"],
+  //   category: "Full Stack",
+  //   github: "https://github.com",
+  //   live: "https://example.com",
+  // },
+  // {
+  //   title: "SaaS Dashboard",
+  //   description:
+  //     "Modern SaaS platform built with Next.js and TypeScript. Includes subscription management, analytics dashboard, and multi-tenant architecture. Deployed on AWS with CI/CD pipeline.",
+  //   image: "/images/projects/saas-dashboard.jpg",
+  //   technologies: ["Next.js", "TypeScript", "Node.js", "MongoDB", "AWS"],
+  //   category: "Full Stack",
+  //   github: "https://github.com",
+  //   live: "https://example.com",
+  // },
   {
-    title: "E-Commerce Platform",
+    title: "Mobile Vehcile Spare Parts app",
     description:
-      "Full-stack e-commerce solution with Django REST Framework backend, React frontend, and AWS deployment. Features include user authentication, payment integration, order management, and admin dashboard.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
-    technologies: ["Django", "React", "PostgreSQL", "AWS", "Stripe"],
-    category: "Full Stack",
-    github: "https://github.com",
-    live: "https://example.com",
-  },
-  {
-    title: "SaaS Dashboard",
-    description:
-      "Modern SaaS platform built with Next.js and TypeScript. Includes subscription management, analytics dashboard, and multi-tenant architecture. Deployed on AWS with CI/CD pipeline.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
-    technologies: ["Next.js", "TypeScript", "Node.js", "MongoDB", "AWS"],
-    category: "Full Stack",
-    github: "https://github.com",
-    live: "https://example.com",
-  },
-  {
-    title: "Mobile Food Delivery App",
-    description:
-      "React Native mobile application for iOS and Android. Features real-time order tracking, push notifications, payment integration, and backend API integration with Django REST Framework.",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800",
-    technologies: ["React Native", "Django REST", "Firebase", "Stripe"],
+      "React Native mobile application for iOS and Android. Features real-time order tracking, payment integration, and backend API integration with Django REST Framework.",
+    image: "/images/projects/M-auto.PNG",
+    technologies: ["React Native", "Django REST", "Firebase", "Payhere"],
     category: "Mobile",
     github: "https://github.com",
     live: "https://example.com",
   },
   {
-    title: "Task Management System",
+    title: "Mobile Orivet app",
     description:
-      "Collaborative task management platform with real-time updates. Built with Node.js, Express, and React. Features include team collaboration, file attachments, and project analytics.",
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800",
-    technologies: ["Node.js", "Express", "React", "Socket.io", "MongoDB"],
-    category: "Full Stack",
+      "React Native mobile application for iOS and Android. Features real-time order tracking, push notifications, payment integration, and backend API integration with Django REST Framework.",
+    image: "/images/projects/Orivet.PNG",
+    technologies: ["React Native", "Django REST", "Firebase", "Stripe", "AWS"],
+    category: "Mobile",
     github: "https://github.com",
     live: "https://example.com",
   },
-  {
-    title: "Healthcare API Platform",
-    description:
-      "Secure healthcare API platform built with FastAPI. Includes HIPAA-compliant data handling, patient management, appointment scheduling, and integration with third-party medical systems.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800",
-    technologies: ["FastAPI", "PostgreSQL", "Docker", "AWS", "JWT"],
-    category: "Backend",
-    github: "https://github.com",
-    live: "https://example.com",
-  },
-  {
-    title: "Real Estate Marketplace",
-    description:
-      "Property listing platform with advanced search, map integration, and virtual tour features. Built with Next.js, Django REST Framework, and integrated with Google Maps API.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800",
-    technologies: ["Next.js", "Django", "PostgreSQL", "Google Maps API", "AWS"],
-    category: "Full Stack",
-    github: "https://github.com",
-    live: "https://example.com",
-  },
+  // {
+  //   title: "Task Management System",
+  //   description:
+  //     "Collaborative task management platform with real-time updates. Built with Node.js, Express, and React. Features include team collaboration, file attachments, and project analytics.",
+  //   image: "/images/projects/task-management.jpg",
+  //   technologies: ["Node.js", "Express", "React", "Socket.io", "MongoDB"],
+  //   category: "Full Stack",
+  //   github: "https://github.com",
+  //   live: "https://example.com",
+  // },
+  // {
+  //   title: "Healthcare API Platform",
+  //   description:
+  //     "Secure healthcare API platform built with FastAPI. Includes HIPAA-compliant data handling, patient management, appointment scheduling, and integration with third-party medical systems.",
+  //   image: "/images/projects/healthcare-api.jpg",
+  //   technologies: ["FastAPI", "PostgreSQL", "Docker", "AWS", "JWT"],
+  //   category: "Backend",
+  //   github: "https://github.com",
+  //   live: "https://example.com",
+  // },
+  // {
+  //   title: "Real Estate Marketplace",
+  //   description:
+  //     "Property listing platform with advanced search, map integration, and virtual tour features. Built with Next.js, Django REST Framework, and integrated with Google Maps API.",
+  //   image: "/images/projects/real-estate.jpg",
+  //   technologies: ["Next.js", "Django", "PostgreSQL", "Google Maps API", "AWS"],
+  //   category: "Full Stack",
+  //   github: "https://github.com",
+  //   live: "https://example.com",
+  // },
 ];
 
 const categories = ["All", "Full Stack", "Mobile", "Backend"];
@@ -193,7 +203,7 @@ export default function Projects() {
                     ))}
                   </div>
 
-                  <div className="flex gap-4 pt-4 border-t border-gray-200/50 dark:border-gray-800/50">
+                  {/* <div className="flex gap-4 pt-4 border-t border-gray-200/50 dark:border-gray-800/50">
                     <motion.a
                       href={project.github}
                       target="_blank"
@@ -216,7 +226,7 @@ export default function Projects() {
                       <ExternalLink className="w-5 h-5" />
                       <span>Live Demo</span>
                     </motion.a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </motion.div>
