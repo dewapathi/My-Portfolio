@@ -62,6 +62,9 @@ const skillCategories = [
     color: "from-indigo-500 to-blue-500",
     skills: [
       { name: "AWS (EC2, S3, RDS)", level: 90 },
+      { name: "Secrets Manager & IAM", level: 85 },
+      { name: "Lambda", level: 85 },
+      { name: "SNS/SES (Notifications & Email)", level: 85 },
       { name: "Docker", level: 90 },
       { name: "CI/CD", level: 85 },
       { name: "Git", level: 95 },

@@ -54,12 +54,14 @@ const services = [
     icon: Cloud,
     title: "AWS Cloud Deployment",
     description:
-      "Deploying applications to production using AWS services. Setting up scalable infrastructure with EC2, S3, RDS, Docker, and CI/CD pipelines.",
+      "Deploying applications to production on AWS with secure, scalable infrastructure. Experienced with EC2, S3, RDS, Docker, CI/CD pipelines, Secrets Manager, Lambda, and email/push services.",
     features: [
       "AWS Infrastructure Setup",
       "Docker & Containerization",
       "CI/CD Pipeline Configuration",
-      "Production Deployment",
+      "Secrets Manager & IAM best practices",
+      "Lambda functions & event-driven workflows",
+      "Email (SES) & notifications (SNS)",
     ],
   },
   {
