@@ -75,10 +75,9 @@ function Scene({ mode }: { mode: "light" | "dark" }) {
 
 export default function Hero3D() {
   const reduceMotion = useReducedMotion();
-  if (reduceMotion) return null;
-
   const [mode, setMode] = useState<"light" | "dark">("light");
   useEffect(() => {
+    if (reduceMotion) return;
     const update = () => {
       setMode(document.documentElement.classList.contains("dark") ? "dark" : "light");
     };
@@ -87,7 +86,9 @@ export default function Hero3D() {
     const observer = new MutationObserver(update);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
-  }, []);
+  }, [reduceMotion]);
+
+  if (reduceMotion) return null;
 
   return (
     <div className="absolute inset-0 pointer-events-none opacity-80 saturate-110">
