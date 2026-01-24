@@ -37,31 +37,40 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="section-padding bg-white dark:bg-gray-900"
+      className="section-padding scroll-mt-24 bg-gradient-to-b from-white via-gray-50/30 to-white dark:from-gray-950 dark:via-gray-900/30 dark:to-gray-950 relative overflow-hidden"
     >
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-16 relative z-10"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            About <span className="gradient-text">Me</span>
+          <p className="text-sm sm:text-base font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-4">
+            About
+          </p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 tracking-tight">
+            Building <span className="gradient-text">reliable</span>{" "}
+            <span className="text-gray-900 dark:text-white">systems</span>
           </h2>
-          <div className="w-24 h-1 bg-primary-600 mx-auto mb-8"></div>
+          <div className="w-32 h-1.5 bg-gradient-to-r from-transparent via-primary-600 to-transparent mx-auto mb-8"></div>
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            I help teams ship secure backends, smooth mobile apps, and production-ready cloud deployments.
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-16">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start relative z-10">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h3 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white">
-              Full Stack Software Engineer
-            </h3>
-            <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+            <div className="glass-effect rounded-2xl p-7 sm:p-9 shadow-xl border border-gray-200/40 dark:border-gray-800/50">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                Full Stack Software Engineer
+              </h3>
+              <div className="space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
               <p>
                 I am a professional full stack software engineer with hands-on experience in building
                 modern, secure, and scalable web and mobile applications for startups and businesses.
@@ -82,6 +91,22 @@ export default function About() {
                 small, well-defined projects.
               </p>
             </div>
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {[
+                  { label: "Backend APIs", value: "Secure + scalable" },
+                  { label: "AWS Deployments", value: "Prod-ready" },
+                  { label: "Mobile Apps", value: "iOS + Android" },
+                ].map((s) => (
+                  <div
+                    key={s.label}
+                    className="rounded-xl bg-white/60 dark:bg-gray-950/40 border border-gray-200/40 dark:border-gray-800/50 p-3"
+                  >
+                    <div className="text-xs font-semibold text-gray-900 dark:text-white">{s.label}</div>
+                    <div className="text-[11px] text-gray-600 dark:text-gray-400">{s.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
@@ -98,9 +123,11 @@ export default function About() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow"
+                  className="glass-effect rounded-2xl p-6 sm:p-7 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200/40 dark:border-gray-800/50"
                 >
-                  <Icon className="w-10 h-10 text-primary-600 mb-4" />
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center shadow-lg mb-4">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
                   <h4 className="font-semibold text-lg mb-2 text-gray-900 dark:text-white">
                     {item.title}
                   </h4>

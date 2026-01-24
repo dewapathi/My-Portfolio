@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import { ChevronDown, Sparkles } from "lucide-react";
 import { useInView } from "react-intersection-observer";
+import dynamic from "next/dynamic";
+
+const Hero3D = dynamic(() => import("@/components/three/Hero3D"), { ssr: false });
 
 export default function Hero() {
   const [ref, inView] = useInView({
@@ -41,6 +44,14 @@ export default function Hero() {
     >
       {/* Animated Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+      {/* 3D Layer (lazy + disabled on reduced motion) */}
+      <Hero3D />
+
+      {/* Readability layer so text stays crisp over 3D */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 [mask-image:radial-gradient(circle_at_center,black_0%,black_35%,transparent_70%)] bg-white/55 dark:bg-gray-950/35" />
+      </div>
       
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
