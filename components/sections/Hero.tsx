@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronDown, Download } from "lucide-react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
 export default function Hero() {
@@ -15,18 +15,20 @@ export default function Hero() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.5,
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   };
@@ -35,13 +37,54 @@ export default function Hero() {
     <section
       id="home"
       ref={ref}
-      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-1/2 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+      {/* Animated Grid Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      {/* Animated Gradient Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-primary-400/30 to-purple-400/30 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [0, -80, 0],
+            y: [0, -60, 0],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.5,
+          }}
+          className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-pink-400/20 to-primary-400/20 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [0, 60, 0],
+            y: [0, -40, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl"
+        />
       </div>
 
       <div className="container-custom section-padding relative z-10">
@@ -49,89 +92,86 @@ export default function Hero() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="text-center max-w-4xl mx-auto"
+          className="text-center max-w-5xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="mb-6">
-            <span className="inline-block px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium">
+          <motion.div variants={itemVariants} className="mb-8">
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-effect text-primary-700 dark:text-primary-300 text-sm font-semibold shadow-lg backdrop-blur-sm"
+            >
+              <Sparkles className="w-4 h-4" />
               Full Stack Software Engineer
-            </span>
+            </motion.span>
           </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight px-2"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold mb-6 sm:mb-8 leading-[1.1] tracking-tight"
           >
-            <span className="gradient-text">Building Digital</span>
-            <br />
-            <span className="text-gray-900 dark:text-white">Experiences</span>
+            <span className="block gradient-text mb-2">Building Digital</span>
+            <span className="block text-gray-900 dark:text-white">Experiences</span>
+            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl mt-4 gradient-text-alt">
+              That Matter
+            </span>
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed px-4"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-10 sm:mb-12 leading-relaxed max-w-3xl mx-auto font-light"
           >
-            I specialize in creating secure, scalable backend systems and modern web applications
-            using React, Next.js, Django, Node.js, and AWS cloud services.
+            Crafting <span className="font-semibold text-gray-900 dark:text-white">secure</span>,{" "}
+            <span className="font-semibold text-gray-900 dark:text-white">scalable</span> backend systems
+            and <span className="font-semibold text-gray-900 dark:text-white">modern</span> web applications
+            with cutting-edge technologies
           </motion.p>
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full px-4"
+            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center"
           >
-            <a
+            <motion.a
               href="#contact"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl text-center text-sm sm:text-base"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white rounded-xl font-semibold text-base sm:text-lg shadow-2xl shadow-primary-500/50 hover:shadow-primary-600/50 transition-all duration-300 overflow-hidden"
             >
-              Get In Touch
-            </a>
-            <a
+              <span className="relative z-10">Get In Touch</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+              />
+            </motion.a>
+            <motion.a
               href="#projects"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg border border-gray-200 dark:border-gray-700 text-center text-sm sm:text-base"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="group px-8 sm:px-10 py-4 sm:py-5 glass-effect text-gray-900 dark:text-white rounded-xl font-semibold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-gray-200/50 dark:border-gray-800/50"
             >
               View My Work
-            </a>
+            </motion.a>
           </motion.div>
 
           <motion.div
             variants={itemVariants}
-            className="mt-16 animate-bounce"
+            className="mt-20 sm:mt-24"
           >
-            <a
+            <motion.a
               href="#about"
-              className="inline-block text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              animate={{ y: [0, 10, 0] }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="inline-flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors group"
               aria-label="Scroll to about"
             >
-              <ChevronDown className="w-8 h-8" />
-            </a>
+              <span className="text-sm font-medium">Scroll to explore</span>
+              <ChevronDown className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            </motion.a>
           </motion.div>
         </motion.div>
       </div>
-
-      <style jsx>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </section>
   );
 }
