@@ -67,7 +67,7 @@ export default function Header() {
             href="#home"
             className="text-lg sm:text-xl md:text-2xl font-bold gradient-text"
           >
-            Pradeep Alakruwan
+            Pradeepa lakruwan
           </Link>
 
           {/* Desktop Navigation */}

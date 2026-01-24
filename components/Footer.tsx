@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="container-custom section-padding">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-center md:text-left">
-            <p className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2">Pradeep Alakruwan</p>
+            <p className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2">Pradeepa lakruwan</p>
             <p className="text-xs sm:text-sm">Full Stack Software Engineer</p>
           </div>
           
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
         
         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800 text-center text-xs sm:text-sm px-4">
-          <p>&copy; {new Date().getFullYear()} Pradeep Alakruwan. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Pradeepa lakruwan. All rights reserved.</p>
         </div>
       </div>
     </footer>

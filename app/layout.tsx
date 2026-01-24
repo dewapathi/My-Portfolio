@@ -7,13 +7,13 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pradeep Alakruwan - Full Stack Software Engineer",
+  title: "Pradeepa lakruwan - Full Stack Software Engineer",
   description: "Professional full stack software engineer specializing in React, Next.js, Django, Node.js, AWS, and mobile app development",
   keywords: "Full Stack Developer, React, Next.js, Django, Node.js, AWS, Mobile App Developer, Software Engineer",
-  authors: [{ name: "Pradeep Alakruwan" }],
+  authors: [{ name: "Pradeepa lakruwan" }],
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   openGraph: {
-    title: "Pradeep Alakruwan - Full Stack Software Engineer",
+    title: "Pradeepa lakruwan - Full Stack Software Engineer",
     description: "Professional full stack software engineer specializing in modern web and mobile applications",
     type: "website",
   },
