@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, BadgeCheck, Code2, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, BadgeCheck, Code2, ShieldCheck, Sparkles, Workflow, Hammer, CheckCircle2, Rocket } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 
 export default function Hero() {
@@ -67,7 +67,7 @@ export default function Hero() {
       {/* bottom vignette */}
       <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-t from-white/90 to-transparent dark:from-black/70" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-28 pb-20">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 pt-28 pb-16 sm:pb-18 lg:pb-20">
         <motion.div
           variants={container}
           initial="hidden"
@@ -205,7 +205,65 @@ export default function Hero() {
             </div>
           </motion.div>
         </motion.div>
+
+        {/* Engineering process (fills the “empty” area with credibility) */}
+        <motion.div variants={item} className="mt-10 lg:mt-12">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="text-sm font-semibold text-gray-900 dark:text-white/90">How I build</div>
+              <div className="mt-1 text-sm text-gray-600 dark:text-white/60">
+                A simple, repeatable process for clean UI, secure backends, and reliable delivery.
+              </div>
+            </div>
+            <a
+              href="#projects"
+              className="text-sm font-semibold text-gray-900 hover:text-gray-700 dark:text-white/85 dark:hover:text-white"
+            >
+              See proof in projects →
+            </a>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: Workflow, title: "Plan", desc: "Clarify goals, scope, risks, and success metrics." },
+              { icon: Hammer, title: "Build", desc: "Ship in small iterations with clean architecture." },
+              { icon: CheckCircle2, title: "Test", desc: "Edge cases, performance, and security checks." },
+              { icon: Rocket, title: "Deploy", desc: "CI/CD, monitoring, and production-ready releases." },
+            ].map((s) => {
+              const Icon = s.icon;
+              return (
+                <div
+                  key={s.title}
+                  className="rounded-2xl border border-gray-200/70 bg-white/70 p-5 backdrop-blur transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/9"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gray-900/5 dark:bg-white/10">
+                      <Icon className="h-5 w-5 text-gray-900 dark:text-white" />
+                    </span>
+                    <div className="text-base font-bold text-gray-900 dark:text-white/90">{s.title}</div>
+                  </div>
+                  <div className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-white/60">{s.desc}</div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
+
+      {/* Scroll cue (uses the “extra” space nicely) */}
+      <motion.a
+        href="#about"
+        initial={{ opacity: 0, y: 6 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        className="absolute bottom-6 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-gray-200/70 bg-white/70 px-4 py-2 text-sm font-medium text-gray-700 backdrop-blur hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/9 md:inline-flex"
+        aria-label="Scroll to about section"
+      >
+        Scroll
+        <motion.span animate={{ y: [0, 4, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
+          <ArrowDown className="h-4 w-4" />
+        </motion.span>
+      </motion.a>
     </section>
   );
 }
