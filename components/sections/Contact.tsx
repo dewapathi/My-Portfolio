@@ -35,7 +35,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={ref}
-      className="section-padding bg-gray-50 dark:bg-gray-800"
+      className="section-padding scroll-mt-24 bg-gray-50 dark:bg-gray-800"
     >
       <div className="container-custom">
         <motion.div

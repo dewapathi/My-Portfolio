@@ -52,7 +52,7 @@ export default function Experience() {
     <section
       id="experience"
       ref={ref}
-      className="section-padding bg-white dark:bg-gray-900"
+      className="section-padding scroll-mt-24 bg-white dark:bg-gray-900"
     >
       <div className="container-custom">
         <motion.div
