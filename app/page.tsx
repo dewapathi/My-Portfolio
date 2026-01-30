@@ -6,31 +6,32 @@ import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
 import Contact from "@/components/sections/Contact";
 import DriveContainer from "@/components/drive/DriveContainer";
+import DriveAwareSection from "@/components/drive/DriveAwareSection";
 
 export default function Home() {
   return (
     <DriveContainer>
-      <section className="snap-start min-h-screen">
+      <DriveAwareSection>
         <Hero />
-      </section>
-      <section className="snap-start min-h-screen">
+      </DriveAwareSection>
+      <DriveAwareSection>
         <About />
-      </section>
-      <section className="snap-start min-h-screen">
+      </DriveAwareSection>
+      <DriveAwareSection>
         <Skills />
-      </section>
-      <section className="snap-start min-h-screen">
+      </DriveAwareSection>
+      <DriveAwareSection>
         <Experience />
-      </section>
-      <section className="snap-start min-h-screen">
+      </DriveAwareSection>
+      <DriveAwareSection>
         <Projects />
-      </section>
-      <section className="snap-start min-h-screen">
+      </DriveAwareSection>
+      <DriveAwareSection>
         <Services />
-      </section>
-      <section className="snap-start min-h-screen">
+      </DriveAwareSection>
+      <DriveAwareSection>
         <Contact />
-      </section>
+      </DriveAwareSection>
     </DriveContainer>
   );
 }

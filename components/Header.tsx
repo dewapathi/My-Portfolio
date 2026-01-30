@@ -31,9 +31,7 @@ export default function Header() {
     const shouldBeDark = savedTheme === "dark" || (!savedTheme && prefersDark);
     
     setIsDark(shouldBeDark);
-    if (shouldBeDark) {
-      document.documentElement.classList.add("dark");
-    }
+    document.documentElement.classList.toggle("dark", shouldBeDark);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
