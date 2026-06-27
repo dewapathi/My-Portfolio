@@ -93,7 +93,7 @@ export default function Header() {
 
           <Link
             href="#contact"
-            className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[var(--deep)] text-white text-sm font-semibold hover:opacity-85 transition-opacity"
+            className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[var(--accent)] text-white text-sm font-semibold hover:opacity-85 transition-opacity"
           >
             Let&apos;s Talk
           </Link>
@@ -120,7 +120,7 @@ export default function Header() {
             className="fixed inset-0 z-50 lg:hidden"
           >
             <button
-              className="absolute inset-0 bg-[var(--deep)]/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
             />

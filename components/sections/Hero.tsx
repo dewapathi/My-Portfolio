@@ -8,25 +8,27 @@ import { SITE, CORE_STACK, STATS } from "@/lib/data";
 type CP = { t: string; c?: string };
 
 const CODE: { n: number; p: CP[] }[] = [
-  { n: 1,  p: [{ t: "@api_view", c: "#79C0FF" }, { t: "(['POST'])" }] },
-  { n: 2,  p: [{ t: "@permission_classes", c: "#79C0FF" }, { t: "([" }, { t: "IsAuthenticated", c: "#FFA657" }, { t: "])" }] },
-  { n: 3,  p: [{ t: "def ", c: "#FF7B72" }, { t: "process_payment", c: "#D2A8FF" }, { t: "(request):" }] },
-  { n: 4,  p: [{ t: "    order", c: "#FFA657" }, { t: " = " }, { t: "get_order", c: "#D2A8FF" }, { t: "(request.data)" }] },
-  { n: 5,  p: [{ t: "    charge", c: "#FFA657" }, { t: " = stripe." }, { t: "PaymentIntent", c: "#D2A8FF" }, { t: ".create(" }] },
-  { n: 6,  p: [{ t: "        amount", c: "#79C0FF" }, { t: "=order.total_cents," }] },
-  { n: 7,  p: [{ t: "        customer", c: "#79C0FF" }, { t: "=request.user.stripe_id," }] },
-  { n: 8,  p: [{ t: "    )" }] },
-  { n: 9,  p: [{ t: "    " }, { t: "notify_customer", c: "#D2A8FF" }, { t: "(order, charge)" }] },
-  { n: 10, p: [{ t: "    return ", c: "#FF7B72" }, { t: "Response", c: "#FFA657" }, { t: "(status=200)" }] },
-  { n: 11, p: [{ t: "" }] },
-  { n: 12, p: [{ t: "# Stripe charged \xB7 200 OK \xB7 Customer notified", c: "#8B949E" }] },
+  { n: 1,  p: [{ t: "# Sentry AutoFix \xB7 Claude Haiku + Sonnet pipeline", c: "#8B949E" }] },
+  { n: 2,  p: [{ t: "" }] },
+  { n: 3,  p: [{ t: "@webhook_handler", c: "#79C0FF" }, { t: "(source=" }, { t: '"sentry"', c: "#A5D6FF" }, { t: ")" }] },
+  { n: 4,  p: [{ t: "def ", c: "#FF7B72" }, { t: "triage_error", c: "#D2A8FF" }, { t: "(payload):" }] },
+  { n: 5,  p: [{ t: "    error", c: "#FFA657" }, { t: " = " }, { t: "secret_filter", c: "#D2A8FF" }, { t: "(payload)" }] },
+  { n: 6,  p: [{ t: "" }] },
+  { n: 7,  p: [{ t: "    # Phase 1: Haiku → file discovery (cheap)", c: "#8B949E" }] },
+  { n: 8,  p: [{ t: "    files", c: "#FFA657" }, { t: " = claude." }, { t: "haiku", c: "#6366F1" }, { t: "(" }, { t: "find_files_prompt", c: "#D2A8FF" }, { t: "(error))" }] },
+  { n: 9,  p: [{ t: "" }] },
+  { n: 10, p: [{ t: "    # Phase 2: Sonnet → root-cause fix + PR", c: "#8B949E" }] },
+  { n: 11, p: [{ t: "    pr", c: "#FFA657" }, { t: " = claude." }, { t: "sonnet", c: "#8B5CF6" }, { t: "(" }, { t: "generate_fix", c: "#D2A8FF" }, { t: "(error, files))" }] },
+  { n: 12, p: [{ t: "" }] },
+  { n: 13, p: [{ t: "    bitbucket.", c: "#FFA657" }, { t: "create_draft_pr", c: "#D2A8FF" }, { t: "(pr)" }] },
+  { n: 14, p: [{ t: "    return ", c: "#FF7B72" }, { t: "Response", c: "#FFA657" }, { t: "(status=202)" }] },
 ];
 
 const LIVE_SYSTEMS = [
-  { name: "M-Auto Platform",   tech: "React Native \xB7 Django REST" },
-  { name: "Orivet Mobile App", tech: "React Native \xB7 Stripe \xB7 AWS" },
-  { name: "Microchip Portal",  tech: "Next.js \xB7 REST APIs" },
-  { name: "LMS Backend API",   tech: "Django \xB7 Docker \xB7 AWS" },
+  { name: "AI Developer Automation", tech: "Claude API \xB7 Django \xB7 Celery" },
+  { name: "Serverless Email Pipeline", tech: "Lambda \xB7 SQS \xB7 EventBridge" },
+  { name: "Vehicle Parts Platform",   tech: "React Native \xB7 Django \xB7 PayHere" },
+  { name: "Student Mgmt System",      tech: "Next.js \xB7 Django \xB7 Stripe" },
 ];
 
 function CodeEditorCard() {
@@ -34,7 +36,7 @@ function CodeEditorCard() {
     <div className="relative">
       <div
         className="absolute inset-0 rounded-2xl opacity-25 blur-2xl"
-        style={{ background: "linear-gradient(135deg, #1850D4, #6366F1)" }}
+        style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)" }}
       />
       <div
         className="relative rounded-2xl overflow-hidden shadow-2xl"
@@ -60,9 +62,9 @@ function CodeEditorCard() {
                 borderRadius: "4px 4px 0 0",
               }}
             >
-              payment_view.py
+              autofix.py
             </div>
-            <div className="px-3 py-1 text-[#6E7681]">models.py</div>
+            <div className="px-3 py-1 text-[#6E7681]">devassist.py</div>
           </div>
         </div>
 
@@ -81,7 +83,7 @@ function CodeEditorCard() {
               {CODE.map((l) => (
                 <div key={l.n} style={{ whiteSpace: "pre", color: "#CDD9E5" }}>
                   {l.p.length === 0 || (l.p.length === 1 && l.p[0].t === "")
-                    ? " "
+                    ? " "
                     : l.p.map((part, i) => (
                         <span key={i} style={{ color: part.c ?? "#CDD9E5" }}>
                           {part.t}
@@ -107,9 +109,9 @@ function CodeEditorCard() {
               <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
               <span className="text-[#10B981]">Production</span>
             </span>
-            <span>Django REST</span>
+            <span>Claude API · Django</span>
           </div>
-          <span>ap-southeast-2 · AWS</span>
+          <span>CreatIT Solutions</span>
         </div>
       </div>
     </div>
@@ -153,14 +155,14 @@ export default function Hero() {
         className="absolute -top-40 -left-40 h-[700px] w-[700px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(24,80,212,0.07) 0%, transparent 68%)",
+            "radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 68%)",
         }}
       />
       <div
         className="absolute top-1/3 right-0 h-[600px] w-[600px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 68%)",
+            "radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 68%)",
         }}
       />
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--ground)] to-transparent pointer-events-none" />
@@ -202,12 +204,12 @@ export default function Hero() {
               variants={item}
               className="text-lg sm:text-xl text-[var(--deep)] leading-relaxed mb-8 max-w-xl"
             >
-              I design and build{" "}
+              I architect and ship{" "}
               <span className="text-[var(--accent)] font-medium">
-                production-ready software systems
+                production software systems
               </span>{" "}
-              that help businesses launch faster, automate operations, and scale
-              with confidence.
+              — from cloud infrastructure and AI automation to mobile app
+              stores.
             </motion.p>
 
             <motion.div

@@ -10,140 +10,140 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
-function PortalMockup({ project }: { project: Project }) {
-  const rows = [
-    ["276001234...", "J. Smith", "Registered"],
-    ["276009871...", "M. Chen", "Transferred"],
-    ["276003456...", "S. Kumar", "Registered"],
-    ["276007654...", "A. Jones", "Active"],
+function AIPipelineMockup({ project }: { project: Project }) {
+  const steps = [
+    { label: "Sentry Error", sub: "Webhook", c: "#F87171" },
+    { label: "Secret Filter", sub: "Middleware", c: "#FBBF24" },
+    { label: "Claude Haiku", sub: "File Discovery", c: project.accentFrom },
+    { label: "Claude Sonnet", sub: "Fix Generation", c: project.accentTo },
+    { label: "Draft PR", sub: "Bitbucket", c: "#34D399" },
   ];
   return (
-    <div className="absolute inset-0 flex flex-col gap-3 p-8">
-      <div
-        className="flex gap-2"
-      >
-        <div
-          className="flex-1 rounded-lg px-4 py-2.5 text-[11px] font-mono flex items-center gap-2"
-          style={{
-            background: `${project.accentFrom}14`,
-            border: `1px solid ${project.accentFrom}30`,
-          }}
-        >
-          <span style={{ color: `${project.accentFrom}70` }}>⌕</span>
-          <span style={{ color: `${project.accentFrom}55` }}>Search microchip ID…</span>
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8" style={{ background: "#0D1117" }}>
+      <p className="text-[10px] font-mono font-bold tracking-[0.12em] uppercase mb-2" style={{ color: `${project.accentFrom}80` }}>
+        AutoFix Pipeline
+      </p>
+      {steps.map((s, i) => (
+        <div key={i} className="flex flex-col items-center gap-1 w-full max-w-[200px]">
+          <div
+            className="w-full rounded-lg px-4 py-2.5 text-center"
+            style={{ background: `${s.c}14`, border: `1px solid ${s.c}30` }}
+          >
+            <p className="text-[11px] font-bold leading-none mb-1" style={{ color: s.c }}>{s.label}</p>
+            <p className="text-[9.5px] leading-none" style={{ color: `${s.c}70` }}>{s.sub}</p>
+          </div>
+          {i < steps.length - 1 && (
+            <div className="h-4 w-px" style={{ background: `${s.c}40` }} />
+          )}
         </div>
-        <div
-          className="rounded-lg px-4 py-2 text-[11px] font-semibold text-white flex items-center"
-          style={{ background: project.accentFrom }}
+      ))}
+    </div>
+  );
+}
+
+function StudentDashboardMockup({ project }: { project: Project }) {
+  const students = [
+    { name: "Amal Perera",  role: "Admin",   present: true },
+    { name: "Nimal Silva",  role: "Student", present: true },
+    { name: "Kasun Raj",    role: "Student", present: false },
+    { name: "Saman Fernando", role: "Teacher", present: true },
+  ];
+  return (
+    <div className="absolute inset-0 flex flex-col gap-3 p-7">
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-[11px] font-bold" style={{ color: project.accentFrom }}>Students</span>
+        <span
+          className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
+          style={{ background: `${project.accentFrom}20`, color: project.accentFrom }}
         >
-          Search
-        </div>
+          + Enroll
+        </span>
       </div>
-      <div
-        className="rounded-lg overflow-hidden flex-1"
-        style={{ border: `1px solid ${project.accentFrom}22` }}
-      >
+      <div className="rounded-lg overflow-hidden flex-1" style={{ border: `1px solid ${project.accentFrom}20` }}>
         <div
-          className="grid grid-cols-3 px-3 py-2 text-[10px] font-bold uppercase tracking-wider"
-          style={{
-            background: `${project.accentFrom}18`,
-            color: project.accentFrom,
-          }}
+          className="grid grid-cols-3 px-3 py-2 text-[9.5px] font-bold uppercase tracking-wider"
+          style={{ background: `${project.accentFrom}14`, color: project.accentFrom }}
         >
-          <span>Chip ID</span>
-          <span>Owner</span>
-          <span>Status</span>
+          <span>Name</span>
+          <span>Role</span>
+          <span>Attendance</span>
         </div>
-        {rows.map(([id, owner, status], i) => (
+        {students.map((s, i) => (
           <div
             key={i}
             className="grid grid-cols-3 px-3 py-2.5 text-[11px] border-t"
-            style={{
-              borderColor: `${project.accentFrom}14`,
-              color: `${project.accentFrom}CC`,
-            }}
+            style={{ borderColor: `${project.accentFrom}14`, color: `${project.accentFrom}CC` }}
           >
-            <span className="font-mono">{id}</span>
-            <span>{owner}</span>
+            <span className="font-medium truncate">{s.name}</span>
+            <span
+              className="text-[9.5px] font-bold px-2 py-0.5 rounded-full w-fit"
+              style={{
+                background: s.role === "Admin" ? `${project.accentFrom}20` : s.role === "Teacher" ? `${project.accentTo}20` : "rgba(255,255,255,0.06)",
+                color: s.role === "Admin" ? project.accentFrom : s.role === "Teacher" ? project.accentTo : `${project.accentFrom}80`,
+              }}
+            >
+              {s.role}
+            </span>
             <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
-              {status}
+              <span className={`h-1.5 w-1.5 rounded-full ${s.present ? "bg-[#10B981]" : "bg-[#EF4444]"}`} />
+              {s.present ? "Present" : "Absent"}
             </span>
           </div>
+        ))}
+      </div>
+      <div
+        className="flex items-center justify-between rounded-lg px-4 py-2.5"
+        style={{ background: `${project.accentFrom}10`, border: `1px solid ${project.accentFrom}20` }}
+      >
+        <span className="text-[10.5px]" style={{ color: `${project.accentFrom}80` }}>Stripe fees collected</span>
+        <span className="text-[11px] font-bold" style={{ color: project.accentFrom }}>LKR 48,200</span>
+      </div>
+    </div>
+  );
+}
+
+function AWSFlowMockup({ project }: { project: Project }) {
+  const nodes = [
+    { label: "EventBridge", sub: "Event trigger", c: "#FF9900" },
+    { label: "Lambda", sub: "Producer fn", c: "#FF9900" },
+    { label: "SQS Queue", sub: "Decoupled buffer", c: "#FF9900" },
+    { label: "Lambda", sub: "Consumer fn", c: "#FF9900" },
+    { label: "SES", sub: "Email delivery", c: "#34D399" },
+  ];
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-8" style={{ background: "#0D1117" }}>
+      <p className="text-[10px] font-mono font-bold tracking-[0.12em] uppercase mb-2" style={{ color: "#FF990070" }}>
+        Serverless Pipeline
+      </p>
+      {nodes.map((n, i) => (
+        <div key={i} className="flex flex-col items-center gap-1 w-full max-w-[220px]">
+          <div
+            className="w-full rounded-lg px-4 py-2 text-center"
+            style={{ background: `${n.c}12`, border: `1px solid ${n.c}28` }}
+          >
+            <p className="text-[11px] font-bold leading-none mb-0.5" style={{ color: n.c }}>{n.label}</p>
+            <p className="text-[9.5px] leading-none" style={{ color: `${n.c}60` }}>{n.sub}</p>
+          </div>
+          {i < nodes.length - 1 && (
+            <div className="h-3 w-px" style={{ background: "rgba(255,153,0,0.30)" }} />
+          )}
+        </div>
+      ))}
+      <div className="flex items-center gap-3 mt-3">
+        {["Auto-retry", "Zero server", "Fault-tolerant"].map((t) => (
+          <span key={t} className="text-[9px] font-mono px-2 py-1 rounded" style={{ background: "#FF990012", color: "#FF9900", border: "1px solid #FF990025" }}>
+            {t}
+          </span>
         ))}
       </div>
     </div>
   );
 }
 
-function ApiMockup({ project }: { project: Project }) {
-  return (
-    <div className="absolute inset-0 flex flex-col gap-3 p-8">
-      <div
-        className="flex items-center gap-3 rounded-lg px-4 py-2.5"
-        style={{
-          background: `${project.accentFrom}18`,
-          border: `1px solid ${project.accentFrom}30`,
-        }}
-      >
-        <span
-          className="text-[11px] font-bold"
-          style={{ color: project.accentFrom }}
-        >
-          POST
-        </span>
-        <span className="text-[11px] font-mono text-[var(--muted)] flex-1">
-          /api/v1/courses/enroll/
-        </span>
-        <span className="text-[11px] font-bold text-[#10B981]">200 OK</span>
-      </div>
-      <div
-        className="flex-1 rounded-lg p-4 font-mono text-[11.5px] leading-relaxed overflow-hidden"
-        style={{
-          background: "#0D1117",
-          border: `1px solid ${project.accentFrom}22`,
-          color: "#CDD9E5",
-        }}
-      >
-        <div style={{ color: "#6E7681" }}>{"{"}</div>
-        <div className="pl-4">
-          <span style={{ color: "#79C0FF" }}>&quot;user_id&quot;</span>
-          <span>: </span>
-          <span style={{ color: "#A5D6FF" }}>4821</span>
-          <span>,</span>
-        </div>
-        <div className="pl-4">
-          <span style={{ color: "#79C0FF" }}>&quot;course&quot;</span>
-          <span>: </span>
-          <span style={{ color: "#A5D6FF" }}>&quot;Python Bootcamp&quot;</span>
-          <span>,</span>
-        </div>
-        <div className="pl-4">
-          <span style={{ color: "#79C0FF" }}>&quot;enrolled&quot;</span>
-          <span>: </span>
-          <span style={{ color: "#FFA657" }}>true</span>
-          <span>,</span>
-        </div>
-        <div className="pl-4">
-          <span style={{ color: "#79C0FF" }}>&quot;progress&quot;</span>
-          <span>: </span>
-          <span style={{ color: "#A5D6FF" }}>0</span>
-          <span>,</span>
-        </div>
-        <div className="pl-4">
-          <span style={{ color: "#79C0FF" }}>&quot;message&quot;</span>
-          <span>: </span>
-          <span style={{ color: "#A5D6FF" }}>&quot;Enrollment successful&quot;</span>
-        </div>
-        <div style={{ color: "#6E7681" }}>{"}"}</div>
-      </div>
-    </div>
-  );
-}
-
 function ProjectMockup({ project }: { project: Project }) {
-  if (project.id === "03") return <PortalMockup project={project} />;
-  if (project.id === "04") return <ApiMockup project={project} />;
+  if (project.id === "01") return <AIPipelineMockup project={project} />;
+  if (project.id === "04") return <StudentDashboardMockup project={project} />;
+  if (project.id === "05") return <AWSFlowMockup project={project} />;
   return (
     <div className="absolute inset-0 flex items-center justify-center p-10">
       <div

@@ -5,27 +5,31 @@ import { CheckCircle2 } from "lucide-react";
 
 const PILLARS = [
   {
-    title: "Frontend",
-    detail: "React, Next.js, TypeScript — responsive, accessible, fast.",
+    title: "AI & LLM",
+    detail:
+      "Anthropic Claude API — multi-model pipelines (Haiku + Sonnet), structured tool use, prompt engineering, and production automation systems.",
   },
   {
-    title: "Backend",
-    detail: "Django, FastAPI, Node.js — secure APIs and business logic.",
+    title: "Cloud & AWS",
+    detail:
+      "20+ AWS services in production — Lambda, ECS, Fargate, Step Functions, SQS, EventBridge, Cognito, WAF, CloudWatch, and more.",
   },
   {
     title: "Mobile",
-    detail: "React Native for iOS and Android, shipped to both stores.",
+    detail:
+      "React Native for iOS and Android — end-to-end from architecture through App Store and Play Store production release.",
   },
   {
-    title: "Cloud",
-    detail: "AWS deployments with Docker, CI/CD, and production infrastructure.",
+    title: "Backend",
+    detail:
+      "Django REST, FastAPI, Node.js — 60%+ latency reduction, Redis caching, Celery async, and Stripe/Square/PayHere payment integrations.",
   },
 ];
 
 const BIO = [
-  "I'm a full stack software engineer with 8+ years building reliable, scalable systems for startups and growing businesses. My work spans React and Next.js frontends, Django and Node.js backends, React Native mobile apps, and production infrastructure on AWS.",
-  "I work with business logic in mind, not just code. Every system I build is designed for clarity, performance, and long-term maintainability. I've shipped payment integrations, authentication systems, admin dashboards, automation workflows, and cloud deployments across multiple industries.",
-  "I take ownership from first commit to production — and beyond.",
+  "I'm an AI-native full stack software engineer at CreatIT Solutions, building production systems end-to-end — from cloud infrastructure and serverless architectures on AWS to React Native mobile applications shipped to both app stores.",
+  "I specialise in backend architecture, cloud engineering, and AI automation. I've reduced API latency by 60%+ using Redis and Celery, designed serverless event-driven pipelines on AWS, and built multi-model LLM systems using the Anthropic Claude API that automatically triage Sentry errors and generate root-cause PRs.",
+  "I take full ownership — from architecture and development to CI/CD deployment and ongoing production support.",
 ];
 
 const fadeUp = {
@@ -35,13 +39,10 @@ const fadeUp = {
 
 export default function Identity() {
   return (
-    <section
-      id="about"
-      className="section-outer bg-[var(--surface)]"
-    >
+    <section id="about" className="section-outer bg-[var(--surface)]">
       <div className="section-inner">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          {/* Left — positioning */}
+          {/* Left — bio */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -59,9 +60,9 @@ export default function Identity() {
               className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] mb-8 text-balance"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              Building reliable systems,
+              Building production systems,
               <br />
-              not just code.
+              not just features.
             </motion.h2>
 
             <div className="space-y-5">

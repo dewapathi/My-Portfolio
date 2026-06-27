@@ -32,7 +32,7 @@ export default function ExperienceTimeline() {
             className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em]"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
           >
-            8+ years of shipping.
+            3+ years of production impact.
           </motion.h2>
         </motion.div>
 

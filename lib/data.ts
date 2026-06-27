@@ -1,33 +1,34 @@
 export const SITE = {
   name: "Pradeepa Lakruwan",
-  role: "Full Stack Software Engineer",
+  role: "Full Stack Engineer · Cloud & AI Specialist · Mobile",
   email: "pradeepalakruwan.d@gmail.com",
-  phone: "+94 77 9400 291",
-  github: "https://github.com/pradeepalakruwan",
-  linkedin: "https://linkedin.com/in/pradeepalakruwan",
+  phone: "+94 779 400 291",
+  github: "https://github.com/dewapathi",
+  linkedin: "https://linkedin.com/in/pradeepa-lakruwan",
   location: "Remote · Worldwide",
   available: true,
   tagline:
-    "I design and build production-ready software systems that help businesses launch faster, automate operations, and scale with confidence.",
+    "I architect and ship production software systems — from cloud infrastructure and AI automation to mobile app stores.",
 };
 
 export const STATS = [
-  { value: "8+", label: "Years shipping" },
-  { value: "2", label: "Apps in stores" },
-  { value: "4+", label: "Cloud deployments" },
-  { value: "10+", label: "Systems delivered" },
+  { value: "60%+", label: "API latency reduced" },
+  { value: "20+", label: "AWS services in prod." },
+  { value: "3+", label: "Years at production scale" },
+  { value: "3", label: "Payment gateways shipped" },
 ];
 
 export const CORE_STACK = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Django",
   "Python",
+  "Django",
   "React Native",
-  "PostgreSQL",
-  "AWS",
+  "Next.js",
+  "AWS Lambda",
   "Docker",
+  "Claude API",
+  "Redis",
+  "PostgreSQL",
+  "TypeScript",
 ];
 
 export type Project = {
@@ -49,49 +50,16 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     id: "01",
-    title: "Vehicle Spare Parts Platform",
-    category: "Mobile Application",
-    tagline: "End-to-end e-commerce for automotive parts on iOS & Android.",
+    title: "AI Developer Automation System",
+    category: "AI / LLM Automation",
+    tagline:
+      "Multi-model Claude pipeline that automatically triages Sentry errors and drafts root-cause PRs.",
     problem:
-      "A parts distributor needed a cross-platform mobile storefront with real-time inventory, order tracking, and local payment acceptance — without maintaining two separate codebases.",
-    role: "Sole engineer · full stack + mobile",
+      "Manual Sentry error triage consumed hours of developer time. Engineers had to read stack traces, identify root causes, locate affected files, and write fix PRs — entirely manually.",
+    role: "Sole architect & engineer — Django backend, Claude API integration, Bitbucket API, security design",
     impact:
-      "Single codebase deployed to both stores with live order status and a fully integrated payment flow.",
-    stack: ["React Native", "Django REST", "Firebase", "Payhere", "PostgreSQL"],
-    image: "/images/projects/M-auto.PNG",
-    accentFrom: "#3B82F6",
-    accentTo: "#06B6D4",
-    live: null,
-    github: null,
-  },
-  {
-    id: "02",
-    title: "Orivet Mobile App",
-    category: "Mobile Application",
-    tagline: "Veterinary microchip management and pet care mobile platform.",
-    problem:
-      "A vet-tech company needed a robust app with real-time pet tracking, push notifications, and Stripe subscription billing — all tightly coupled to an existing Django backend.",
-    role: "Mobile + backend integration engineer",
-    impact:
-      "Published on both stores; handles live tracking, push notifications, and recurring billing in production.",
-    stack: ["React Native", "Django REST", "Stripe", "Firebase", "AWS", "SNS"],
-    image: "/images/projects/Orivet.PNG",
-    accentFrom: "#10B981",
-    accentTo: "#059669",
-    live: null,
-    github: null,
-  },
-  {
-    id: "03",
-    title: "Microchip Tracking Portal",
-    category: "Web Application",
-    tagline: "Full-featured registration and lookup portal for pet microchips.",
-    problem:
-      "Needed a fast, modern web interface for microchip registration, ownership transfers, and searchable lookup — replacing a dated legacy portal.",
-    role: "Frontend architect + API integration",
-    impact:
-      "Sub-second search, intuitive ownership transfer flow, and real-time status dashboard.",
-    stack: ["Next.js", "React", "TypeScript", "REST APIs", "Recharts"],
+      "Automated the full triage-to-PR pipeline: Claude Haiku discovers affected files (fast, cheap), Sonnet generates root-cause analysis and fix code, Bitbucket draft PR created automatically. Secret-filtering middleware ensures zero credential leakage to the LLM.",
+    stack: ["Claude API", "Haiku + Sonnet", "Django", "Celery", "Bitbucket API", "Webhook Automation", "Python"],
     image: null,
     accentFrom: "#6366F1",
     accentTo: "#8B5CF6",
@@ -99,19 +67,74 @@ export const PROJECTS: Project[] = [
     github: null,
   },
   {
-    id: "04",
-    title: "Django LMS API",
-    category: "Backend System",
-    tagline: "Scalable learning management system API with containerised CI/CD.",
+    id: "02",
+    title: "Vehicle Spare Parts Platform",
+    category: "Mobile Application",
+    tagline:
+      "Full-stack e-commerce for automotive parts — iOS & Android with PayHere payment integration.",
     problem:
-      "A training platform needed a secure, role-based API to manage courses, users, enrollments, and progress — deployable with zero downtime.",
-    role: "Backend engineer + DevOps",
+      "A parts distributor needed a cross-platform mobile storefront with real-time inventory, order tracking, FCM push notifications, and PayHere payment processing — without maintaining two separate codebases.",
+    role: "Sole engineer · full stack + mobile",
     impact:
-      "Containerised with Docker, full CI/CD pipeline, and production-ready on AWS with automated test coverage.",
-    stack: ["Django", "Django REST", "PostgreSQL", "Redis", "Docker", "CI/CD", "AWS"],
+      "Single React Native codebase deployed to both stores with live order status, Firebase push notifications, role-based admin panel, and a fully integrated PayHere payment flow.",
+    stack: ["React Native", "Django REST", "Firebase FCM", "PayHere", "PostgreSQL", "Docker"],
+    image: "/images/projects/M-auto.PNG",
+    accentFrom: "#3B82F6",
+    accentTo: "#06B6D4",
+    live: null,
+    github: null,
+  },
+  {
+    id: "03",
+    title: "Orivet Mobile App",
+    category: "Mobile Application",
+    tagline:
+      "Veterinary microchip management and pet care mobile platform with Stripe subscription billing.",
+    problem:
+      "A vet-tech company needed a robust app with real-time pet tracking, push notifications, and Stripe subscription billing — tightly coupled to an existing Django backend.",
+    role: "Mobile + backend integration engineer",
+    impact:
+      "Published on both App Store and Play Store; handles live tracking, Firebase push notifications, and recurring Stripe billing in production.",
+    stack: ["React Native", "Django REST", "Stripe", "Firebase FCM", "AWS SNS", "PostgreSQL"],
+    image: "/images/projects/Orivet.PNG",
+    accentFrom: "#10B981",
+    accentTo: "#059669",
+    live: null,
+    github: null,
+  },
+  {
+    id: "04",
+    title: "Student Management System",
+    category: "Web Application",
+    tagline:
+      "Complete student platform with attendance, academic records, RBAC, and Stripe fee collection.",
+    problem:
+      "An educational institution needed a modern student management system — registration, attendance tracking, academic records, role-based access for admins, teachers and students, and integrated fee collection.",
+    role: "Full stack engineer — frontend, backend, database architecture, payment integration",
+    impact:
+      "Complete platform live in production: RBAC across three roles, attendance and academic records system, dashboard analytics, and Stripe payment integration for fee collection.",
+    stack: ["Next.js", "Django", "PostgreSQL", "Stripe", "TypeScript", "Tailwind CSS"],
     image: null,
     accentFrom: "#F59E0B",
     accentTo: "#EF4444",
+    live: null,
+    github: null,
+  },
+  {
+    id: "05",
+    title: "AWS Serverless Email Pipeline",
+    category: "Cloud Architecture",
+    tagline:
+      "Fully serverless event-driven email architecture — decoupled, fault-tolerant, auto-retrying.",
+    problem:
+      "A production platform needed high-reliability async email delivery that handles failures gracefully without manual intervention or server maintenance overhead.",
+    role: "Cloud architect & backend engineer",
+    impact:
+      "EventBridge triggers Lambda → SQS queues → Lambda workers → SES delivery. Zero-server maintenance, automatic retry on failure, decoupled services, and significantly reduced infrastructure cost vs. traditional server-based email.",
+    stack: ["AWS Lambda", "SQS", "EventBridge", "SES", "IAM", "CloudWatch", "Python"],
+    image: null,
+    accentFrom: "#FF9900",
+    accentTo: "#FF6B35",
     live: null,
     github: null,
   },
@@ -125,34 +148,38 @@ export type SkillGroup = {
 
 export const TECH_STACK: SkillGroup[] = [
   {
+    category: "AI / LLM",
+    core: ["Claude API", "Multi-model"],
+    more: ["Haiku + Sonnet", "Prompt Engineering", "Structured Tool Use", "Webhook Automation"],
+  },
+  {
     category: "Frontend",
-    core: ["React", "Next.js", "TypeScript"],
+    core: ["React.js", "Next.js", "TypeScript"],
     more: ["Tailwind CSS", "Framer Motion", "JavaScript", "HTML / CSS"],
   },
   {
     category: "Backend",
     core: ["Python", "Django", "Node.js"],
-    more: ["Django REST", "FastAPI", "Flask", "Express.js"],
+    more: ["DRF", "FastAPI", "Celery", "Express.js", "WebSockets"],
   },
   {
     category: "Mobile",
     core: ["React Native", "Expo"],
-    more: ["Firebase", "Push Notifications", "App Store", "Play Store"],
+    more: ["Firebase FCM", "Push Notifications", "Twilio SMS", "App Store", "Play Store"],
   },
   {
-    category: "Cloud & DevOps",
-    core: ["AWS", "Docker", "CI/CD"],
-    more: ["EC2", "S3", "RDS", "Lambda", "Secrets Manager", "SES", "SNS"],
+    category: "AWS Cloud",
+    core: ["Lambda", "ECS", "EC2"],
+    more: [
+      "Fargate", "ECR", "S3", "RDS", "DynamoDB", "SQS", "SNS", "SES",
+      "EventBridge", "Step Functions", "Cognito", "WAF", "Route53",
+      "CloudFront", "CloudWatch", "X-Ray", "CodePipeline", "IAM", "Secrets Manager",
+    ],
   },
   {
-    category: "Database",
-    core: ["PostgreSQL", "MySQL"],
-    more: ["MongoDB", "Redis", "Migrations", "Query Optimisation"],
-  },
-  {
-    category: "Integrations",
-    core: ["REST APIs", "Stripe", "Firebase"],
-    more: ["Payhere", "SMS / Push", "Webhooks", "OAuth / JWT"],
+    category: "DevOps & DB",
+    core: ["Docker", "PostgreSQL", "Redis"],
+    more: ["MySQL", "MongoDB", "DynamoDB", "GitHub Actions", "Jenkins", "Terraform", "CI/CD"],
   },
 ];
 
@@ -168,34 +195,26 @@ export type Experience = {
 
 export const EXPERIENCE: Experience[] = [
   {
-    period: "2020 – Present",
+    period: "2022 – Present",
     title: "Full Stack Software Engineer",
-    company: "Freelance · Contract",
+    company: "CreatIT Solutions (PVT) Ltd.",
     location: "Remote",
     description:
-      "Designing and delivering full-stack web, mobile, and cloud systems for startups and businesses across multiple industries. Owning projects end-to-end: architecture, development, deployment, and ongoing support.",
+      "AI-native full-stack engineer building production systems end-to-end — from cloud infrastructure and serverless architectures on AWS to React Native mobile applications shipped to both app stores.",
     highlights: [
-      "Built and deployed production React Native apps to both iOS and Android stores",
-      "Architected secure Django REST APIs with RBAC and payment integrations",
-      "Configured AWS infrastructure: EC2, S3, RDS, Lambda, SES, CI/CD pipelines",
-      "Delivered Next.js web applications with auth, dashboards, and SEO",
+      "Reduced API response latency by 60%+ via Redis caching and Celery async task offloading in Django REST production systems",
+      "Designed AWS serverless pipelines (Lambda · SQS · EventBridge · Step Functions) for async processing and event-driven workflows",
+      "Containerised microservices with Docker, deployed to AWS ECS/ECR/Fargate with zero-downtime CI/CD via GitHub Actions and CodePipeline",
+      "Built React Native mobile applications (Android & iOS) independently from architecture through App Store and Play Store release",
+      "Integrated Stripe, Square, and PayHere payment gateways handling real-money transactions across web and mobile platforms",
+      "Built AI automation systems using Anthropic Claude API — multi-model pipeline (Haiku + Sonnet) with security-first secret-filtering middleware",
+      "Secured infrastructure using AWS Cognito, Secrets Manager, IAM roles, and WAF; managed PostgreSQL and multi-database architectures",
+      "Operated in Agile/Scrum teams with sprint planning, peer code reviews, and iterative cross-functional delivery",
     ],
-    stack: ["React", "Next.js", "Django", "React Native", "AWS", "PostgreSQL", "Docker"],
-  },
-  {
-    period: "2018 – 2020",
-    title: "Backend Developer",
-    company: "Various Clients",
-    location: "Remote",
-    description:
-      "Specialised in backend development and API design. Built secure authentication systems, optimised database performance, and integrated third-party services for client products.",
-    highlights: [
-      "Designed RESTful APIs with Django REST Framework",
-      "Implemented JWT authentication and role-based access control",
-      "Optimised slow queries and improved database performance",
-      "Integrated payment gateways and external APIs",
+    stack: [
+      "Django", "React Native", "Next.js", "AWS Lambda", "ECS", "Fargate", "Docker",
+      "Claude API", "Redis", "Celery", "PostgreSQL", "Stripe", "Firebase FCM", "CI/CD",
     ],
-    stack: ["Python", "Django", "PostgreSQL", "MySQL", "AWS", "REST APIs"],
   },
 ];
 
@@ -207,81 +226,81 @@ export type Service = {
 
 export const SERVICES: Service[] = [
   {
-    icon: "Monitor",
-    title: "Frontend Development",
+    icon: "Layers",
+    title: "Full Stack Development",
     description:
-      "React and Next.js applications — server-rendered, fast, accessible, and pixel-sharp on every screen.",
+      "Complete web applications — Django/FastAPI backends, React/Next.js frontends, PostgreSQL, and cloud deployment end-to-end.",
   },
   {
     icon: "Server",
-    title: "Backend Development",
+    title: "Backend API Architecture",
     description:
-      "Django, FastAPI, or Node.js APIs with clean architecture, auth systems, and reliable third-party integrations.",
+      "Scalable Django REST and FastAPI systems with Redis caching, Celery workers, RBAC, and a 60%+ latency reduction track record.",
   },
   {
     icon: "Smartphone",
-    title: "Mobile App Development",
+    title: "React Native Mobile",
     description:
-      "React Native apps for iOS and Android — one codebase, native feel, shipped to both stores.",
+      "Cross-platform iOS and Android apps shipped to both stores — push notifications, real-money payments, offline sync.",
   },
   {
     icon: "Cloud",
-    title: "AWS Cloud Deployment",
+    title: "AWS Cloud & DevOps",
     description:
-      "Production infrastructure on AWS: EC2, S3, RDS, Lambda, CI/CD, Secrets Manager, SES, and SNS.",
-  },
-  {
-    icon: "Database",
-    title: "Database Architecture",
-    description:
-      "Schema design, migrations, query tuning, and indexing for PostgreSQL, MySQL, and MongoDB.",
+      "20+ AWS services — Lambda, ECS, Fargate, SQS, EventBridge, Step Functions, CI/CD pipelines, zero-downtime deployments.",
   },
   {
     icon: "Zap",
-    title: "Performance Optimisation",
+    title: "AI / LLM Automation",
     description:
-      "Profiling and fixing bottlenecks — frontend rendering, API response time, and database query speed.",
+      "Anthropic Claude API pipelines — multi-model systems (Haiku + Sonnet), structured tool use, webhook-driven automation, security-first design.",
   },
   {
     icon: "Shield",
-    title: "Security & Authentication",
+    title: "Payment Integrations",
     description:
-      "JWT, OAuth, RBAC, data encryption, and security best practices across every layer of the stack.",
+      "Stripe, PayHere, and Square — subscription billing, webhook handling, refunds, and PCI-compliant transaction flows.",
   },
   {
-    icon: "Layers",
+    icon: "Database",
+    title: "Performance Optimisation",
+    description:
+      "Redis caching, Celery async offloading, query tuning, and profiling — proven 60%+ API response time improvement in production.",
+  },
+  {
+    icon: "Monitor",
     title: "MVP Development",
     description:
-      "Fast, focused builds for founders who need a working product in weeks — not months.",
+      "Fast, focused builds for founders — working product in weeks with architecture that holds beyond the MVP.",
   },
 ];
 
 export const PROOF_STATS = [
-  { value: "2", label: "Mobile apps in production" },
-  { value: "4+", label: "Cloud deployments on AWS" },
-  { value: "3", label: "Payment systems integrated" },
-  { value: "10+", label: "APIs built and maintained" },
-  { value: "8+", label: "Years of production work" },
-  { value: "2", label: "App store launches" },
+  { value: "60%+", label: "API latency reduction" },
+  { value: "20+", label: "AWS services shipped" },
+  { value: "3", label: "Payment gateways built" },
+  { value: "2", label: "Mobile apps in stores" },
+  { value: "2", label: "AI automation systems" },
+  { value: "3+", label: "Years production impact" },
 ];
 
 export const PROOF_TAGS = [
-  "iOS & Android",
-  "Stripe Integration",
-  "Payhere Integration",
-  "AWS EC2 & S3",
-  "Docker",
-  "CI/CD Pipelines",
-  "Role-Based Access Control",
-  "JWT Authentication",
-  "Push Notifications",
-  "Admin Dashboards",
-  "REST APIs",
-  "PostgreSQL",
-  "Redis Caching",
-  "Webhook Systems",
-  "SMS Integration",
-  "Firebase",
+  "Claude API (Haiku + Sonnet)",
+  "AWS Lambda + SQS + EventBridge",
+  "Django REST Framework",
+  "React Native iOS & Android",
+  "Stripe + PayHere + Square",
+  "Docker + ECS + Fargate",
+  "Redis + Celery",
+  "Firebase FCM",
+  "CI/CD GitHub Actions",
+  "JWT + Cognito + WAF",
+  "WebSockets · Socket.IO",
+  "Step Functions",
+  "Serverless Architecture",
+  "Zero-downtime Deployments",
+  "Multi-model LLM Pipeline",
+  "Agile · Scrum",
 ];
 
 export type WorkPrinciple = {
@@ -295,53 +314,55 @@ export const WORK_STYLE: WorkPrinciple[] = [
     icon: "Code2",
     title: "Clean architecture",
     description:
-      "Readable, modular code another engineer can pick up without a lengthy handover.",
+      "Readable, modular code from Django API to React Native component — built for handover and longevity, not just the deadline.",
   },
   {
     icon: "MessageSquare",
     title: "Clear communication",
     description:
-      "Regular updates, async-friendly, direct. No surprises, no disappearing acts mid-project.",
+      "Regular updates, async-friendly, and direct. Sprint planning, code reviews, and cross-functional delivery in Agile teams.",
   },
   {
     icon: "BarChart2",
-    title: "Business-first thinking",
+    title: "Measurable results",
     description:
-      "Every technical decision is weighed against real-world impact — not engineering preference.",
+      "I optimise for business impact — 60%+ API latency reduction, zero-downtime deploys, and reliable production uptime.",
   },
   {
     icon: "Layers",
-    title: "Scalable by default",
-    description: "Architecture that handles 10× growth without a full rewrite.",
+    title: "End-to-end ownership",
+    description:
+      "Architecture to deployment to ongoing support — I own the full cycle, not just one layer of the stack.",
   },
   {
     icon: "Eye",
-    title: "UI/UX awareness",
+    title: "Security-first",
     description:
-      "I care about what users see and feel. Systems built to be usable, not just functional.",
+      "JWT, OAuth, RBAC, Cognito, WAF, Secrets Manager, and secret-filtering middleware — baked in from day one.",
   },
   {
     icon: "CheckSquare",
-    title: "Full ownership",
+    title: "Production mindset",
     description:
-      "I treat your product as if it were mine — from first commit to production incident.",
+      "I build for scale and resilience from the start — not MVP shortcuts that become expensive technical debt.",
   },
   {
     icon: "LifeBuoy",
-    title: "Long-term support",
+    title: "Long-term partnership",
     description:
-      "Available beyond delivery for bugs, updates, and feature additions.",
+      "Available beyond delivery for bugs, performance improvements, new features, and infrastructure scaling.",
   },
   {
     icon: "Target",
     title: "Deadline-driven",
     description:
-      "Milestones are commitments. I scope honestly and deliver on time.",
+      "Honest scoping and milestone commitments. I deliver on time because I plan before I build.",
   },
 ];
 
 export const NAV_ITEMS = [
   { label: "Work", href: "#projects" },
+  { label: "AI", href: "#ai" },
   { label: "Stack", href: "#stack" },
   { label: "Experience", href: "#experience" },
   { label: "Services", href: "#services" },

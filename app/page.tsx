@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import Identity from "@/components/sections/Identity";
 import FeaturedProjects from "@/components/sections/FeaturedProjects";
+import AIAutomation from "@/components/sections/AIAutomation";
 import EngineeringSystems from "@/components/sections/EngineeringSystems";
 import TechStack from "@/components/sections/TechStack";
 import ExperienceTimeline from "@/components/sections/ExperienceTimeline";
@@ -16,6 +17,7 @@ export default function Home() {
       <Hero />
       <Identity />
       <FeaturedProjects />
+      <AIAutomation />
       <EngineeringSystems />
       <TechStack />
       <ExperienceTimeline />
