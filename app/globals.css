@@ -115,7 +115,7 @@
   }
 
   .pill-core {
-    @apply pill bg-[var(--deep)] text-white border-[var(--deep)];
+    @apply pill bg-[#0E1520] text-white border-[#0E1520];
   }
 
   .pill-soft {
@@ -142,6 +142,15 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+}
+
+/* ─────────────────────────────────────────────
+   Dark-mode overrides
+───────────────────────────────────────────── */
+.dark .pill-core {
+  background-color: rgba(255, 255, 255, 0.10);
+  color: #D4DCF0;
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 /* ─────────────────────────────────────────────
