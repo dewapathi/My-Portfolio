@@ -1,202 +1,123 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import {
-  Code,
+  Monitor,
   Server,
   Smartphone,
   Cloud,
   Database,
   Zap,
   Shield,
-  Rocket,
+  Layers,
 } from "lucide-react";
+import { SERVICES } from "@/lib/data";
+import Link from "next/link";
 
-const services = [
-  {
-    icon: Code,
-    title: "Frontend Development",
-    description:
-      "Building modern, responsive user interfaces using React, Next.js, and TypeScript. Creating seamless user experiences with clean code and best practices.",
-    features: [
-      "React & Next.js Development",
-      "TypeScript Implementation",
-      "Responsive Design",
-      "UI/UX Optimization",
-    ],
-  },
-  {
-    icon: Server,
-    title: "Backend Development",
-    description:
-      "Developing secure, scalable backend systems and REST APIs using Python (Django, Flask, FastAPI) and Node.js. Focus on performance and reliability.",
-    features: [
-      "Django & Django REST Framework",
-      "Node.js & Express",
-      "RESTful API Design",
-      "Authentication & Authorization",
-    ],
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile App Development",
-    description:
-      "Creating cross-platform mobile applications using React Native. Full support for iOS and Android with backend integration and app store publishing.",
-    features: [
-      "React Native Development",
-      "iOS & Android Support",
-      "Backend Integration",
-      "App Store Publishing",
-    ],
-  },
-  {
-    icon: Cloud,
-    title: "AWS Cloud Deployment",
-    description:
-      "Deploying applications to production on AWS with secure, scalable infrastructure. Experienced with EC2, S3, RDS, Docker, CI/CD pipelines, Secrets Manager, Lambda, and email/push services.",
-    features: [
-      "AWS Infrastructure Setup",
-      "Docker & Containerization",
-      "CI/CD Pipeline Configuration",
-      "Secrets Manager & IAM best practices",
-      "Lambda functions & event-driven workflows",
-      "Email (SES) & notifications (SNS)",
-    ],
-  },
-  {
-    icon: Database,
-    title: "Database Design",
-    description:
-      "Designing efficient database schemas and optimizing queries. Experience with PostgreSQL, MySQL, and MongoDB for various use cases.",
-    features: [
-      "Database Schema Design",
-      "Query Optimization",
-      "Data Migration",
-      "Performance Tuning",
-    ],
-  },
-  {
-    icon: Zap,
-    title: "Performance Optimization",
-    description:
-      "Optimizing applications for speed and efficiency. Identifying bottlenecks and implementing solutions to improve performance and user experience.",
-    features: [
-      "Code Optimization",
-      "Database Query Optimization",
-      "Caching Strategies",
-      "Load Testing",
-    ],
-  },
-  {
-    icon: Shield,
-    title: "Security Implementation",
-    description:
-      "Implementing secure authentication systems, role-based access control, and following security best practices to protect applications and data.",
-    features: [
-      "Authentication Systems",
-      "Role-Based Access Control",
-      "Security Best Practices",
-      "Data Encryption",
-    ],
-  },
-  {
-    icon: Rocket,
-    title: "Third-Party Integrations",
-    description:
-      "Integrating third-party APIs and services including payment gateways, SMS systems, push notifications, and other external services.",
-    features: [
-      "Payment Gateway Integration",
-      "SMS & Push Notifications",
-      "API Integrations",
-      "Service Configuration",
-    ],
-  },
-];
+const ICON_MAP: Record<string, React.ElementType> = {
+  Monitor,
+  Server,
+  Smartphone,
+  Cloud,
+  Database,
+  Zap,
+  Shield,
+  Layers,
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
 
 export default function Services() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   return (
-    <section
-      id="services"
-      ref={ref}
-      className="section-padding scroll-mt-24 bg-white dark:bg-gray-900"
-    >
-      <div className="container-custom">
+    <section id="services" className="section-outer bg-[var(--surface)]">
+      <div className="section-inner">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08 } },
+          }}
+          className="mb-14"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            My <span className="gradient-text">Services</span>
-          </h2>
-          <div className="w-24 h-1 bg-primary-600 mx-auto mb-6 sm:mb-8"></div>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-            Comprehensive development services to bring your ideas to life
-          </p>
+          <motion.p variants={fadeUp} className="section-label mb-4">
+            Services
+          </motion.p>
+          <motion.h2
+            variants={fadeUp}
+            className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] text-balance"
+            style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+          >
+            What you can hire me to build.
+          </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            className="mt-4 text-base sm:text-lg text-[var(--muted)] max-w-xl leading-relaxed"
+          >
+            End-to-end delivery across the full product stack — or focused work
+            on the layer your team needs most.
+          </motion.p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {services.map((service, index) => {
-            const Icon = service.icon;
+        {/* Services grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+          {SERVICES.map((svc, i) => {
+            const Icon = ICON_MAP[svc.icon] ?? Monitor;
             return (
               <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 rounded-xl hover:shadow-xl transition-all transform hover:-translate-y-2"
+                key={svc.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.12 }}
+                transition={{
+                  duration: 0.55,
+                  delay: i * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="card p-5 card-hover group"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center mb-3 sm:mb-4">
-                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary-600 dark:text-primary-400" />
+                <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-[var(--accent-light)] mb-4 group-hover:bg-[var(--accent)] transition-colors">
+                  <Icon className="h-5 w-5 text-[var(--accent)] group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-900 dark:text-white">
-                  {service.title}
+                <h3 className="font-semibold text-sm text-[var(--deep)] mb-2 leading-snug">
+                  {svc.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">
-                  {service.description}
+                <p className="text-xs text-[var(--muted)] leading-relaxed">
+                  {svc.description}
                 </p>
-                <ul className="space-y-1.5 sm:space-y-2">
-                  {service.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 flex items-start"
-                    >
-                      <span className="text-primary-600 dark:text-primary-400 mr-2">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
               </motion.div>
             );
           })}
         </div>
 
+        {/* CTA bar */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 sm:mt-16 text-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-2xl border border-[var(--divider)] bg-[var(--surface-2)] p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
         >
-          <div className="bg-gradient-to-r from-primary-600 to-primary-400 rounded-2xl p-6 sm:p-8 text-white mx-4 sm:mx-0">
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Ready to Start Your Project?</h3>
-            <p className="mb-4 sm:mb-6 text-primary-50 text-sm sm:text-base">
-              I&apos;m interested in long-term collaborations as well as small, well-defined projects.
-              Let&apos;s discuss how I can help bring your vision to life.
+          <div>
+            <p className="font-semibold text-[var(--deep)] mb-1">
+              Have a specific project in mind?
             </p>
-            <a
-              href="#contact"
-              className="inline-block px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-primary-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-sm sm:text-base"
-            >
-              Get In Touch
-            </a>
+            <p className="text-sm text-[var(--muted)]">
+              I work with a small number of clients at a time to ensure every
+              project gets full attention.
+            </p>
           </div>
+          <Link
+            href="#contact"
+            className="shrink-0 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[var(--accent-hover)] transition-colors"
+          >
+            Start a conversation
+          </Link>
         </motion.div>
       </div>
     </section>

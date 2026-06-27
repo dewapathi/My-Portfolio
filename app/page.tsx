@@ -1,37 +1,27 @@
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Projects from "@/components/sections/Projects";
+import Identity from "@/components/sections/Identity";
+import FeaturedProjects from "@/components/sections/FeaturedProjects";
+import TechStack from "@/components/sections/TechStack";
+import ExperienceTimeline from "@/components/sections/ExperienceTimeline";
 import Services from "@/components/sections/Services";
-import Contact from "@/components/sections/Contact";
-import DriveContainer from "@/components/drive/DriveContainer";
-import DriveAwareSection from "@/components/drive/DriveAwareSection";
+import Proof from "@/components/sections/Proof";
+import WorkStyle from "@/components/sections/WorkStyle";
+import Testimonials from "@/components/sections/Testimonials";
+import ContactCTA from "@/components/sections/ContactCTA";
 
 export default function Home() {
   return (
-    <DriveContainer>
-      <DriveAwareSection>
-        <Hero />
-      </DriveAwareSection>
-      <DriveAwareSection>
-        <About />
-      </DriveAwareSection>
-      <DriveAwareSection>
-        <Skills />
-      </DriveAwareSection>
-      <DriveAwareSection>
-        <Experience />
-      </DriveAwareSection>
-      <DriveAwareSection>
-        <Projects />
-      </DriveAwareSection>
-      <DriveAwareSection>
-        <Services />
-      </DriveAwareSection>
-      <DriveAwareSection>
-        <Contact />
-      </DriveAwareSection>
-    </DriveContainer>
+    <>
+      <Hero />
+      <Identity />
+      <FeaturedProjects />
+      <TechStack />
+      <ExperienceTimeline />
+      <Services />
+      <Proof />
+      <WorkStyle />
+      <Testimonials />
+      <ContactCTA />
+    </>
   );
 }

@@ -1,43 +1,101 @@
-"use client";
-
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import Link from "next/link";
+import { Linkedin, Mail } from "lucide-react";
+import { SITE, NAV_ITEMS } from "@/lib/data";
 
-const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Mail, href: "mailto:pradeepalakruwan.d@gmail.com", label: "Email" },
+type SocialItem = { label: string; href: string; node: React.ReactNode };
+
+const socials: SocialItem[] = [
+  {
+    label: "GitHub",
+    href: SITE.github,
+    node: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+      </svg>
+    ),
+  },
+  {
+    label: "LinkedIn",
+    href: SITE.linkedin,
+    node: <Linkedin className="h-4 w-4" />,
+  },
+  {
+    label: "Email",
+    href: `mailto:${SITE.email}`,
+    node: <Mail className="h-4 w-4" />,
+  },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 dark:bg-black text-gray-300 py-8 sm:py-12">
-      <div className="container-custom section-padding">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <div className="text-center md:text-left">
-            <p className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2">Pradeepa lakruwan</p>
-            <p className="text-xs sm:text-sm">Full Stack Software Engineer</p>
+    <footer className="bg-[#050A12] text-[#6A7E9E] border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-4">
+              <span className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[var(--accent)] text-white font-mono text-xs font-bold">
+                PL
+              </span>
+              <span className="font-serif text-[#EDF1FF] text-base">{SITE.name}</span>
+            </div>
+            <p className="text-sm leading-relaxed text-[#4A5B76] max-w-xs">
+              Full Stack Software Engineer building production-ready systems for
+              businesses that want to move fast and build right.
+            </p>
           </div>
-          
-          <div className="flex space-x-4 sm:space-x-6">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <Link
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary-400 transition-colors p-2 -m-2"
-                aria-label={label}
-              >
-                <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
-              </Link>
-            ))}
+
+          {/* Navigation */}
+          <div>
+            <p className="text-xs font-bold tracking-[0.14em] uppercase text-[#4A5B76] mb-4">
+              Navigation
+            </p>
+            <ul className="space-y-2.5">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="text-sm hover:text-[#EDF1FF] transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <p className="text-xs font-bold tracking-[0.14em] uppercase text-[#4A5B76] mb-4">
+              Contact
+            </p>
+            <a
+              href={`mailto:${SITE.email}`}
+              className="text-sm hover:text-[#EDF1FF] transition-colors block mb-2"
+            >
+              {SITE.email}
+            </a>
+            <p className="text-sm text-[#4A5B76] mb-6">{SITE.location}</p>
+            <div className="flex items-center gap-3">
+              {socials.map(({ node, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex items-center justify-center h-9 w-9 rounded-lg border border-white/8 text-[#6A7E9E] hover:text-[#EDF1FF] hover:border-white/16 transition-all"
+                >
+                  {node}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
-        
-        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800 text-center text-xs sm:text-sm px-4">
-          <p>&copy; {new Date().getFullYear()} Pradeepa lakruwan. All rights reserved.</p>
+
+        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#3A4A5E]">
+          <p>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
+          <p>Built with Next.js · Deployed on Vercel</p>
         </div>
       </div>
     </footer>

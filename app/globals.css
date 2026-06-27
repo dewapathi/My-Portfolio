@@ -2,136 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────
+   Design tokens
+───────────────────────────────────────────── */
+:root {
+  --ground:        #ECF0F5;
+  --surface:       #FFFFFF;
+  --surface-2:     #F4F7FB;
+  --deep:          #0E1520;
+  --deep-2:        #1A2538;
+  --accent:        #1850D4;
+  --accent-hover:  #1344BE;
+  --accent-light:  #EEF3FE;
+  --accent-mid:    #BFCFF9;
+  --muted:         #5C6F85;
+  --muted-2:       #8494AA;
+  --divider:       #D1D9E6;
+  --available:     #059669;
+  --avail-bg:      #ECFDF5;
+  --avail-border:  #A7F3D0;
+}
+
+.dark {
+  --ground:        #090E18;
+  --surface:       #0F1926;
+  --surface-2:     #172031;
+  --deep:          #EDF1FF;
+  --deep-2:        #C8D3E8;
+  --accent:        #3B6EF0;
+  --accent-hover:  #5482F5;
+  --accent-light:  #111E42;
+  --accent-mid:    #1E3070;
+  --muted:         #6A7E9E;
+  --muted-2:       #485F7A;
+  --divider:       #1B2A40;
+  --available:     #34D399;
+  --avail-bg:      #064E3B;
+  --avail-border:  #065F46;
+}
+
+/* ─────────────────────────────────────────────
+   Base
+───────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  
+
   body {
-    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300 antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: var(--ground);
+    color: var(--deep);
+    font-feature-settings: "rlig" 1, "calt" 1, "kern" 1;
   }
 
-  /* Drive mode makes scrolling section-based. */
-  html.drive-mode body {
-    overscroll-behavior: none;
-  }
-
-  /* Better focus visibility (big-company standard). */
   :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.35);
-    border-radius: 12px;
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
   }
 
-  /* Respect reduced motion preferences. */
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+    html { scroll-behavior: auto; }
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
-      scroll-behavior: auto !important;
     }
   }
 }
 
+/* ─────────────────────────────────────────────
+   Layout utilities
+───────────────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .section-outer {
+    @apply py-24 sm:py-32 px-6 sm:px-8 lg:px-12;
   }
-  
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400;
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-  
-  .gradient-text-alt {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-primary-600;
-    background-size: 200% 200%;
-    animation: gradient-shift 4s ease infinite;
-  }
-  
-  .section-padding {
-    @apply py-16 sm:py-20 md:py-24 lg:py-28 px-4 sm:px-6 lg:px-8;
-  }
-  
-  .container-custom {
+
+  .section-inner {
     @apply max-w-7xl mx-auto w-full;
   }
-  
-  .glass-effect {
-    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-800/50;
+
+  .section-label {
+    @apply text-xs font-bold tracking-[0.14em] uppercase text-[var(--muted)];
   }
-  
+
+  /* Dot-grid background — used in hero */
+  .dot-grid {
+    background-image: radial-gradient(
+      circle,
+      rgba(24, 80, 212, 0.065) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+  }
+
+  /* Dark dot-grid for dark sections */
+  .dot-grid-light {
+    background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+  }
+
+  /* Tech pill base */
+  .pill {
+    @apply font-mono text-[11px] font-medium px-2.5 py-1 rounded-md border;
+  }
+
+  .pill-core {
+    @apply pill bg-[var(--deep)] text-white border-[var(--deep)];
+  }
+
+  .pill-soft {
+    @apply pill bg-[var(--surface-2)] text-[var(--muted)] border-[var(--divider)];
+  }
+
+  .pill-accent {
+    @apply pill bg-[var(--accent-light)] text-[var(--accent)] border-[var(--accent-mid)];
+  }
+
+  /* Card base */
+  .card {
+    @apply bg-[var(--surface)] border border-[var(--divider)] rounded-2xl;
+  }
+
   .card-hover {
-    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl;
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)];
   }
-  
-  .skill-bar-gradient {
-    background: linear-gradient(90deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2s ease-in-out infinite;
+
+  /* Gradient text — accent */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent) 0%, #6E9EFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.animate-shimmer {
-  animation: shimmer 2s linear infinite;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Custom scrollbar */
+/* ─────────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  background: var(--ground);
 }
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary-500 rounded-full;
+  background: var(--divider);
+  border-radius: 99px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary-600;
+  background: var(--muted-2);
 }
