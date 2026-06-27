@@ -103,16 +103,17 @@ function StudentDashboardMockup({ project }: { project: Project }) {
 }
 
 function AWSFlowMockup({ project }: { project: Project }) {
+  const ac = project.accentFrom;
   const nodes = [
-    { label: "EventBridge", sub: "Event trigger", c: "#FF9900" },
-    { label: "Lambda", sub: "Producer fn", c: "#FF9900" },
-    { label: "SQS Queue", sub: "Decoupled buffer", c: "#FF9900" },
-    { label: "Lambda", sub: "Consumer fn", c: "#FF9900" },
+    { label: "EventBridge", sub: "Event trigger", c: ac },
+    { label: "Lambda", sub: "Producer fn", c: ac },
+    { label: "SQS Queue", sub: "Decoupled buffer", c: ac },
+    { label: "Lambda", sub: "Consumer fn", c: ac },
     { label: "SES", sub: "Email delivery", c: "#34D399" },
   ];
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-8" style={{ background: "#0D1117" }}>
-      <p className="text-[10px] font-mono font-bold tracking-[0.12em] uppercase mb-2" style={{ color: "#FF990070" }}>
+      <p className="text-[10px] font-mono font-bold tracking-[0.12em] uppercase mb-2" style={{ color: `${ac}70` }}>
         Serverless Pipeline
       </p>
       {nodes.map((n, i) => (
@@ -125,15 +126,127 @@ function AWSFlowMockup({ project }: { project: Project }) {
             <p className="text-[9.5px] leading-none" style={{ color: `${n.c}60` }}>{n.sub}</p>
           </div>
           {i < nodes.length - 1 && (
-            <div className="h-3 w-px" style={{ background: "rgba(255,153,0,0.30)" }} />
+            <div className="h-3 w-px" style={{ background: `${ac}30` }} />
           )}
         </div>
       ))}
       <div className="flex items-center gap-3 mt-3">
         {["Auto-retry", "Zero server", "Fault-tolerant"].map((t) => (
-          <span key={t} className="text-[9px] font-mono px-2 py-1 rounded" style={{ background: "#FF990012", color: "#FF9900", border: "1px solid #FF990025" }}>
+          <span key={t} className="text-[9px] font-mono px-2 py-1 rounded" style={{ background: `${ac}12`, color: ac, border: `1px solid ${ac}25` }}>
             {t}
           </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ReminderMockup({ project }: { project: Project }) {
+  const langs = ["🇦🇺 EN", "🇬🇧 EN", "🇱🇰 SI", "🇩🇪 DE", "🇫🇷 FR"];
+  return (
+    <div className="absolute inset-0 flex flex-col gap-3 p-7" style={{ background: "#0D1117" }}>
+      {/* Score ring + greeting */}
+      <div className="flex items-center justify-between mb-1">
+        <div>
+          <p className="text-[10px]" style={{ color: `${project.accentFrom}80` }}>Good afternoon</p>
+          <p className="text-[13px] font-bold leading-none" style={{ color: "#EEF2FF" }}>Pradeepa</p>
+          <p className="text-[11px] font-semibold mt-0.5" style={{ color: project.accentFrom }}>Well Organized</p>
+        </div>
+        <div className="relative h-12 w-12">
+          <svg viewBox="0 0 48 48" className="h-12 w-12 -rotate-90">
+            <circle cx="24" cy="24" r="20" fill="none" stroke={`${project.accentFrom}25`} strokeWidth="4" />
+            <circle cx="24" cy="24" r="20" fill="none" stroke={project.accentFrom} strokeWidth="4" strokeDasharray="125.6" strokeDashoffset="31.4" strokeLinecap="round" />
+          </svg>
+          <span className="absolute inset-0 flex items-center justify-center text-[13px] font-bold" style={{ color: project.accentFrom }}>75</span>
+        </div>
+      </div>
+      {/* Reminder card */}
+      <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: `${project.accentFrom}14`, border: `1px solid ${project.accentFrom}28` }}>
+        <div className="h-8 w-8 rounded-full shrink-0 flex items-center justify-center text-sm" style={{ background: `${project.accentFrom}25` }}>🔔</div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[11px] font-semibold truncate" style={{ color: "#EEF2FF" }}>Electricity bill due today</p>
+          <p className="text-[10px]" style={{ color: `${project.accentFrom}80` }}>Finance Vault · LKR 5,000</p>
+        </div>
+        <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full" style={{ background: "#EF444430", color: "#F87171" }}>Overdue</span>
+      </div>
+      {/* TTS voices */}
+      <div>
+        <p className="text-[9.5px] font-bold tracking-[0.1em] uppercase mb-2" style={{ color: `${project.accentFrom}55` }}>Voice Languages</p>
+        <div className="flex flex-wrap gap-1.5">
+          {langs.map((l) => (
+            <span key={l} className="text-[10px] px-2 py-1 rounded-md font-mono" style={{ background: `${project.accentFrom}14`, color: project.accentFrom, border: `1px solid ${project.accentFrom}25` }}>{l}</span>
+          ))}
+        </div>
+      </div>
+      {/* Bottom stats */}
+      <div className="flex gap-3 mt-auto">
+        {[["2", "Vehicles"], ["4", "Reminders"], ["5", "Vaults"]].map(([v, l]) => (
+          <div key={l} className="flex-1 rounded-lg p-2 text-center" style={{ background: `${project.accentFrom}0E`, border: `1px solid ${project.accentFrom}1A` }}>
+            <p className="text-[14px] font-bold leading-none" style={{ color: project.accentFrom }}>{v}</p>
+            <p className="text-[9px] mt-0.5" style={{ color: `${project.accentFrom}70` }}>{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GlassVialsMockup({ project }: { project: Project }) {
+  const colors = ["#EF4444", "#3B82F6", "#22C55E", "#A855F7", "#F97316", "#EAB308"];
+  const vials = [
+    [0, 2, 1, 3],
+    [1, 4, 0, 5],
+    [2, 3, 4, 1],
+    [5, 0, 3, 2],
+    [4, 1, 5, 0],
+    [3, 5, 2, 4],
+  ];
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-7" style={{ background: "#1A0E00" }}>
+      <div className="flex items-center justify-between w-full mb-1">
+        <p className="text-[11px] font-bold" style={{ color: project.accentFrom }}>Glass Vials</p>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ background: `${project.accentFrom}20`, color: project.accentFrom }}>Level 11</span>
+      </div>
+      <div className="flex gap-2 items-end">
+        {vials.map((vial, vi) => (
+          <div key={vi} className="flex flex-col gap-1 items-center">
+            <div className="flex flex-col gap-0.5 rounded-b-full overflow-hidden" style={{ border: `1.5px solid ${project.accentFrom}40`, borderTop: "none", padding: "2px", background: "rgba(255,255,255,0.04)" }}>
+              {vial.map((ci, bi) => (
+                <div key={bi} className="h-5 w-5 rounded-sm" style={{ background: colors[ci], opacity: 0.85 }} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-3 mt-2">
+        {["MOVES 00/30", "★★★"].map((t) => (
+          <span key={t} className="text-[10px] font-mono px-3 py-1 rounded-full" style={{ background: `${project.accentFrom}18`, color: project.accentFrom, border: `1px solid ${project.accentFrom}30` }}>{t}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PdfMockup({ project }: { project: Project }) {
+  return (
+    <div className="absolute inset-0 flex flex-col gap-3 p-7" style={{ background: "#0D1117" }}>
+      <div className="flex items-center gap-3 rounded-lg px-4 py-2.5" style={{ background: `${project.accentFrom}18`, border: `1px solid ${project.accentFrom}30` }}>
+        <span className="text-[11px] font-bold" style={{ color: project.accentFrom }}>POST</span>
+        <span className="text-[11px] font-mono flex-1" style={{ color: "#8B949E" }}>/api/v1/reports/generate</span>
+        <span className="text-[11px] font-bold text-[#10B981]">200 OK</span>
+      </div>
+      <div className="flex-1 rounded-lg p-4 font-mono text-[11.5px] leading-relaxed" style={{ background: "#161B22", border: `1px solid ${project.accentFrom}22`, color: "#CDD9E5" }}>
+        <div style={{ color: "#6E7681" }}>{"{"}</div>
+        <div className="pl-4"><span style={{ color: "#79C0FF" }}>&quot;status&quot;</span><span>: </span><span style={{ color: "#A5D6FF" }}>&quot;generated&quot;</span><span>,</span></div>
+        <div className="pl-4"><span style={{ color: "#79C0FF" }}>&quot;pages&quot;</span><span>: </span><span style={{ color: "#FFA657" }}>12</span><span>,</span></div>
+        <div className="pl-4"><span style={{ color: "#79C0FF" }}>&quot;format&quot;</span><span>: </span><span style={{ color: "#A5D6FF" }}>&quot;pdf&quot;</span><span>,</span></div>
+        <div className="pl-4"><span style={{ color: "#79C0FF" }}>&quot;storage&quot;</span><span>: </span><span style={{ color: "#A5D6FF" }}>&quot;s3://reports/...&quot;</span><span>,</span></div>
+        <div className="pl-4"><span style={{ color: "#79C0FF" }}>&quot;trigger&quot;</span><span>: </span><span style={{ color: "#A5D6FF" }}>&quot;firebase_event&quot;</span></div>
+        <div style={{ color: "#6E7681" }}>{"}"}</div>
+      </div>
+      <div className="flex gap-2">
+        {["Node.js", "AWS EC2", "Firebase", "S3"].map((t) => (
+          <span key={t} className="text-[10px] font-mono px-2.5 py-1 rounded-md" style={{ background: `${project.accentFrom}10`, color: project.accentFrom, border: `1px solid ${project.accentFrom}22` }}>{t}</span>
         ))}
       </div>
     </div>
@@ -144,6 +257,9 @@ function ProjectMockup({ project }: { project: Project }) {
   if (project.id === "01") return <AIPipelineMockup project={project} />;
   if (project.id === "04") return <StudentDashboardMockup project={project} />;
   if (project.id === "05") return <AWSFlowMockup project={project} />;
+  if (project.id === "06") return <ReminderMockup project={project} />;
+  if (project.id === "07") return <GlassVialsMockup project={project} />;
+  if (project.id === "08") return <PdfMockup project={project} />;
   return (
     <div className="absolute inset-0 flex items-center justify-center p-10">
       <div

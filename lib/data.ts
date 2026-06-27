@@ -138,6 +138,60 @@ export const PROJECTS: Project[] = [
     live: null,
     github: null,
   },
+  {
+    id: "06",
+    title: "Voice Reminder & Life Organizer",
+    category: "Mobile Application",
+    tagline:
+      "Advanced React Native reminder app — TTS voice alerts in 20+ country-language voices, Finance Vaults, vehicle tracking, and Firebase real-time sync.",
+    problem:
+      "Users needed smart reminders that speak aloud in their native language, not just vibrate. The app also had to manage vehicles, finance vaults, and recurring tasks — all in one polished experience.",
+    role: "Sole engineer — full stack mobile, Firebase backend, TTS integration, multi-language architecture",
+    impact:
+      "Production app on both stores: Firebase Firestore + FCM for real-time sync and push, native TTS playback in 20+ country/language voice profiles, finance vault tracking, vehicle reminder system, and an organisation score dashboard. Voice reads reminder details aloud when a notification opens — a fully hands-free experience.",
+    stack: ["React Native", "Firebase", "Firestore", "FCM", "Text-to-Speech", "i18n", "Multi-language Voices", "AsyncStorage"],
+    image: null,
+    accentFrom: "#8B5CF6",
+    accentTo: "#C4B5FD",
+    live: null,
+    github: null,
+  },
+  {
+    id: "07",
+    title: "Glass Vials — Color Puzzle Game",
+    category: "Mobile Game",
+    tagline:
+      "Published React Native color-sorting puzzle game — level packs, star ratings, animated glass vial mechanics, zero native game engine.",
+    problem:
+      "Build a fully polished, published mobile game with smooth pour animations, persistent progress, and a multi-pack level-unlock system — entirely in React Native without a native game engine.",
+    role: "Sole developer — game logic, UI animations, level design, App Store & Play Store release",
+    impact:
+      "Live on both stores with multi-pack progression (Wooden Cabinet → Crystal Cave → Lava Forge), 3-star scoring, hint system, sound/vibration settings, and smooth tube-pour animations — all implemented in pure React Native Animated API.",
+    stack: ["React Native", "Expo", "Animated API", "AsyncStorage", "Game Logic", "App Store", "Play Store"],
+    image: null,
+    accentFrom: "#F59E0B",
+    accentTo: "#EC4899",
+    live: null,
+    github: null,
+  },
+  {
+    id: "08",
+    title: "PDF Report Generation Server",
+    category: "Backend Service",
+    tagline:
+      "Node.js REST API on AWS EC2 generating structured multi-page PDF reports triggered by Firebase events.",
+    problem:
+      "A production app needed server-side PDF generation — dynamic, structured reports that couldn't be rendered client-side, triggered by Firebase real-time data events and delivered as downloadable files.",
+    role: "Backend engineer — Node.js API, PDF templating, AWS EC2 hosting, Firebase integration",
+    impact:
+      "REST API deployed on AWS EC2: accepts structured JSON, generates multi-page PDF reports, stores output to S3 for download. Firebase trigger integration enables fully automated report generation on data events — zero manual intervention.",
+    stack: ["Node.js", "Express", "PDFKit", "AWS EC2", "AWS S3", "Firebase", "REST API"],
+    image: null,
+    accentFrom: "#14B8A6",
+    accentTo: "#06B6D4",
+    live: null,
+    github: null,
+  },
 ];
 
 export type SkillGroup = {
@@ -279,7 +333,7 @@ export const PROOF_STATS = [
   { value: "60%+", label: "API latency reduction" },
   { value: "20+", label: "AWS services shipped" },
   { value: "3", label: "Payment gateways built" },
-  { value: "2", label: "Mobile apps in stores" },
+  { value: "4", label: "Mobile apps in stores" },
   { value: "2", label: "AI automation systems" },
   { value: "3+", label: "Years production impact" },
 ];
