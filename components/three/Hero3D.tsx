@@ -1,11 +1,25 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float, MeshDistortMaterial } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-function Scene({ mode }: { mode: "light" | "dark" }) {
+gsap.registerPlugin(ScrollTrigger);
+
+function Scene({
+  mode,
+  scrollProgress,
+}: {
+  mode: "light" | "dark";
+  scrollProgress: React.MutableRefObject<number>;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+  const materialRef = useRef<any>(null);
+
   const colors = useMemo(() => {
     if (mode === "dark") {
       return {
@@ -21,8 +35,25 @@ function Scene({ mode }: { mode: "light" | "dark" }) {
     };
   }, [mode]);
 
+  useFrame((state) => {
+    const { pointer } = state;
+    const group = groupRef.current;
+    if (group) {
+      // Gentle magnetic parallax toward the cursor.
+      group.rotation.y += (pointer.x * 0.4 - group.rotation.y) * 0.04;
+      group.rotation.x += (-pointer.y * 0.25 - group.rotation.x) * 0.04;
+      // Drift upward slightly as the hero scrolls out of view.
+      group.position.y += (-scrollProgress.current * 1.1 - group.position.y) * 0.06;
+    }
+    if (materialRef.current) {
+      const targetDistort = 0.28 + scrollProgress.current * 0.35;
+      materialRef.current.distort +=
+        (targetDistort - materialRef.current.distort) * 0.05;
+    }
+  });
+
   return (
-    <>
+    <group ref={groupRef}>
       <ambientLight intensity={0.45} />
       <directionalLight position={[6, 6, 6]} intensity={0.95} />
       <directionalLight position={[-6, -2, -6]} intensity={0.45} />
@@ -31,6 +62,7 @@ function Scene({ mode }: { mode: "light" | "dark" }) {
         <mesh position={[0, 0, 0]}>
           <icosahedronGeometry args={[1.25, 5]} />
           <MeshDistortMaterial
+            ref={materialRef}
             color={colors.main}
             roughness={0.35}
             metalness={0.45}
@@ -69,13 +101,15 @@ function Scene({ mode }: { mode: "light" | "dark" }) {
       </Float>
 
       <Environment preset="city" />
-    </>
+    </group>
   );
 }
 
 export default function Hero3D() {
   const reduceMotion = useReducedMotion();
   const [mode, setMode] = useState<"light" | "dark">("light");
+  const scrollProgress = useRef(0);
+
   useEffect(() => {
     if (reduceMotion) return;
     const update = () => {
@@ -88,6 +122,20 @@ export default function Hero3D() {
     return () => observer.disconnect();
   }, [reduceMotion]);
 
+  useEffect(() => {
+    if (reduceMotion) return;
+    const trigger = ScrollTrigger.create({
+      trigger: "#home",
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+      onUpdate: (self) => {
+        scrollProgress.current = self.progress;
+      },
+    });
+    return () => trigger.kill();
+  }, [reduceMotion]);
+
   if (reduceMotion) return null;
 
   return (
@@ -98,7 +146,7 @@ export default function Hero3D() {
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       >
         <Suspense fallback={null}>
-          <Scene mode={mode} />
+          <Scene mode={mode} scrollProgress={scrollProgress} />
         </Suspense>
       </Canvas>
 
@@ -108,4 +156,3 @@ export default function Hero3D() {
     </div>
   );
 }
-

@@ -74,6 +74,217 @@
 }
 
 /* ─────────────────────────────────────────────
+   Preloader
+───────────────────────────────────────────── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: var(--ground);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.6s;
+}
+
+.preloader--done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader__inner {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.preloader__mark {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.preloader__pct {
+  font-family: var(--font-fraunces);
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: var(--deep);
+  font-variant-numeric: tabular-nums;
+  min-width: 4.5ch;
+}
+
+/* ─────────────────────────────────────────────
+   Grain overlay — subtle filmic texture
+───────────────────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.dark .grain-overlay {
+  opacity: 0.07;
+  mix-blend-mode: soft-light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay { opacity: 0.03; }
+}
+
+/* ─────────────────────────────────────────────
+   Magnetic custom cursor
+───────────────────────────────────────────── */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 200;
+  border-radius: 9999px;
+  will-change: transform;
+  /* Hidden until MagneticCursor's effect confirms pointer:fine + motion
+     allowed and stamps this class on <html> — avoids any flash of a
+     stray dot on touch devices or before JS has run. */
+  display: none;
+}
+
+html.has-custom-cursor .cursor-dot,
+html.has-custom-cursor .cursor-ring {
+  display: flex;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: var(--accent);
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 1px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+.cursor-ring--active {
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.cursor-ring__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: white;
+}
+
+/* Only suppress the native cursor once the custom one is confirmed active
+   (pointer:fine, motion allowed) — progressive enhancement, no risk of a
+   vanishing cursor if JS fails to run. */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+@media (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Hero WebGL fallback — coarse pointer / reduced motion / small screens
+───────────────────────────────────────────── */
+.hero-blob-fallback {
+  background:
+    radial-gradient(circle at 20% 25%, rgba(59, 110, 240, 0.18) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.14) 0%, transparent 60%);
+  animation: heroBlobPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes heroBlobPulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Units produced by KineticText's GSAP SplitText reveal */
+.kinetic-unit {
+  will-change: transform;
+}
+
+/* ─────────────────────────────────────────────
+   Infinite marquee — pauses on hover
+───────────────────────────────────────────── */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  animation-name: marqueeScroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ─────────────────────────────────────────────
+   Nav underline micro-interaction
+───────────────────────────────────────────── */
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0.875rem;
+  right: 0.875rem;
+  bottom: 6px;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* ─────────────────────────────────────────────
    Layout utilities
 ───────────────────────────────────────────── */
 @layer utilities {

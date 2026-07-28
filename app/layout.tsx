@@ -1,13 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SmoothScrollProvider from "@/components/motion/SmoothScrollProvider";
+import Preloader from "@/components/motion/Preloader";
+import MagneticCursor from "@/components/motion/MagneticCursor";
+import GrainOverlay from "@/components/motion/GrainOverlay";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fraunces",
+  axes: ["opsz", "SOFT"],
+  weight: "variable",
+  style: ["normal", "italic"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -59,7 +79,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -68,9 +92,14 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <Preloader />
+        <GrainOverlay />
+        <MagneticCursor />
+        <SmoothScrollProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

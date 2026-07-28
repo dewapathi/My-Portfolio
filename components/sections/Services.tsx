@@ -14,7 +14,7 @@ import {
 import { SERVICES } from "@/lib/data";
 import Link from "next/link";
 
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Monitor,
   Server,
   Smartphone,

@@ -1,6 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+  useReducedMotion,
+} from "framer-motion";
 import Image from "next/image";
 import { CheckCircle2, ExternalLink } from "lucide-react";
 import { PROJECTS, type Project } from "@/lib/data";
@@ -306,9 +314,42 @@ function ProjectCard({
   index: number;
 }) {
   const flip = index % 2 !== 0;
+  const visualRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: visualRef,
+    offset: ["start end", "end start"],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+
+  const reduceMotion = useReducedMotion();
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springRotateX = useSpring(rotateX, { stiffness: 220, damping: 22 });
+  const springRotateY = useSpring(rotateY, { stiffness: 220, damping: 22 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduceMotion) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    rotateY.set(px * 3);
+    rotateX.set(-py * 3);
+  };
+  const handleMouseLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
 
   return (
-    <div className="group rounded-2xl border border-[var(--divider)] bg-[var(--surface)] overflow-hidden hover:border-[var(--accent)]/20 hover:shadow-[0_16px_60px_rgba(14,21,32,0.09)] dark:hover:shadow-[0_16px_60px_rgba(0,0,0,0.35)] transition-all duration-500">
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: springRotateX,
+        rotateY: springRotateY,
+        transformPerspective: 1400,
+      }}
+      className="group rounded-2xl border border-[var(--divider)] bg-[var(--surface)] overflow-hidden hover:border-[var(--accent)]/20 hover:shadow-[0_16px_60px_rgba(14,21,32,0.09)] dark:hover:shadow-[0_16px_60px_rgba(0,0,0,0.35)] transition-all duration-500">
       {/* Accent top bar */}
       <div
         className="h-[3px]"
@@ -322,31 +363,34 @@ function ProjectCard({
       >
         {/* Visual side */}
         <div
+          ref={visualRef}
           className="relative lg:w-[44%] shrink-0 min-h-[260px] sm:min-h-[340px] lg:min-h-[460px] overflow-hidden"
           style={{
             background: `linear-gradient(135deg, ${project.accentFrom}20, ${project.accentTo}16)`,
           }}
         >
-          {project.image ? (
-            <>
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                sizes="(max-width: 1024px) 100vw, 44vw"
-              />
-              <div
-                className={`absolute inset-0 ${
-                  flip
-                    ? "bg-gradient-to-l"
-                    : "bg-gradient-to-r"
-                } from-transparent to-[var(--surface)]/8`}
-              />
-            </>
-          ) : (
-            <ProjectMockup project={project} />
-          )}
+          <motion.div style={{ y: parallaxY }} className="absolute inset-[-8%]">
+            {project.image ? (
+              <>
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                  sizes="(max-width: 1024px) 100vw, 44vw"
+                />
+                <div
+                  className={`absolute inset-0 ${
+                    flip
+                      ? "bg-gradient-to-l"
+                      : "bg-gradient-to-r"
+                  } from-transparent to-[var(--surface)]/8`}
+                />
+              </>
+            ) : (
+              <ProjectMockup project={project} />
+            )}
+          </motion.div>
 
           {/* Category badge */}
           <div className="absolute top-5 left-5">
@@ -462,6 +506,7 @@ function ProjectCard({
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-cursor="View"
                   className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -473,6 +518,7 @@ function ProjectCard({
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-cursor="Code"
                   className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
                 >
                   <svg
@@ -489,7 +535,7 @@ function ProjectCard({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

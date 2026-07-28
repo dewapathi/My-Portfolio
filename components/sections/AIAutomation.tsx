@@ -1,45 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import PipelineDiagram, { type PipelineStep } from "@/components/motion/PipelineDiagram";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
-
-type PipelineStep = {
-  label: string;
-  sub: string;
-  color: string;
-  bg: string;
-};
-
-function Pipeline({ steps }: { steps: PipelineStep[] }) {
-  return (
-    <div className="flex flex-wrap items-center gap-2 mt-6">
-      {steps.map((step, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <div
-            className="rounded-lg px-3 py-2 text-center min-w-[90px]"
-            style={{ background: step.bg, border: `1px solid ${step.color}30` }}
-          >
-            <p className="text-[11px] font-bold leading-none mb-1" style={{ color: step.color }}>
-              {step.label}
-            </p>
-            <p className="text-[9.5px] leading-none" style={{ color: `${step.color}80` }}>
-              {step.sub}
-            </p>
-          </div>
-          {i < steps.length - 1 && (
-            <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
-              <path d="M0 5 L10 5 M10 5 L6 1 M10 5 L6 9" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 const AUTOFIX_STEPS: PipelineStep[] = [
   { label: "Sentry", sub: "Webhook", color: "#F87171", bg: "rgba(248,113,113,0.10)" },
@@ -133,7 +100,7 @@ export default function AIAutomation() {
               Sentry webhook fires on each new error. A Django middleware strips all credentials before touching the LLM. Claude Haiku maps the affected codebase (cheap). Claude Sonnet analyses the root cause and generates a fix. A draft PR opens in Bitbucket automatically — no human in the loop until review.
             </p>
 
-            <Pipeline steps={AUTOFIX_STEPS} />
+            <PipelineDiagram steps={AUTOFIX_STEPS} className="mt-6" />
 
             <div className="mt-6 flex flex-wrap gap-2">
               {["Claude API", "Django", "Celery", "Webhook", "Bitbucket API", "Secret Filter"].map((t) => (
@@ -181,7 +148,7 @@ export default function AIAutomation() {
               Developer describes a feature or fix in plain text or voice. Claude Haiku maps relevant files in the repository. Claude Sonnet generates production-quality code with context from those files. A draft PR is auto-committed to the branch — the developer reviews and merges.
             </p>
 
-            <Pipeline steps={DEVASSIST_STEPS} />
+            <PipelineDiagram steps={DEVASSIST_STEPS} className="mt-6" />
 
             <div className="mt-6 flex flex-wrap gap-2">
               {["Claude API", "Haiku + Sonnet", "Multi-model", "Django", "Bitbucket", "Draft PR"].map((t) => (

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { WORK_STYLE } from "@/lib/data";
 
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
   Code2,
   MessageSquare,
   BarChart2,

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TECH_STACK } from "@/lib/data";
+import { TECH_STACK, CORE_STACK } from "@/lib/data";
+import Marquee from "@/components/motion/Marquee";
 
 const CATEGORY_ICONS: Record<string, string> = {
   Frontend: "⬡",
@@ -49,6 +50,17 @@ export default function TechStack() {
             A clear view of the technologies I use daily and the problems I
             apply them to — no inflated skill meters.
           </motion.p>
+        </motion.div>
+
+        {/* Core stack marquee */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-14"
+        >
+          <Marquee items={CORE_STACK} itemClassName="pill-core" />
         </motion.div>
 
         {/* Stack grid */}

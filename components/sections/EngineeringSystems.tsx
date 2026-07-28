@@ -107,18 +107,24 @@ export default function EngineeringSystems() {
           </motion.p>
         </motion.div>
 
-        {/* Architecture flow diagram */}
+        {/* Architecture flow diagram — sequential stage reveal */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
           className="mb-14 overflow-x-auto pb-2"
         >
           <div className="flex items-center gap-0 mx-auto w-fit">
             {ARCH_FLOW.map((node, i) => (
               <div key={node.label} className="flex items-center">
-                <div className="flex flex-col items-center">
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, y: 14 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+                  }}
+                  className="flex flex-col items-center"
+                >
                   <div className="rounded-xl border border-[var(--divider)] bg-[var(--surface)] px-5 py-3 text-center hover:border-[var(--accent)]/40 hover:bg-[var(--surface-2)] hover:shadow-[0_4px_20px_rgba(24,80,212,0.06)] transition-all duration-200 cursor-default">
                     <p className="text-sm font-semibold text-[var(--deep)] whitespace-nowrap">
                       {node.label}
@@ -127,9 +133,15 @@ export default function EngineeringSystems() {
                       {node.sub}
                     </p>
                   </div>
-                </div>
+                </motion.div>
                 {i < ARCH_FLOW.length - 1 && (
-                  <div className="flex items-center px-1.5 shrink-0">
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, scaleX: 0 },
+                      visible: { opacity: 1, scaleX: 1, transition: { duration: 0.3, ease: "easeOut" } },
+                    }}
+                    className="flex items-center px-1.5 shrink-0 origin-left"
+                  >
                     <div className="h-px w-6 bg-[var(--divider)]" />
                     <svg
                       className="h-3.5 w-3.5 text-[var(--accent)] -ml-1"
@@ -144,7 +156,7 @@ export default function EngineeringSystems() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             ))}

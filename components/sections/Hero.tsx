@@ -4,6 +4,9 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Download, MapPin } from "lucide-react";
 import Link from "next/link";
 import { SITE, CORE_STACK, STATS } from "@/lib/data";
+import HeroScene from "@/components/three/HeroScene";
+import KineticText from "@/components/motion/KineticText";
+import StatCounter from "@/components/motion/StatCounter";
 
 type CP = { t: string; c?: string };
 
@@ -151,6 +154,7 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col justify-center bg-[var(--ground)] overflow-hidden"
     >
       <div className="absolute inset-0 dot-grid pointer-events-none" />
+      <HeroScene />
       <div
         className="absolute -top-40 -left-40 h-[700px] w-[700px] rounded-full pointer-events-none"
         style={{
@@ -185,20 +189,24 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            <motion.h1
-              variants={item}
+            <KineticText
+              as="h1"
+              splitBy="words"
+              delay={0.25}
               className="font-serif font-normal text-[var(--deep)] leading-[0.95] tracking-[-0.03em] mb-5"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5.5rem)" }}
             >
               {SITE.name}
-            </motion.h1>
+            </KineticText>
 
-            <motion.p
-              variants={item}
+            <KineticText
+              as="p"
+              splitBy="words"
+              delay={0.45}
               className="text-xs sm:text-sm font-bold tracking-[0.16em] uppercase text-[var(--muted)] mb-6"
             >
               {SITE.role}
-            </motion.p>
+            </KineticText>
 
             <motion.p
               variants={item}
@@ -218,18 +226,21 @@ export default function Hero() {
             >
               <Link
                 href="#projects"
+                data-cursor="View"
                 className="inline-flex items-center gap-2 rounded-xl bg-[#0E1520] text-white dark:bg-white dark:text-[#0E1520] px-6 py-3.5 text-sm font-semibold shadow-[0_4px_20px_rgba(14,21,32,0.18)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.12)] hover:opacity-85 transition-opacity"
               >
                 View Work <ArrowUpRight className="h-4 w-4" />
               </Link>
               <Link
                 href="#contact"
+                data-cursor="Talk"
                 className="inline-flex items-center gap-2 rounded-xl border border-[var(--divider)] bg-[var(--surface)] px-6 py-3.5 text-sm font-semibold text-[var(--deep)] hover:bg-[var(--surface-2)] transition-colors"
               >
                 Let&apos;s Talk <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href={`mailto:${SITE.email}?subject=CV%20Request`}
+                data-cursor="Email"
                 className="inline-flex items-center gap-2 rounded-xl px-5 py-3.5 text-sm font-medium text-[var(--muted)] hover:text-[var(--deep)] transition-colors"
               >
                 <Download className="h-4 w-4" />
@@ -256,9 +267,10 @@ export default function Hero() {
             >
               {STATS.map((s) => (
                 <div key={s.label} className="flex flex-col">
-                  <span className="font-serif text-3xl font-normal text-[var(--deep)] leading-none mb-1">
-                    {s.value}
-                  </span>
+                  <StatCounter
+                    value={s.value}
+                    className="font-serif text-3xl font-normal text-[var(--deep)] leading-none mb-1"
+                  />
                   <span className="text-xs text-[var(--muted)] tracking-wide">
                     {s.label}
                   </span>

@@ -36,16 +36,16 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ["Georgia", "Times New Roman", "Times", "serif"],
+        serif: ["var(--font-fraunces)", "Georgia", "Times New Roman", "serif"],
         sans: [
-          "Inter",
+          "var(--font-inter)",
           "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
           "sans-serif",
         ],
-        mono: ["Menlo", "Monaco", "Lucida Console", "Courier New", "monospace"],
+        mono: ["var(--font-mono)", "Menlo", "Monaco", "Courier New", "monospace"],
       },
       letterSpacing: {
         tightest: "-0.04em",

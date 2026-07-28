@@ -57,6 +57,7 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="#home"
+          data-cursor="Home"
           className="flex items-center gap-2.5 shrink-0 group"
           aria-label="Pradeepa Lakruwan — home"
         >
@@ -74,7 +75,7 @@ export default function Header() {
             <Link
               key={item.label}
               href={item.href}
-              className="px-3.5 py-2 rounded-lg text-sm font-medium text-[var(--muted)] hover:text-[var(--deep)] hover:bg-[var(--surface-2)] transition-all duration-150"
+              className="nav-underline relative px-3.5 py-2 rounded-lg text-sm font-medium text-[var(--muted)] hover:text-[var(--deep)] hover:bg-[var(--surface-2)] transition-all duration-150"
             >
               {item.label}
             </Link>
@@ -93,6 +94,7 @@ export default function Header() {
 
           <Link
             href="#contact"
+            data-cursor="Talk"
             className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[var(--accent)] text-white text-sm font-semibold hover:opacity-85 transition-opacity"
           >
             Let&apos;s Talk

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { PROOF_STATS, PROOF_TAGS } from "@/lib/data";
+import StatCounter from "@/components/motion/StatCounter";
 
 export default function Proof() {
   return (
@@ -42,12 +43,11 @@ export default function Proof() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="bg-[#0C1420] px-6 py-7 flex flex-col items-start"
               >
-                <span
+                <StatCounter
+                  value={stat.value}
                   className="font-serif font-normal text-[#EDF1FF] leading-none mb-2"
                   style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-                >
-                  {stat.value}
-                </span>
+                />
                 <span className="text-xs text-[#4A6080] leading-snug">
                   {stat.label}
                 </span>
