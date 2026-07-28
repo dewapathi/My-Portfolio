@@ -1,31 +1,31 @@
 import Hero from "@/components/sections/Hero";
-import Identity from "@/components/sections/Identity";
-import FeaturedProjects from "@/components/sections/FeaturedProjects";
-import AIAutomation from "@/components/sections/AIAutomation";
-import EngineeringSystems from "@/components/sections/EngineeringSystems";
+import ScrollIntro from "@/components/sections/ScrollIntro";
+import About from "@/components/sections/About";
+import Work from "@/components/sections/Work";
+import AIAutomationLab from "@/components/sections/AIAutomationLab";
+import EngineeringDepth from "@/components/sections/EngineeringDepth";
 import TechStack from "@/components/sections/TechStack";
-import ExperienceTimeline from "@/components/sections/ExperienceTimeline";
+import ExperienceOrbit from "@/components/sections/ExperienceOrbit";
 import Services from "@/components/sections/Services";
-import Proof from "@/components/sections/Proof";
-import WorkStyle from "@/components/sections/WorkStyle";
-import Testimonials from "@/components/sections/Testimonials";
-import ContactCTA from "@/components/sections/ContactCTA";
+import ImpactMetrics from "@/components/sections/ImpactMetrics";
+import HowIWork from "@/components/sections/HowIWork";
+import ContactFinale from "@/components/sections/ContactFinale";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Identity />
-      <FeaturedProjects />
-      <AIAutomation />
-      <EngineeringSystems />
+      <ScrollIntro />
+      <About />
+      <Work />
+      <AIAutomationLab />
+      <EngineeringDepth />
       <TechStack />
-      <ExperienceTimeline />
+      <ExperienceOrbit />
       <Services />
-      <Proof />
-      <WorkStyle />
-      <Testimonials />
-      <ContactCTA />
+      <ImpactMetrics />
+      <HowIWork />
+      <ContactFinale />
     </>
   );
 }

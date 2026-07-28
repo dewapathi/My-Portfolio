@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { NAV_ITEMS, SITE } from "@/lib/data";
+import { NAV_ITEMS, SITE } from "@/content/site";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -64,7 +64,7 @@ export default function Header() {
           <span className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[var(--accent)] text-white font-mono text-xs font-bold tracking-tight select-none">
             PL
           </span>
-          <span className="hidden sm:block font-serif text-base font-normal text-[var(--deep)] group-hover:text-[var(--accent)] transition-colors">
+          <span className="hidden sm:block font-display text-base font-normal text-[var(--deep)] group-hover:text-[var(--accent)] transition-colors">
             {SITE.name}
           </span>
         </Link>
@@ -94,10 +94,10 @@ export default function Header() {
 
           <Link
             href="#contact"
-            data-cursor="Talk"
+            data-cursor="Start"
             className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[var(--accent)] text-white text-sm font-semibold hover:opacity-85 transition-opacity"
           >
-            Let&apos;s Talk
+            Start a Project
           </Link>
 
           {/* Mobile hamburger */}
@@ -134,7 +134,7 @@ export default function Header() {
               className="absolute right-0 top-0 h-full w-[80vw] max-w-sm bg-[var(--surface)] border-l border-[var(--divider)] flex flex-col"
             >
               <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--divider)]">
-                <span className="font-serif text-base text-[var(--deep)]">{SITE.name}</span>
+                <span className="font-display text-base text-[var(--deep)]">{SITE.name}</span>
                 <button
                   onClick={() => setMenuOpen(false)}
                   aria-label="Close menu"
@@ -161,7 +161,7 @@ export default function Header() {
                   onClick={() => setMenuOpen(false)}
                   className="flex items-center justify-center w-full py-3 rounded-xl bg-[var(--accent)] text-white font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors"
                 >
-                  Let&apos;s Talk
+                  Start a Project
                 </Link>
               </div>
             </motion.div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
-import { SITE, NAV_ITEMS } from "@/lib/data";
+import { SITE, NAV_ITEMS } from "@/content/site";
 
 type SocialItem = { label: string; href: string; node: React.ReactNode };
 
@@ -41,11 +41,12 @@ export default function Footer() {
               <span className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-[var(--accent)] text-white font-mono text-xs font-bold">
                 PL
               </span>
-              <span className="font-serif text-[#EDF1FF] text-base">{SITE.name}</span>
+              <span className="font-display text-[#EDF1FF] text-base">{SITE.name}</span>
             </div>
             <p className="text-sm leading-relaxed text-[#4A5B76] max-w-xs">
-              Full Stack Software Engineer building production-ready systems for
-              businesses that want to move fast and build right.
+              Senior Software Engineer building production systems — backend
+              architecture, cloud infrastructure, mobile products, and AI
+              automation.
             </p>
           </div>
 

@@ -11,7 +11,7 @@ import {
   Shield,
   Layers,
 } from "lucide-react";
-import { SERVICES } from "@/lib/data";
+import { SERVICES } from "@/content/services";
 import Link from "next/link";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -50,7 +50,7 @@ export default function Services() {
           </motion.p>
           <motion.h2
             variants={fadeUp}
-            className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] text-balance"
+            className="font-display font-medium text-[var(--deep)] leading-[1.1] tracking-[-0.02em] text-balance"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
           >
             What you can hire me to build.
@@ -64,32 +64,31 @@ export default function Services() {
           </motion.p>
         </motion.div>
 
-        {/* Services grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+        {/* Capability matrix — rows, not repeated cards */}
+        <div className="rounded-2xl border border-[var(--divider)] overflow-hidden mb-14">
           {SERVICES.map((svc, i) => {
             const Icon = ICON_MAP[svc.icon] ?? Monitor;
             return (
               <motion.div
                 key={svc.title}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.12 }}
-                transition={{
-                  duration: 0.55,
-                  delay: i * 0.06,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="card p-5 card-hover group"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.45, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                className={`group flex items-start gap-5 px-6 py-5 bg-[var(--surface)] hover:bg-[var(--surface-2)] transition-colors ${
+                  i !== 0 ? "border-t border-[var(--divider)]" : ""
+                }`}
               >
-                <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-[var(--accent-light)] mb-4 group-hover:bg-[var(--accent)] transition-colors">
-                  <Icon className="h-5 w-5 text-[var(--accent)] group-hover:text-white transition-colors" />
+                <span className="font-mono text-xs text-[var(--muted-2)] pt-1.5 w-6 shrink-0">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="h-9 w-9 rounded-lg bg-[var(--accent-light)] flex items-center justify-center shrink-0 group-hover:bg-[var(--accent)] transition-colors">
+                  <Icon className="h-4 w-4 text-[var(--accent)] group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="font-semibold text-sm text-[var(--deep)] mb-2 leading-snug">
-                  {svc.title}
-                </h3>
-                <p className="text-xs text-[var(--muted)] leading-relaxed">
-                  {svc.description}
-                </p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-sm text-[var(--deep)] mb-1">{svc.title}</h3>
+                  <p className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed">{svc.description}</p>
+                </div>
               </motion.div>
             );
           })}
@@ -114,6 +113,7 @@ export default function Services() {
           </div>
           <Link
             href="#contact"
+            data-cursor="Talk"
             className="shrink-0 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[var(--accent-hover)] transition-colors"
           >
             Start a conversation

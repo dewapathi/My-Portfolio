@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TECH_STACK, CORE_STACK } from "@/lib/data";
+import { TECH_STACK, CORE_STACK } from "@/content/engineering";
 import Marquee from "@/components/motion/Marquee";
 
 const CATEGORY_ICONS: Record<string, string> = {
@@ -38,7 +38,7 @@ export default function TechStack() {
           </motion.p>
           <motion.h2
             variants={fadeUp}
-            className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] text-balance"
+            className="font-display font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] text-balance"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
           >
             What I build with.

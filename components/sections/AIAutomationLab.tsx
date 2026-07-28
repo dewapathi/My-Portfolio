@@ -9,18 +9,86 @@ const fadeUp = {
 };
 
 const AUTOFIX_STEPS: PipelineStep[] = [
-  { label: "Sentry", sub: "Webhook", color: "#F87171", bg: "rgba(248,113,113,0.10)" },
-  { label: "Secret Filter", sub: "Middleware", color: "#FBBF24", bg: "rgba(251,191,36,0.10)" },
-  { label: "Claude Haiku", sub: "File Discovery", color: "#818CF8", bg: "rgba(129,140,248,0.15)" },
-  { label: "Claude Sonnet", sub: "Fix Generation", color: "#A78BFA", bg: "rgba(167,139,250,0.15)" },
-  { label: "Bitbucket", sub: "Draft PR", color: "#34D399", bg: "rgba(52,211,153,0.10)" },
+  {
+    label: "Sentry Event",
+    sub: "Webhook",
+    color: "#F87171",
+    bg: "rgba(248,113,113,0.10)",
+    description: "A new error webhook fires the moment an exception is captured in production.",
+  },
+  {
+    label: "Secret Filter",
+    sub: "Security Boundary",
+    color: "#FBBF24",
+    bg: "rgba(251,191,36,0.10)",
+    description: "Django middleware strips all credentials and secrets before anything reaches the LLM.",
+  },
+  {
+    label: "Claude Haiku",
+    sub: "File Discovery",
+    color: "#818CF8",
+    bg: "rgba(129,140,248,0.15)",
+    description: "Maps the affected codebase fast and cheap — file discovery only, no fix logic yet.",
+  },
+  {
+    label: "Claude Sonnet",
+    sub: "Root-Cause Analysis",
+    color: "#A78BFA",
+    bg: "rgba(167,139,250,0.15)",
+    description: "Analyses the root cause and generates the actual fix code.",
+  },
+  {
+    label: "Bitbucket",
+    sub: "Draft Pull Request",
+    color: "#34D399",
+    bg: "rgba(52,211,153,0.10)",
+    description: "Opens a draft pull request automatically — nothing merges on its own.",
+  },
+  {
+    label: "Human Review",
+    sub: "Required",
+    color: "#E5E7EB",
+    bg: "rgba(229,231,235,0.08)",
+    description: "A developer reviews and approves before anything reaches production.",
+  },
 ];
 
 const DEVASSIST_STEPS: PipelineStep[] = [
-  { label: "Dev Input", sub: "Text / Voice", color: "#60A5FA", bg: "rgba(96,165,250,0.10)" },
-  { label: "Claude Haiku", sub: "File Mapping", color: "#818CF8", bg: "rgba(129,140,248,0.15)" },
-  { label: "Claude Sonnet", sub: "Code Gen", color: "#A78BFA", bg: "rgba(167,139,250,0.15)" },
-  { label: "Draft PR", sub: "Auto-committed", color: "#34D399", bg: "rgba(52,211,153,0.10)" },
+  {
+    label: "Dev Input",
+    sub: "Text / Voice",
+    color: "#60A5FA",
+    bg: "rgba(96,165,250,0.10)",
+    description: "Developer describes a feature or fix in plain text or voice.",
+  },
+  {
+    label: "Claude Haiku",
+    sub: "Context Mapping",
+    color: "#818CF8",
+    bg: "rgba(129,140,248,0.15)",
+    description: "Maps relevant files across the repository for context.",
+  },
+  {
+    label: "Claude Sonnet",
+    sub: "Code Generation",
+    color: "#A78BFA",
+    bg: "rgba(167,139,250,0.15)",
+    description: "Generates production-quality code using that file context.",
+  },
+  {
+    label: "Draft PR",
+    sub: "Auto-committed",
+    color: "#34D399",
+    bg: "rgba(52,211,153,0.10)",
+    description: "Committed to a branch as a draft pull request — not merged.",
+  },
+  {
+    label: "Human Review",
+    sub: "Required",
+    color: "#E5E7EB",
+    bg: "rgba(229,231,235,0.08)",
+    description: "The developer reviews and merges — Claude never merges its own code.",
+  },
 ];
 
 const METRICS = [
@@ -30,10 +98,10 @@ const METRICS = [
   { label: "Draft-only PRs", detail: "Human review always required", color: "#34D399" },
 ];
 
-export default function AIAutomation() {
+export default function AIAutomationLab() {
   return (
     <section
-      id="ai"
+      id="ai-lab"
       className="section-outer"
       style={{ background: "#080D16" }}
     >
@@ -47,11 +115,11 @@ export default function AIAutomation() {
           className="mb-16"
         >
           <motion.p variants={fadeUp} className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: "#818CF8" }}>
-            AI / LLM Automation
+            AI Automation Lab
           </motion.p>
           <motion.h2
             variants={fadeUp}
-            className="font-serif font-normal leading-[1.1] tracking-[-0.025em] text-balance mb-5"
+            className="font-display font-medium leading-[1.1] tracking-[-0.02em] text-balance mb-5"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: "#EEF2FF" }}
           >
             Anthropic Claude API in production.
@@ -61,7 +129,7 @@ export default function AIAutomation() {
             className="text-lg leading-relaxed max-w-2xl"
             style={{ color: "rgba(238,242,255,0.55)" }}
           >
-            Two systems built at CreatIT Solutions using multi-model Claude pipelines — Haiku for fast, cheap discovery; Sonnet for deep reasoning and code generation.
+            Two systems built at CreatIT Solutions using multi-model Claude pipelines — Haiku for fast, cheap discovery; Sonnet for deep reasoning and code generation. Hover or tap a stage below for what it actually does.
           </motion.p>
         </motion.div>
 
@@ -100,7 +168,7 @@ export default function AIAutomation() {
               Sentry webhook fires on each new error. A Django middleware strips all credentials before touching the LLM. Claude Haiku maps the affected codebase (cheap). Claude Sonnet analyses the root cause and generates a fix. A draft PR opens in Bitbucket automatically — no human in the loop until review.
             </p>
 
-            <PipelineDiagram steps={AUTOFIX_STEPS} className="mt-6" />
+            <PipelineDiagram steps={AUTOFIX_STEPS} className="mt-6" interactive />
 
             <div className="mt-6 flex flex-wrap gap-2">
               {["Claude API", "Django", "Celery", "Webhook", "Bitbucket API", "Secret Filter"].map((t) => (
@@ -148,7 +216,7 @@ export default function AIAutomation() {
               Developer describes a feature or fix in plain text or voice. Claude Haiku maps relevant files in the repository. Claude Sonnet generates production-quality code with context from those files. A draft PR is auto-committed to the branch — the developer reviews and merges.
             </p>
 
-            <PipelineDiagram steps={DEVASSIST_STEPS} className="mt-6" />
+            <PipelineDiagram steps={DEVASSIST_STEPS} className="mt-6" interactive />
 
             <div className="mt-6 flex flex-wrap gap-2">
               {["Claude API", "Haiku + Sonnet", "Multi-model", "Django", "Bitbucket", "Draft PR"].map((t) => (

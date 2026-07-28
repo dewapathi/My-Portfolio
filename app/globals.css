@@ -3,42 +3,63 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────
-   Design tokens
+   Design tokens — Cosmic Systems
 ───────────────────────────────────────────── */
 :root {
-  --ground:        #ECF0F5;
+  /* "Daylight lab" — the light counterpart to the cosmic identity: soft
+     cool-silver base, same accent family, kept for contrast/legibility. */
+  --ground:        #F4F5FA;
   --surface:       #FFFFFF;
-  --surface-2:     #F4F7FB;
-  --deep:          #0E1520;
-  --deep-2:        #1A2538;
-  --accent:        #1850D4;
-  --accent-hover:  #1344BE;
-  --accent-light:  #EEF3FE;
-  --accent-mid:    #BFCFF9;
-  --muted:         #5C6F85;
-  --muted-2:       #8494AA;
-  --divider:       #D1D9E6;
+  --surface-2:     #ECEEF6;
+  --deep:          #0B0D16;
+  --deep-2:        #363B52;
+  --accent:        #4657DB;
+  --accent-hover:  #37469C;
+  --accent-light:  #EBEDFB;
+  --accent-mid:    #C6CBF7;
+  --accent-cyan:   #0E9AA6;
+  --accent-violet: #6D4FD1;
+  --accent-warm:   #B8895A;
+  --muted:         #5B6178;
+  --muted-2:       #7B8098;
+  --divider:       #DEE1EC;
   --available:     #059669;
   --avail-bg:      #ECFDF5;
   --avail-border:  #A7F3D0;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --duration-fast: 0.2s;
+  --duration-base: 0.4s;
+  --duration-slow: 0.8s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --z-nav: 50;
+  --z-cursor: 200;
+  --z-preloader: 999;
 }
 
 .dark {
-  --ground:        #090E18;
-  --surface:       #0F1926;
-  --surface-2:     #172031;
-  --deep:          #EDF1FF;
-  --deep-2:        #C8D3E8;
-  --accent:        #3B6EF0;
-  --accent-hover:  #5482F5;
-  --accent-light:  #111E42;
-  --accent-mid:    #1E3070;
-  --muted:         #6A7E9E;
-  --muted-2:       #485F7A;
-  --divider:       #1B2A40;
+  /* Deep cosmic void — the primary identity. */
+  --ground:        #05060B;
+  --surface:       #0B0D16;
+  --surface-2:     #12141F;
+  --deep:          #F3F4F9;
+  --deep-2:        #C3C7D9;
+  --accent:        #6C8CFF;
+  --accent-hover:  #86A0FF;
+  --accent-light:  #12162F;
+  --accent-mid:    #2C3568;
+  --accent-cyan:   #4CD8E0;
+  --accent-violet: #9B7CFF;
+  --accent-warm:   #F2C9A0;
+  --muted:         #868CA3;
+  --muted-2:       #5B617A;
+  --divider:       #1B1E2E;
   --available:     #34D399;
-  --avail-bg:      #064E3B;
-  --avail-border:  #065F46;
+  --avail-bg:      #0C2A22;
+  --avail-border:  #12503F;
 }
 
 /* ─────────────────────────────────────────────
@@ -61,6 +82,25 @@
     outline: 2px solid var(--accent);
     outline-offset: 3px;
     border-radius: 6px;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: -100%;
+    left: 1rem;
+    z-index: 1000;
+    background: var(--surface);
+    color: var(--deep);
+    border: 1px solid var(--divider);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm, 8px);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: top 0.2s ease-out;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -218,18 +258,41 @@ html.has-custom-cursor * {
 }
 
 /* ─────────────────────────────────────────────
-   Hero WebGL fallback — coarse pointer / reduced motion / small screens
+   Cosmic WebGL fallback — coarse pointer / reduced motion / small screens.
+   A static constellation instead of Three.js: a few soft glow points plus
+   faint connecting lines, echoing the orbit-node scene without any GPU cost.
 ───────────────────────────────────────────── */
-.hero-blob-fallback {
+.cosmic-fallback {
   background:
-    radial-gradient(circle at 20% 25%, rgba(59, 110, 240, 0.18) 0%, transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.14) 0%, transparent 60%);
-  animation: heroBlobPulse 8s ease-in-out infinite alternate;
+    radial-gradient(circle at 18% 24%, rgba(108, 140, 255, 0.22) 0%, transparent 55%),
+    radial-gradient(circle at 78% 30%, rgba(76, 216, 224, 0.16) 0%, transparent 50%),
+    radial-gradient(circle at 62% 74%, rgba(155, 124, 255, 0.18) 0%, transparent 55%),
+    radial-gradient(circle at 28% 78%, rgba(242, 201, 160, 0.12) 0%, transparent 50%),
+    radial-gradient(circle, rgba(174, 180, 194, 0.5) 1px, transparent 1.5px);
+  background-size: auto, auto, auto, auto, 34px 34px;
+  animation: cosmicFallbackPulse 9s ease-in-out infinite alternate;
 }
 
-@keyframes heroBlobPulse {
-  0% { opacity: 0.7; }
+@keyframes cosmicFallbackPulse {
+  0% { opacity: 0.75; }
   100% { opacity: 1; }
+}
+
+/* Hover label for a cosmic orbit node (rendered via drei's <Html>) */
+.cosmic-node-label {
+  display: inline-flex;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--deep);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1.75rem);
 }
 
 /* Units produced by KineticText's GSAP SplitText reveal */

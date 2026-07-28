@@ -19,6 +19,9 @@ const config: Config = {
         accent: "var(--accent)",
         "accent-light": "var(--accent-light)",
         "accent-mid": "var(--accent-mid)",
+        "accent-cyan": "var(--accent-cyan)",
+        "accent-violet": "var(--accent-violet)",
+        "accent-warm": "var(--accent-warm)",
         muted: "var(--muted)",
         "muted-2": "var(--muted-2)",
         divider: "var(--divider)",
@@ -36,7 +39,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ["var(--font-fraunces)", "Georgia", "Times New Roman", "serif"],
+        display: ["var(--font-display)", "Arial", "sans-serif"],
         sans: [
           "var(--font-inter)",
           "system-ui",
@@ -69,7 +72,7 @@ const config: Config = {
       boxShadow: {
         card: "0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)",
         "card-hover": "0 4px 24px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.04)",
-        "accent-glow": "0 8px 32px rgba(24, 80, 212, 0.18)",
+        "accent-glow": "0 8px 32px rgba(108, 140, 255, 0.22)",
       },
     },
   },

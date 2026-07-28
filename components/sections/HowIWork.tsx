@@ -11,7 +11,7 @@ import {
   LifeBuoy,
   Target,
 } from "lucide-react";
-import { WORK_STYLE } from "@/lib/data";
+import { WORK_STYLE } from "@/content/services";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
   Code2,
@@ -24,7 +24,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?:
   Target,
 };
 
-export default function WorkStyle() {
+export default function HowIWork() {
   return (
     <section className="section-outer bg-[var(--surface)]">
       <div className="section-inner">
@@ -53,7 +53,7 @@ export default function WorkStyle() {
               hidden: { opacity: 0, y: 16 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
             }}
-            className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] text-balance"
+            className="font-display font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] text-balance"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
           >
             Principles I build every project on.

@@ -37,7 +37,7 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
-export default function Identity() {
+export default function About() {
   return (
     <section id="about" className="section-outer bg-[var(--surface)]">
       <div className="section-inner">
@@ -57,7 +57,7 @@ export default function Identity() {
             </motion.p>
             <motion.h2
               variants={fadeUp}
-              className="font-serif font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] mb-8 text-balance"
+              className="font-display font-normal text-[var(--deep)] leading-[1.1] tracking-[-0.025em] mb-8 text-balance"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
               Building production systems,

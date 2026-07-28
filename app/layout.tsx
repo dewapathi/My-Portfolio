@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -7,6 +8,7 @@ import SmoothScrollProvider from "@/components/motion/SmoothScrollProvider";
 import Preloader from "@/components/motion/Preloader";
 import MagneticCursor from "@/components/motion/MagneticCursor";
 import GrainOverlay from "@/components/motion/GrainOverlay";
+import { buildMetadata, personJsonLd, websiteJsonLd, SITE_URL } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,13 +16,11 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const fraunces = Fraunces({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-fraunces",
-  axes: ["opsz", "SOFT"],
-  weight: "variable",
-  style: ["normal", "italic"],
+  variable: "--font-display",
+  weight: ["500", "600", "700"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -31,38 +31,26 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://pradeepalakruwan.com"),
-  title: "Pradeepa Lakruwan — Full Stack Software Engineer",
-  description:
-    "I design and build production-ready software systems that help businesses launch faster, automate operations, and scale with confidence. Specialising in React, Next.js, Django, React Native, and AWS.",
+  metadataBase: new URL(SITE_URL),
+  ...buildMetadata({
+    title: "Pradeepa Lakruwan — Senior Software Engineer | Python, Django, AWS & AI Automation",
+    description:
+      "Senior Software Engineer building production-ready backend systems, AWS cloud architecture, React Native applications, payment integrations, and AI automation.",
+  }),
   keywords: [
+    "Senior Software Engineer",
     "Full Stack Developer",
+    "Python",
+    "Django",
     "React",
     "Next.js",
-    "Django",
     "React Native",
     "AWS",
-    "Software Engineer",
-    "Mobile App Developer",
-    "Python",
-    "TypeScript",
+    "AI Automation",
+    "Claude API",
   ],
-  authors: [{ name: "Pradeepa Lakruwan", url: "https://pradeepalakruwan.com" }],
+  authors: [{ name: "Pradeepa Lakruwan", url: SITE_URL }],
   creator: "Pradeepa Lakruwan",
-  openGraph: {
-    title: "Pradeepa Lakruwan — Full Stack Software Engineer",
-    description:
-      "Production-ready software systems — React, Django, React Native, and AWS.",
-    type: "website",
-    locale: "en_AU",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Pradeepa Lakruwan — Full Stack Software Engineer",
-    description:
-      "Production-ready software systems — React, Django, React Native, and AWS.",
-  },
-  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
@@ -70,8 +58,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ECF0F5" },
-    { media: "(prefers-color-scheme: dark)", color: "#090E18" },
+    { media: "(prefers-color-scheme: light)", color: "#F4F5FA" },
+    { media: "(prefers-color-scheme: dark)", color: "#05060B" },
   ],
 };
 
@@ -82,7 +70,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <script
@@ -90,16 +78,33 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem('theme'),m=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='dark'||(!t&&m))document.documentElement.classList.add('dark')}catch(e){}})();`,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
       </head>
       <body className="font-sans">
-        <Preloader />
-        <GrainOverlay />
-        <MagneticCursor />
-        <SmoothScrollProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </SmoothScrollProvider>
+        {/* reducedMotion="user" makes every Framer Motion animation in the
+            tree honor the OS prefers-reduced-motion setting automatically —
+            Framer's animations set styles directly via JS, so the CSS
+            reduced-motion override above never touches them without this. */}
+        <MotionConfig reducedMotion="user">
+          <a href="#main-content" className="skip-link">
+            Skip to content
+          </a>
+          <Preloader />
+          <GrainOverlay />
+          <MagneticCursor />
+          <SmoothScrollProvider>
+            <Header />
+            <main id="main-content">{children}</main>
+            <Footer />
+          </SmoothScrollProvider>
+        </MotionConfig>
       </body>
     </html>
   );

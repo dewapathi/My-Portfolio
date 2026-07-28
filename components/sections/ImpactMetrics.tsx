@@ -1,38 +1,39 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PROOF_STATS, PROOF_TAGS } from "@/lib/data";
+import { PROOF_STATS, PROOF_TAGS } from "@/content/metrics";
 import StatCounter from "@/components/motion/StatCounter";
 
-export default function Proof() {
+export default function ImpactMetrics() {
   return (
     <section className="relative overflow-hidden" style={{ background: "#080D16" }}>
-      {/* Dot grid — light on dark */}
       <div className="absolute inset-0 dot-grid-light pointer-events-none opacity-60" />
 
-      {/* Radial glow */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(24,80,212,0.14) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(108,140,255,0.14) 0%, transparent 70%)",
         }}
       />
 
       <div className="section-outer relative z-10">
         <div className="section-inner">
-          {/* Label */}
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.5 }}
-            className="text-xs font-bold tracking-[0.14em] uppercase text-[#4A6080] mb-12"
+            className="flex items-center gap-3 mb-12"
           >
-            Delivered in production
-          </motion.p>
+            <span className="flex items-center gap-1.5 text-[11px] font-mono font-medium text-[#34D399]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#34D399] animate-pulse-slow" />
+              SYSTEMS OPERATIONAL
+            </span>
+            <span className="text-xs font-bold tracking-[0.14em] uppercase text-[#4A6080]">
+              Impact Metrics — Delivered in Production
+            </span>
+          </motion.div>
 
-          {/* Stats grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px border border-[#1B2A40] rounded-2xl overflow-hidden mb-12">
             {PROOF_STATS.map((stat, i) => (
               <motion.div
@@ -45,7 +46,7 @@ export default function Proof() {
               >
                 <StatCounter
                   value={stat.value}
-                  className="font-serif font-normal text-[#EDF1FF] leading-none mb-2"
+                  className="font-display font-medium text-[#EDF1FF] leading-none mb-2"
                   style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
                 />
                 <span className="text-xs text-[#4A6080] leading-snug">
@@ -55,18 +56,13 @@ export default function Proof() {
             ))}
           </div>
 
-          {/* Divider */}
           <div className="border-t border-[#1B2A40] mb-10" />
 
-          {/* Tags */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.04 } },
-            }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.04 } } }}
             className="flex flex-wrap gap-2"
           >
             {PROOF_TAGS.map((tag) => (
