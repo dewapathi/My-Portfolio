@@ -241,6 +241,42 @@ function PdfMockup({ project }: { project: Project }) {
   );
 }
 
+function BreederStatsMockup({ project }: { project: Project }) {
+  const ac = project.accentFrom;
+  const routes = [
+    { path: "traffic split", c: ac },
+    { path: "New Primary DB", c: "#34D399" },
+    { path: "Legacy Prod DB (read-only)", c: "#FBBF24" },
+    { path: "Read Replica (optional)", c: ac },
+  ];
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8" style={{ background: "#0D1117" }}>
+      <p className="text-[10px] font-mono font-bold tracking-[0.12em] uppercase mb-1" style={{ color: `${ac}80` }}>
+        Strangler-Fig Migration
+      </p>
+      <div className="w-full max-w-[220px] rounded-lg px-4 py-2.5 text-center" style={{ background: `${ac}14`, border: `1px solid ${ac}30` }}>
+        <p className="text-[11px] font-bold leading-none mb-1" style={{ color: ac }}>Custom DB Router</p>
+        <p className="text-[9.5px] leading-none" style={{ color: `${ac}70` }}>Django</p>
+      </div>
+      <div className="h-3 w-px" style={{ background: `${ac}40` }} />
+      <div className="grid grid-cols-1 gap-2 w-full max-w-[220px]">
+        {routes.slice(1).map((r, i) => (
+          <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: `${r.c}12`, border: `1px solid ${r.c}28` }}>
+            <p className="text-[10px] font-semibold" style={{ color: r.c }}>{r.path}</p>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-2 mt-2">
+        {["45+ endpoints", "6 modules", "Zero downtime"].map((t) => (
+          <span key={t} className="text-[9px] font-mono px-2 py-1 rounded" style={{ background: `${ac}12`, color: ac, border: `1px solid ${ac}25` }}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function GenericMockup({ project }: { project: Project }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center p-10">
@@ -272,6 +308,7 @@ const MOCKUPS: Record<string, (props: { project: Project }) => JSX.Element> = {
   "06": ReminderMockup,
   "07": GlassVialsMockup,
   "08": PdfMockup,
+  "09": BreederStatsMockup,
 };
 
 /** Screenshot if one exists, otherwise a stylised mockup unique to the project. */

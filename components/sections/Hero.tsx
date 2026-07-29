@@ -51,7 +51,7 @@ export default function Hero() {
             variants={item}
             className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-[var(--muted)] mb-8"
           >
-            Senior Software Engineer · Colombo, Sri Lanka · Remote Worldwide
+            Full Stack Software Engineer · Colombo, Sri Lanka · Remote Worldwide
           </motion.p>
 
           <KineticText

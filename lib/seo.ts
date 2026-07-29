@@ -40,7 +40,7 @@ export function personJsonLd() {
     name: SITE.name,
     url: SITE_URL,
     email: SITE.email,
-    jobTitle: "Senior Software Engineer",
+    jobTitle: "Full Stack Software Engineer",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Colombo",

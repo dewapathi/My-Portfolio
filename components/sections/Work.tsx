@@ -29,7 +29,7 @@ export default function Work() {
             className="font-display font-medium text-[var(--deep)] leading-[1.1] tracking-[-0.02em] text-balance"
             style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
           >
-            Four systems, built end to end.
+            Five systems, built end to end.
           </motion.h2>
           <motion.p
             variants={fadeUp}

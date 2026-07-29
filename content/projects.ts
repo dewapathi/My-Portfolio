@@ -29,8 +29,8 @@ export const PROJECTS: Project[] = [
       "Manual Sentry error triage consumed hours of developer time. Engineers had to read stack traces, identify root causes, locate affected files, and write fix PRs — entirely manually.",
     role: "Sole architect & engineer — Django backend, Claude API integration, Bitbucket API, security design",
     impact:
-      "Automated the full triage-to-PR pipeline: Claude Haiku discovers affected files (fast, cheap), Sonnet generates root-cause analysis and fix code, Bitbucket draft PR created automatically. Secret-filtering middleware ensures zero credential leakage to the LLM.",
-    stack: ["Claude API", "Haiku + Sonnet", "Django", "Celery", "Bitbucket API", "Webhook Automation", "Python"],
+      "Built a webhook-triggered pipeline where Claude Sonnet analyzes production errors and auto-drafts a Bitbucket pull request with root-cause analysis and a fix plan. Designed a multi-model cost-optimization strategy — cheaper Haiku for file discovery, more capable Sonnet for code generation — with structured tool use (typed JSON schemas) replacing fragile regex parsing. Security-first data handling: middleware strips .env files, settings.py, and credential patterns before any code reaches the LLM; all output is draft-only, with no auto-merge.",
+    stack: ["Claude API", "Haiku + Sonnet", "Django", "Celery", "Bitbucket API", "Webhook Automation", "Python", "Structured Tool Use"],
     image: null,
     accentFrom: "#6C8CFF",
     accentTo: "#9B7CFF",
@@ -41,7 +41,7 @@ export const PROJECTS: Project[] = [
     id: "02",
     slug: "vehicle-spare-parts-platform",
     flagship: true,
-    title: "Vehicle Spare Parts Platform",
+    title: "Vehicle Spare Parts Platform (M-Auto-Zone)",
     category: "Mobile Application",
     tagline:
       "Full-stack e-commerce for automotive parts — iOS & Android with PayHere payment integration.",
@@ -49,8 +49,8 @@ export const PROJECTS: Project[] = [
       "A parts distributor needed a cross-platform mobile storefront with real-time inventory, order tracking, FCM push notifications, and PayHere payment processing — without maintaining two separate codebases.",
     role: "Sole engineer · full stack + mobile",
     impact:
-      "Single React Native codebase deployed to both stores with live order status, Firebase push notifications, role-based admin panel, and a fully integrated PayHere payment flow.",
-    stack: ["React Native", "Django REST", "Firebase FCM", "PayHere", "PostgreSQL", "Docker"],
+      "Designed the backend architecture and PostgreSQL schema for a full mobile commerce platform — catalog, cart, orders, and checkout. Built REST APIs and a Django Admin interface for product/order/banner management, with JWT authentication for API access control. Integrated the PayHere payment gateway for real-money checkout and Firebase Cloud Messaging for push notifications, with production deployment managed on cPanel hosting.",
+    stack: ["React Native", "Django REST", "Firebase FCM", "PayHere", "PostgreSQL", "cPanel"],
     image: "/images/projects/M-auto.PNG",
     accentFrom: "#4CD8E0",
     accentTo: "#6C8CFF",
@@ -90,7 +90,7 @@ export const PROJECTS: Project[] = [
     role: "Full stack engineer — frontend, backend, database architecture, payment integration",
     impact:
       "Complete platform live in production: RBAC across three roles, attendance and academic records system, dashboard analytics, and Stripe payment integration for fee collection.",
-    stack: ["Next.js", "Django", "PostgreSQL", "Stripe", "TypeScript", "Tailwind CSS"],
+    stack: ["Next.js", "Django", "DRF", "PostgreSQL", "Stripe", "TypeScript"],
     image: null,
     accentFrom: "#F2C9A0",
     accentTo: "#E0704A",
@@ -173,6 +173,46 @@ export const PROJECTS: Project[] = [
     stack: ["Node.js", "Express", "PDFKit", "AWS EC2", "AWS S3", "Firebase", "REST API"],
     image: null,
     accentFrom: "#4CD8E0",
+    accentTo: "#0E9AA6",
+    live: null,
+    github: null,
+  },
+  {
+    id: "09",
+    slug: "breeder-stats-api",
+    flagship: true,
+    title: "Breeder Stats Platform — Orivet v3 Rebuild",
+    category: "Full Stack SaaS Platform",
+    tagline:
+      "Full-stack rebuild for a genetics-testing SaaS — a 45+ endpoint Django API and its Next.js customer/admin dashboard, both shipped end to end.",
+    problem:
+      "A genetics-analytics SaaS product needed a full v3 rebuild — modern REST APIs, multi-region billing, a path off a legacy production database, and a new customer- and admin-facing web application — without downtime for breeders relying on the platform daily.",
+    role: "Sole architect & engineer — backend API design, database migration strategy, multi-region billing, CI/CD, and the customer/admin Next.js frontend",
+    impact:
+      "Designed and built a Django REST Framework backend delivering 45+ endpoints across 6 domain modules (accounts, billing, catalog, stats, maf, common). Architected a strangler-fig migration using a custom Django database router that splits traffic across a new primary database, a read-only legacy production database, and an optional read replica — enabling zero-downtime migration off legacy infrastructure. Built a MySQL-backed cache-aside layer (7-day TTL) for expensive statistical aggregations, a deliberate cost-optimization that avoided introducing AWS Redshift. Implemented AWS Cognito JWT authentication (JWKS token verification) plus a custom API-key gateway middleware as a second security layer. Engineered a multi-region Stripe billing system — separate AU/USA merchant accounts via a provider/factory abstraction. Containerized with Docker and deployed to AWS ECS Fargate via an automated CI/CD pipeline (CodeBuild/CodePipeline) using immutable Git-SHA image tagging to ECR. Also built the platform's customer and admin frontend in Next.js — a backend-for-frontend layer that authenticates every request and proxies it to the API, translating between frontend and backend data conventions. Shipped the breeder-facing product: a multi-step registration and checkout wizard with multi-region Stripe billing, self-service subscription management, the Breed Health Intelligence statistics dashboards (disease, DNA, and trait statistics with plan-tier gating, saved views, and PDF/CSV export), a research-contribution workflow linking DNA results to real-world health outcomes, and admin tooling for managing users, plans, and payments — built on a Radix-based component library and a custom design system with light/dark themes.",
+    stack: ["Python 3.12", "Django 5", "DRF", "Next.js", "React", "TypeScript", "Tailwind CSS", "AWS Cognito", "Stripe", "Redis", "Docker", "AWS ECS Fargate"],
+    image: null,
+    accentFrom: "#6C8CFF",
+    accentTo: "#4CD8E0",
+    live: null,
+    github: null,
+  },
+  {
+    id: "10",
+    slug: "orivet-backend-platform",
+    flagship: false,
+    title: "Orivet Backend Platform",
+    category: "Backend Service",
+    tagline:
+      "Backend services for a production animal-genetics SaaS — REST APIs, triple payment-provider billing, and async processing via Django Signals.",
+    problem:
+      "A vet-tech SaaS platform needed backend services supporting both web and mobile clients, with hardened authentication, multi-provider billing, and background processing that couldn't block user-facing requests.",
+    role: "Backend engineer — REST API design, payments integration, and async processing",
+    impact:
+      "Built and maintained backend services for a production animal-genetics SaaS platform, designing REST APIs consumed by web and mobile clients. Integrated three payment providers — Stripe, Square, and PayPal — into a single billing flow alongside AWS SES transactional email and Firebase push notifications. Customized Django Signals to drive asynchronous background processing and report generation without blocking request/response cycles. Hardened API endpoints against common attack vectors and optimized database queries through production deployment.",
+    stack: ["Python", "Django", "PostgreSQL", "MySQL", "AWS SES", "Stripe", "Square", "PayPal", "Firebase"],
+    image: null,
+    accentFrom: "#F2C9A0",
     accentTo: "#0E9AA6",
     live: null,
     github: null,

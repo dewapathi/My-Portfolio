@@ -1,6 +1,6 @@
 export const SITE = {
   name: "Pradeepa Lakruwan",
-  role: "Senior Software Engineer · Cloud & AI Specialist · Mobile",
+  role: "Full Stack Software Engineer · Backend & AWS Cloud Architecture",
   email: "pradeepalakruwan.d@gmail.com",
   phone: "+94 779 400 291",
   github: "https://github.com/dewapathi",

@@ -44,9 +44,9 @@ export default function Footer() {
               <span className="font-display text-[#EDF1FF] text-base">{SITE.name}</span>
             </div>
             <p className="text-sm leading-relaxed text-[#4A5B76] max-w-xs">
-              Senior Software Engineer building production systems — backend
-              architecture, cloud infrastructure, mobile products, and AI
-              automation.
+              Full Stack Software Engineer building production systems —
+              backend architecture, cloud infrastructure, mobile products, and
+              AI automation.
             </p>
           </div>
 
