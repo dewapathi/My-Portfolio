@@ -33,12 +33,13 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   ...buildMetadata({
-    title: "Pradeepa Lakruwan — Senior Software Engineer | Python, Django, AWS & AI Automation",
+    title: "Pradeepa Lakruwan — Full Stack Software Engineer | Python, Django, AWS & AI Automation",
     description:
-      "Senior Software Engineer building production-ready backend systems, AWS cloud architecture, React Native applications, payment integrations, and AI automation.",
+      "Full Stack Software Engineer building production-ready backend systems, AWS cloud architecture, React Native applications, payment integrations, and AI automation.",
   }),
   keywords: [
-    "Senior Software Engineer",
+    "Full Stack Software Engineer",
+    "Backend Engineer",
     "Full Stack Developer",
     "Python",
     "Django",
