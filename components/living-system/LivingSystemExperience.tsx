@@ -1,0 +1,160 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SoundProvider, useSound } from "./SoundManager";
+import EntryGate from "./EntryGate";
+import IncidentOverlay from "./IncidentOverlay";
+import { useIncidentTimeline } from "@/lib/living-system/use-incident-timeline";
+// Plain static import, not next/dynamic — a next/dynamic + {ssr:false}
+// boundary around an @react-three/fiber tree previously produced a real
+// Next-15/React-19 module-resolution crash in this project (react-reconciler
+// resolved the wrong React instance across the async chunk). Gating render
+// on the `entered` client-side state below achieves the same "never touches
+// the server, never mounts before ready" outcome without that risk.
+import LivingSystemCanvas from "./LivingSystemCanvas";
+import { detectExperienceMode, type ExperienceMode } from "@/lib/living-system/device-mode";
+import "./living-system.css";
+
+gsap.registerPlugin(ScrollTrigger);
+
+function FallbackContent() {
+  return (
+    <div className="living-fallback">
+      <h1>The Living System</h1>
+      <p>
+        A system runs quietly for months. Then, without warning, a request
+        fails: <strong>500 Internal Server Error</strong>. The cause isn&apos;t
+        obvious, and the easy fixes — restart, scale, roll back — only clear
+        the symptom. What actually resolves it is refusing to move on until
+        the root cause is understood, not just the alarm silenced.
+      </p>
+      <p>
+        That instinct — investigate before you patch — is the same one behind
+        a real production result: caching and async offloading that cut API
+        latency by more than 60% once the actual bottleneck was found, not
+        guessed at.
+      </p>
+    </div>
+  );
+}
+
+function LivingSystemInner({ mode }: { mode: ExperienceMode }) {
+  const [entered, setEntered] = useState(false);
+
+  const masterProgressRef = useRef(0);
+  const awakeningProgressRef = useRef(0);
+  const journeyWrapperRef = useRef<HTMLDivElement>(null);
+  const awakeningSpacerRef = useRef<HTMLDivElement>(null);
+  const sound = useSound();
+  const { enabled: soundEnabled, startAmbient, stopAmbient } = sound;
+
+  const { phase, chosenId, strainRef, choose } = useIncidentTimeline({
+    entered,
+    awakeningProgressRef,
+    sound,
+  });
+
+  // Once the incident takes the story over from scroll, the camera stops
+  // advancing along the curve entirely — this is a hard hold, not a slowdown.
+  const frozen = phase !== "dormant" && phase !== "straining";
+
+  useEffect(() => {
+    if (!entered || !journeyWrapperRef.current || !awakeningSpacerRef.current) return;
+
+    const masterTrigger = ScrollTrigger.create({
+      trigger: journeyWrapperRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        masterProgressRef.current = self.progress;
+      },
+    });
+
+    // "bottom top" (spanning the spacer's full height) was correct back
+    // when a second chapter followed it, giving room to scroll that far.
+    // Now this spacer is the only content on the page, so the natively
+    // scrollable distance is capped at (height - viewport) — "bottom top"
+    // would ask for more scroll than the page can ever produce, and this
+    // progress value would top out short of 1 forever, never reaching the
+    // incident trigger. "bottom bottom" matches what's actually scrollable.
+    const awakeningTrigger = ScrollTrigger.create({
+      trigger: awakeningSpacerRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        awakeningProgressRef.current = self.progress;
+      },
+    });
+
+    return () => {
+      masterTrigger.kill();
+      awakeningTrigger.kill();
+    };
+  }, [entered]);
+
+  useEffect(() => {
+    if (entered && soundEnabled && phase === "dormant") {
+      startAmbient();
+    }
+    return () => stopAmbient();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entered, soundEnabled]);
+
+  return (
+    <div className="living-experience">
+      {!entered && <EntryGate mode={mode} onEnter={() => setEntered(true)} />}
+
+      {entered && (
+        <>
+          <div className="living-canvas-fixed">
+            <LivingSystemCanvas
+              mode={mode}
+              masterProgressRef={masterProgressRef}
+              awakeningProgressRef={awakeningProgressRef}
+              strainRef={strainRef}
+              frozen={frozen}
+            />
+          </div>
+
+          <IncidentOverlay phase={phase} chosenId={chosenId} onChoose={choose} />
+
+          <div className="living-scroll-content" ref={journeyWrapperRef}>
+            <div ref={awakeningSpacerRef} className="living-chapter" />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function LivingSystemExperience() {
+  const [mode, setMode] = useState<ExperienceMode | null>(null);
+
+  useEffect(() => {
+    detectExperienceMode().then(setMode);
+  }, []);
+
+  if (mode === null) return null;
+
+  // Lite tier (coarse pointer / small viewport) and reduced-motion both get
+  // the same accessible, content-complete fallback — a real CSS/canvas-2D
+  // "lite" chapter presentation is scoped for full chapter implementation,
+  // not this pass (see ARCHITECTURE.md).
+  if (mode === "lite" || mode === "reduced-motion") {
+    return (
+      <div className="living-experience">
+        <FallbackContent />
+      </div>
+    );
+  }
+
+  return (
+    <SoundProvider>
+      <LivingSystemInner mode={mode} />
+    </SoundProvider>
+  );
+}

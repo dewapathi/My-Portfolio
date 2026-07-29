@@ -2,12 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import SmoothScrollProvider from "@/components/motion/SmoothScrollProvider";
-import Preloader from "@/components/motion/Preloader";
-import MagneticCursor from "@/components/motion/MagneticCursor";
-import GrainOverlay from "@/components/motion/GrainOverlay";
+import SiteChrome from "@/components/SiteChrome";
 import { buildMetadata, personJsonLd, websiteJsonLd, SITE_URL } from "@/lib/seo";
 
 const inter = Inter({
@@ -94,17 +89,7 @@ export default function RootLayout({
             Framer's animations set styles directly via JS, so the CSS
             reduced-motion override above never touches them without this. */}
         <MotionConfig reducedMotion="user">
-          <a href="#main-content" className="skip-link">
-            Skip to content
-          </a>
-          <Preloader />
-          <GrainOverlay />
-          <MagneticCursor />
-          <SmoothScrollProvider>
-            <Header />
-            <main id="main-content">{children}</main>
-            <Footer />
-          </SmoothScrollProvider>
+          <SiteChrome>{children}</SiteChrome>
         </MotionConfig>
       </body>
     </html>
