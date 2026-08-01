@@ -58,7 +58,7 @@ function EnergySweep({
   return (
     <mesh ref={meshRef} position={[0, y, 0.02]}>
       <planeGeometry args={[width, 0.02]} />
-      <meshBasicMaterial ref={materialRef} color="#4CD8E0" transparent opacity={0} toneMapped={false} />
+      <meshBasicMaterial ref={materialRef} color="#42BFA6" transparent opacity={0} />
     </mesh>
   );
 }
@@ -159,7 +159,7 @@ export default function SpatialIdentity({ progressRef }: { progressRef: Progress
         x={-0.12}
         y={2.5}
         fontSize={1.05}
-        color="#F3F4F9"
+        color="#EEEDE7"
         letterSpacing={0.02}
       />
       <RevealWord
@@ -172,7 +172,7 @@ export default function SpatialIdentity({ progressRef }: { progressRef: Progress
         x={0.12}
         y={2.5}
         fontSize={1.05}
-        color="#F3F4F9"
+        color="#EEEDE7"
         letterSpacing={0.02}
       />
       <EnergySweep
@@ -184,13 +184,13 @@ export default function SpatialIdentity({ progressRef }: { progressRef: Progress
         width={6.4}
       />
 
-      <Text ref={roleRef} fontSize={0.3} color="#AEB4C2" anchorX="center" anchorY="middle" fillOpacity={0} position={[0, 1.7, 0]} letterSpacing={0.18}>
+      <Text ref={roleRef} fontSize={0.3} color="#9DA9A2" anchorX="center" anchorY="middle" fillOpacity={0} position={[0, 1.7, 0]} letterSpacing={0.18}>
         FULL STACK SOFTWARE ENGINEER
       </Text>
       <Text
         ref={taglineRef}
         fontSize={0.22}
-        color="#8890A3"
+        color="#9DA9A2"
         anchorX="center"
         anchorY="middle"
         fillOpacity={0}

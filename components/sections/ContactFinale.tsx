@@ -87,7 +87,7 @@ export default function ContactFinale() {
       <div
         className="absolute -bottom-32 left-1/2 -translate-x-1/2 h-[500px] w-[700px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse, rgba(91,79,255,0.25) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(31,143,118,0.25) 0%, transparent 70%)",
         }}
       />
 
@@ -170,7 +170,7 @@ export default function ContactFinale() {
               type="button"
               onClick={handleCopyEmail}
               data-cursor="Copy"
-              className="relative inline-flex items-center gap-2.5 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_32px_rgba(91,79,255,0.4)] hover:bg-[var(--accent-hover)] transition-colors"
+              className="relative inline-flex items-center gap-2.5 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_32px_rgba(31,143,118,0.4)] hover:bg-[var(--accent-hover)] transition-colors"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {copied ? (

@@ -1,6 +1,6 @@
 .living-experience {
-  background: #05070a;
-  color: #f3f4f9;
+  background: #050706;
+  color: #eeede7;
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
   gap: 1.75rem;
-  background: #05070a;
+  background: #050706;
   text-align: center;
   padding: 1.5rem;
 }
@@ -24,7 +24,7 @@
   font-size: 0.8rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #8890a3;
+  color: #9da9a2;
 }
 
 .living-entry__core {
@@ -43,13 +43,33 @@
   position: absolute;
   inset: 20px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(76, 216, 224, 0.55) 0%, transparent 72%);
+  background: radial-gradient(circle, rgba(255,180,92, 0.55) 0%, transparent 72%);
   transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+
+/* Energy motes — gathered toward the core by the hold, not orbiting for
+   decoration. Positioned via inline transform driven by hold progress. */
+.living-entry__mote {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 9999px;
+  background: #ffb45c;
+  box-shadow: 0 0 6px 1px rgba(255,180,92, 0.8);
+  pointer-events: none;
+  transition: opacity 0.1s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-entry__mote { display: none; }
 }
 
 .living-entry__label {
   font-size: 0.85rem;
-  color: #aeb4c2;
+  color: #9da9a2;
   letter-spacing: 0.02em;
 }
 
@@ -65,7 +85,7 @@
 .living-entry__control-btn {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #aeb4c2;
+  color: #9da9a2;
   background: transparent;
   border: 1px solid rgba(174, 180, 194, 0.25);
   border-radius: 999px;
@@ -75,8 +95,8 @@
 
 .living-entry__control-btn:hover,
 .living-entry__control-btn:focus-visible {
-  border-color: #4cd8e0;
-  color: #f3f4f9;
+  border-color: #42bfa6;
+  color: #eeede7;
 }
 
 .living-entry__skip {
@@ -89,16 +109,25 @@
 .living-entry__enter-button {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #05070a;
-  background: #4cd8e0;
+  color: #050706;
+  background: #42bfa6;
   border-radius: 999px;
   padding: 0.85rem 1.75rem;
 }
 
 /* ── Canvas + scroll scaffold ────────────────────────────────────── */
-.living-canvas-fixed {
-  position: fixed;
-  inset: 0;
+/* Scoped to its own chapter via position:sticky rather than a viewport-wide
+   position:fixed — a fixed canvas would keep rendering behind every section
+   for the rest of the page once the visitor scrolls past this chapter.
+   Sticky pins it for exactly the height of `.living-chapter` (its
+   position:relative parent) and then releases naturally into normal
+   document flow, handing off to whatever content follows on the page. */
+.living-canvas-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
   z-index: 1;
 }
 
@@ -138,7 +167,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #4cd8e0;
+  color: #42bfa6;
   margin-bottom: 0.5rem;
 }
 
@@ -150,7 +179,7 @@
 
 .request-panel__hint {
   font-size: 0.82rem;
-  color: #aeb4c2;
+  color: #9da9a2;
   line-height: 1.5;
   margin-bottom: 1.1rem;
 }
@@ -159,8 +188,8 @@
   width: 100%;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #05070a;
-  background: #4cd8e0;
+  color: #050706;
+  background: #42bfa6;
   border-radius: 12px;
   padding: 0.75rem 1rem;
   margin-bottom: 1.25rem;
@@ -230,12 +259,12 @@
 .root-node-label__title {
   font-size: 11px;
   font-weight: 600;
-  color: #f3f4f9;
+  color: #eeede7;
 }
 
 .root-node-label__sub {
   font-size: 9.5px;
-  color: #aeb4c2;
+  color: #9da9a2;
 }
 
 /* ── Reduced-motion / skip fallback ──────────────────────────────── */
@@ -252,14 +281,17 @@
 }
 
 .living-fallback p {
-  color: #aeb4c2;
+  color: #9da9a2;
   line-height: 1.7;
   margin-bottom: 1.5rem;
 }
 
 /* ── Incident sequence ───────────────────────────────────────────── */
 .living-incident {
-  position: fixed;
+  /* Absolute within .living-canvas-sticky (a positioned ancestor), not fixed
+     to the viewport — it needs to scroll away with the canvas once the
+     chapter releases, not linger over whatever content follows. */
+  position: absolute;
   inset: 0;
   z-index: 40;
   display: flex;
@@ -286,7 +318,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #aeb4c2;
+  color: #9da9a2;
   animation: living-incident-line-in 0.6s ease-out both;
 }
 
@@ -308,7 +340,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
-  color: #aeb4c2;
+  color: #9da9a2;
   transition: color 0.2s, transform 0.2s;
 }
 
@@ -322,7 +354,7 @@
 
 .living-incident__choices--active .living-incident__choice:hover,
 .living-incident__choices--active .living-incident__choice:focus-visible {
-  color: #4cd8e0;
+  color: #42bfa6;
   transform: translateY(-2px);
 }
 
@@ -365,7 +397,7 @@
   font-family: var(--font-display), sans-serif;
   font-size: clamp(3.5rem, 12vw, 7rem);
   line-height: 1;
-  color: #f3f4f9;
+  color: #eeede7;
 }
 
 .living-incident__error-label {
@@ -391,7 +423,7 @@
   font-family: var(--font-mono), monospace;
   font-size: 0.9rem;
   letter-spacing: 0.1em;
-  color: #f3f4f9;
+  color: #eeede7;
   animation: living-incident-line-in 1s ease-out both;
 }
 
@@ -402,7 +434,7 @@
 .living-incident__stat-value {
   font-family: var(--font-display), sans-serif;
   font-size: clamp(2rem, 6vw, 3.25rem);
-  color: #4cd8e0;
+  color: #42bfa6;
 }
 
 @keyframes living-incident-line-in {

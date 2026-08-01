@@ -60,6 +60,23 @@ function LivingSystemInner({ mode }: { mode: ExperienceMode }) {
   // advancing along the curve entirely — this is a hard hold, not a slowdown.
   const frozen = phase !== "dormant" && phase !== "straining";
 
+  // The canvas is scoped to this chapter via position:sticky (see
+  // living-system.css) rather than pinned to the whole viewport, so it can
+  // hand off to normal page content afterward. That means a visitor who
+  // keeps scrolling during the incident's ~17s real-time sequence could
+  // exhaust the chapter's remaining scroll room and release the sticky
+  // mid-sequence, scrolling the overlay text out of view. Locking scroll
+  // for exactly the frozen span closes that gap without affecting scroll
+  // anywhere else on the page.
+  useEffect(() => {
+    if (!frozen) return;
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.documentElement.style.overflow = prev;
+    };
+  }, [frozen]);
+
   useEffect(() => {
     if (!entered || !journeyWrapperRef.current || !awakeningSpacerRef.current) return;
 
@@ -109,23 +126,20 @@ function LivingSystemInner({ mode }: { mode: ExperienceMode }) {
       {!entered && <EntryGate mode={mode} onEnter={() => setEntered(true)} />}
 
       {entered && (
-        <>
-          <div className="living-canvas-fixed">
-            <LivingSystemCanvas
-              mode={mode}
-              masterProgressRef={masterProgressRef}
-              awakeningProgressRef={awakeningProgressRef}
-              strainRef={strainRef}
-              frozen={frozen}
-            />
+        <div className="living-scroll-content" ref={journeyWrapperRef}>
+          <div ref={awakeningSpacerRef} className="living-chapter">
+            <div className="living-canvas-sticky">
+              <LivingSystemCanvas
+                mode={mode}
+                masterProgressRef={masterProgressRef}
+                awakeningProgressRef={awakeningProgressRef}
+                strainRef={strainRef}
+                frozen={frozen}
+              />
+              <IncidentOverlay phase={phase} chosenId={chosenId} onChoose={choose} />
+            </div>
           </div>
-
-          <IncidentOverlay phase={phase} chosenId={chosenId} onChoose={choose} />
-
-          <div className="living-scroll-content" ref={journeyWrapperRef}>
-            <div ref={awakeningSpacerRef} className="living-chapter" />
-          </div>
-        </>
+        </div>
       )}
     </div>
   );

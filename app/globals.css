@@ -17,12 +17,12 @@
   --surface-2:     #ECEEF6;
   --deep:          #0B0D16;
   --deep-2:        #363B52;
-  --accent:        #4B2FFF;
-  --accent-hover:  #3820D9;
-  --accent-light:  #EDE9FF;
-  --accent-mid:    #C9B8FF;
-  --accent-cyan:   #00A99A;
-  --accent-violet: #8B2FE0;
+  --accent:        #0F7A63;
+  --accent-hover:  #0B5C4B;
+  --accent-light:  #E3F5EF;
+  --accent-mid:    #A8DDD0;
+  --accent-cyan:   #0F8F7A;
+  --accent-violet: #1FA97F;
   --accent-warm:   #E8642E;
   --muted:         #5B6178;
   --muted-2:       #7B8098;
@@ -49,21 +49,21 @@
      the original soft periwinkle/cyan/violet/cream quartet: one dominant
      vivid signature accent instead of several similarly-saturated pastels
      competing for attention. */
-  --ground:        #05060B;
-  --surface:       #0B0D16;
-  --surface-2:     #12141F;
-  --deep:          #F3F4F9;
-  --deep-2:        #C3C7D9;
-  --accent:        #5B4FFF;
-  --accent-hover:  #7A6FFF;
-  --accent-light:  #161233;
-  --accent-mid:    #3B2F8C;
-  --accent-cyan:   #14E8CB;
-  --accent-violet: #C650FF;
-  --accent-warm:   #FF7A45;
-  --muted:         #868CA3;
-  --muted-2:       #5B617A;
-  --divider:       #1B1E2E;
+  --ground:        #050706;
+  --surface:       #0B100E;
+  --surface-2:     #101A16;
+  --deep:          #EEEDE7;
+  --deep-2:        #C7CDC9;
+  --accent:        #1F8F76;
+  --accent-hover:  #2FA88F;
+  --accent-light:  #0F231D;
+  --accent-mid:    #1F4A3D;
+  --accent-cyan:   #42BFA6;
+  --accent-violet: #39E6A3;
+  --accent-warm:   #FFB45C;
+  --muted:         #9DA9A2;
+  --muted-2:       #6B756F;
+  --divider:       #1B241F;
   --available:     #34D399;
   --avail-bg:      #0C2A22;
   --avail-border:  #12503F;
@@ -271,9 +271,9 @@ html.has-custom-cursor * {
 ───────────────────────────────────────────── */
 .cosmic-fallback {
   background:
-    radial-gradient(circle at 18% 24%, rgba(91, 79, 255, 0.28) 0%, transparent 55%),
+    radial-gradient(circle at 18% 24%, rgba(31,143,118, 0.28) 0%, transparent 55%),
     radial-gradient(circle at 78% 30%, rgba(20, 232, 203, 0.18) 0%, transparent 50%),
-    radial-gradient(circle at 62% 74%, rgba(198, 80, 255, 0.2) 0%, transparent 55%),
+    radial-gradient(circle at 62% 74%, rgba(57,230,163, 0.2) 0%, transparent 55%),
     radial-gradient(circle at 28% 78%, rgba(255, 122, 69, 0.14) 0%, transparent 50%),
     radial-gradient(circle, rgba(174, 180, 194, 0.5) 1px, transparent 1.5px);
   background-size: auto, auto, auto, auto, 34px 34px;
@@ -295,9 +295,9 @@ html.has-custom-cursor * {
   inset: -12%;
   pointer-events: none;
   background:
-    radial-gradient(circle at 20% 28%, rgba(91, 79, 255, 0.32) 0%, transparent 45%),
+    radial-gradient(circle at 20% 28%, rgba(31,143,118, 0.32) 0%, transparent 45%),
     radial-gradient(circle at 82% 18%, rgba(20, 232, 203, 0.24) 0%, transparent 42%),
-    radial-gradient(circle at 72% 82%, rgba(198, 80, 255, 0.26) 0%, transparent 45%),
+    radial-gradient(circle at 72% 82%, rgba(57,230,163, 0.26) 0%, transparent 45%),
     radial-gradient(circle at 22% 78%, rgba(255, 122, 69, 0.18) 0%, transparent 42%);
   filter: blur(70px);
   opacity: 0.8;

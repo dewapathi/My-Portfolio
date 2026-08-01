@@ -61,12 +61,16 @@ export default function AwakeningChapter({
         shadow-camera-near={1}
         shadow-camera-far={34}
       />
-      <pointLight ref={point1Ref} position={[0, 8, -10]} intensity={0.7} color="#4CD8E0" />
-      <pointLight ref={point2Ref} position={[-6, 3, -30]} intensity={0.5} color="#9B7CFF" />
-      <hemisphereLight ref={hemiRef} args={["#1B3A2A", "#05070A", 0.25]} />
+      <pointLight ref={point1Ref} position={[0, 8, -10]} intensity={0.7} color="#42BFA6" />
+      <pointLight ref={point2Ref} position={[-6, 3, -30]} intensity={0.5} color="#39E6A3" />
+      <hemisphereLight ref={hemiRef} args={["#183229", "#101A16", 0.25]} />
+      {/* Ground was the same hex as the void/fog color — it could never read
+          as a surface, only as more darkness. A distinct, slightly lighter
+          tone plus a touch less roughness gives it just enough specular
+          response to lights to look like a material, not an absence. */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, -60]} receiveShadow>
         <planeGeometry args={[400, 500]} />
-        <meshStandardMaterial color="#05070A" roughness={1} />
+        <meshStandardMaterial color="#101A16" roughness={0.88} />
       </mesh>
       <Forest progressRef={progressRef} treeCount={treeCount} strainRef={strainRef} />
       <FireflyField count={fireflyCount} strainRef={strainRef} />

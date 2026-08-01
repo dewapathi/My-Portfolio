@@ -72,7 +72,7 @@ const config: Config = {
       boxShadow: {
         card: "0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)",
         "card-hover": "0 4px 24px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.04)",
-        "accent-glow": "0 8px 32px rgba(91, 79, 255, 0.32)",
+        "accent-glow": "0 8px 32px rgba(31,143,118, 0.32)",
       },
     },
   },

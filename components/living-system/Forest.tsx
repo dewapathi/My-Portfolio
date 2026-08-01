@@ -66,7 +66,15 @@ function useForest(count: number): TreeSpec[] {
 }
 
 const BLOBS_PER_TREE = 3;
-const CANOPY_HUES = ["#4CD8E0", "#9B7CFF", "#5FE0A8"];
+// Emerald primary / muted teal secondary — no purple/violet, per the
+// "restrained cinematic palette" discipline. Amber is reserved for the
+// Living Core and other genuinely important moments, not spread across the
+// whole canopy.
+const CANOPY_HUES = ["#39E6A3", "#42BFA6", "#2FBF8A"];
+// Collar bands up each trunk, in the same low-to-high order they light: a
+// tree that also reads as an infrastructure column, not just a plant.
+const BAND_HEIGHT_FRACTIONS = [0.26, 0.52, 0.78];
+const BAND_BASE_RADIUS = 0.13;
 
 /** Each "tree" is a small irregular cluster of blobs, not one perfect
  *  icosahedron — the single-primitive-per-tree look was the first thing
@@ -80,26 +88,33 @@ function TreeCluster({
 }) {
   const trunkRef = useRef<THREE.InstancedMesh>(null);
   const canopyRef = useRef<THREE.InstancedMesh>(null);
+  const bandRef = useRef<THREE.InstancedMesh>(null);
   const canopyMaterialRef = useRef<THREE.MeshStandardMaterial>(null);
+  const bandMaterialRef = useRef<THREE.MeshStandardMaterial>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const color = useMemo(() => new THREE.Color(), []);
   const canopyCount = trees.length * BLOBS_PER_TREE;
+  const bandCount = trees.length * BAND_HEIGHT_FRACTIONS.length;
   const canopyGeometry = useMemo(() => createFoliageGeometry(0.7, 2, 0.4), []);
 
   // The forest dims under strain rather than only the lights around it — a
   // canopy that keeps glowing at full brightness while everything else goes
   // dark reads as a rendering bug, not a system under load.
   useFrame(() => {
+    const strain = strainRef?.current ?? 0;
     if (canopyMaterialRef.current) {
-      const strain = strainRef?.current ?? 0;
-      canopyMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(0.32, 0.05, strain);
+      canopyMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(0.16, 0.03, strain);
+    }
+    if (bandMaterialRef.current) {
+      bandMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(0.55, 0.1, strain);
     }
   });
 
   useEffect(() => {
     const trunk = trunkRef.current;
     const canopy = canopyRef.current;
-    if (!trunk || !canopy) return;
+    const bands = bandRef.current;
+    if (!trunk || !canopy || !bands) return;
 
     trees.forEach((t, ti) => {
       const tilt = (pseudo(ti * 3.7) - 0.5) * 0.12;
@@ -108,6 +123,19 @@ function TreeCluster({
       dummy.scale.set(1, t.height, 1);
       dummy.updateMatrix();
       trunk.setMatrixAt(ti, dummy.matrix);
+
+      // Structural collar bands up the trunk — fusing the organic tree with
+      // the server-tower reading the brief asked for: a trunk that's also
+      // an infrastructure column, not just a plant.
+      BAND_HEIGHT_FRACTIONS.forEach((frac, bi) => {
+        const trunkRadiusHere = THREE.MathUtils.lerp(0.14, 0.06, frac) + 0.03;
+        const scale = trunkRadiusHere / BAND_BASE_RADIUS;
+        dummy.position.set(t.x, t.height * frac, t.z);
+        dummy.rotation.set(Math.PI / 2, 0, tilt);
+        dummy.scale.set(scale, scale, scale);
+        dummy.updateMatrix();
+        bands.setMatrixAt(ti * BAND_HEIGHT_FRACTIONS.length + bi, dummy.matrix);
+      });
 
       for (let b = 0; b < BLOBS_PER_TREE; b++) {
         const idx = ti * BLOBS_PER_TREE + b;
@@ -133,6 +161,7 @@ function TreeCluster({
     });
     trunk.instanceMatrix.needsUpdate = true;
     canopy.instanceMatrix.needsUpdate = true;
+    bands.instanceMatrix.needsUpdate = true;
     if (canopy.instanceColor) canopy.instanceColor.needsUpdate = true;
   }, [trees, dummy, color]);
 
@@ -150,8 +179,28 @@ function TreeCluster({
           which I'd been tuning blind to this. */}
       <instancedMesh ref={trunkRef} args={[undefined, undefined, trees.length]} receiveShadow frustumCulled={false}>
         <cylinderGeometry args={[0.06, 0.14, 1, 6]} />
-        <meshStandardMaterial color="#0E1E16" roughness={0.9} />
+        <meshStandardMaterial color="#101A16" roughness={0.9} />
       </instancedMesh>
+      {/* Muted teal, not emerald — differentiates "structural/circuit" from
+          "organic/foliage" bioluminescence, and tone-mapped now (was
+          bypassing the grading curve entirely, which combined with the old
+          chromatic-aberration pass is what produced the colored-outline
+          glitch look on every band). */}
+      <instancedMesh ref={bandRef} args={[undefined, undefined, bandCount]} frustumCulled={false}>
+        <torusGeometry args={[BAND_BASE_RADIUS, 0.012, 6, 12]} />
+        <meshStandardMaterial
+          ref={bandMaterialRef}
+          color="#101A16"
+          emissive="#42BFA6"
+          emissiveIntensity={0.55}
+          roughness={0.5}
+        />
+      </instancedMesh>
+      {/* Base color carries the read now (dark secondary-foliage green);
+          emissive is a controlled accent, not the dominant surface color —
+          this was rendering as flat bright cyan paint at emissiveIntensity
+          0.32 with an un-toneMapped material bypassing the whole grading
+          curve. */}
       <instancedMesh
         ref={canopyRef}
         args={[canopyGeometry, undefined, canopyCount]}
@@ -161,13 +210,12 @@ function TreeCluster({
       >
         <meshStandardMaterial
           ref={canopyMaterialRef}
-          color="#173225"
-          emissive="#4CD8E0"
-          emissiveIntensity={0.32}
-          roughness={0.88}
+          color="#183229"
+          emissive="#39E6A3"
+          emissiveIntensity={0.16}
+          roughness={0.82}
           metalness={0}
           flatShading
-          toneMapped={false}
         />
       </instancedMesh>
     </>
@@ -184,17 +232,28 @@ function LivingCore({
   progressRef: React.MutableRefObject<number>;
   strainRef?: React.MutableRefObject<number>;
 }) {
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
+  const shellRef = useRef<THREE.MeshStandardMaterial>(null);
+  const innerRef = useRef<THREE.MeshStandardMaterial>(null);
+  const poolRef = useRef<THREE.MeshBasicMaterial>(null);
   const lightRef = useRef<THREE.PointLight>(null);
 
   useFrame((state) => {
     const pulse = 0.85 + Math.sin(state.clock.elapsedTime * 0.55) * 0.15;
     const approach = THREE.MathUtils.clamp(progressRef.current / 0.5, 0, 1);
     const strainDim = 1 - (strainRef?.current ?? 0) * 0.85;
-    const target = (1.1 + approach * 1.6) * pulse * strainDim;
-    if (materialRef.current) {
-      materialRef.current.emissiveIntensity +=
-        (target - materialRef.current.emissiveIntensity) * 0.06;
+    const target = (1.2 + approach * 2.2) * pulse * strainDim;
+    if (innerRef.current) {
+      innerRef.current.emissiveIntensity += (target - innerRef.current.emissiveIntensity) * 0.06;
+    }
+    if (shellRef.current) {
+      // The shell itself only glows a little — most of what reads as "light"
+      // is the inner core bleeding through it, not the shell's own surface.
+      const shellTarget = 0.15 + target * 0.12;
+      shellRef.current.emissiveIntensity += (shellTarget - shellRef.current.emissiveIntensity) * 0.06;
+    }
+    if (poolRef.current) {
+      const poolTarget = (0.2 + approach * 0.45) * strainDim;
+      poolRef.current.opacity += (poolTarget - poolRef.current.opacity) * 0.06;
     }
     if (lightRef.current) {
       const lightTarget = (2 + approach * 5) * strainDim;
@@ -203,22 +262,47 @@ function LivingCore({
   });
 
   return (
+    // Amber, deliberately — the rest of the environment is emerald/teal;
+    // this is the one thing in the whole scene that gets the "important
+    // moment" color, so it reads as significant the instant it's visible,
+    // not as one more bioluminescent object among many. A dormant black
+    // sphere with no visible detail read as broken, not mysterious — the
+    // obsidian outer shell is translucent specifically so the brighter
+    // inner core is visible glowing through it, giving the surface
+    // something to read even before it's fully awake.
     <group position={[0, 3.2, -58]}>
       <mesh>
-        <icosahedronGeometry args={[1.4, 3]} />
+        <icosahedronGeometry args={[1.15, 3]} />
         <meshStandardMaterial
-          ref={materialRef}
-          color="#4CD8E0"
-          emissive="#4CD8E0"
-          emissiveIntensity={1.1}
-          roughness={0.2}
-          metalness={0.3}
-          transparent
-          opacity={0.92}
-          toneMapped={false}
+          ref={innerRef}
+          color="#FFB45C"
+          emissive="#FFB45C"
+          emissiveIntensity={1.2}
+          roughness={0.3}
+          metalness={0.1}
         />
       </mesh>
-      <pointLight ref={lightRef} color="#4CD8E0" intensity={2} distance={26} />
+      <mesh>
+        <icosahedronGeometry args={[1.4, 2]} />
+        <meshStandardMaterial
+          ref={shellRef}
+          color="#0B100E"
+          emissive="#FFB45C"
+          emissiveIntensity={0.15}
+          roughness={0.32}
+          metalness={0.55}
+          transparent
+          opacity={0.62}
+        />
+      </mesh>
+      {/* A restrained pool of warm light on the ground beneath — grounds the
+          core in the environment instead of it floating as an isolated
+          object with no relationship to its surroundings. */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3.14, 0]}>
+        <circleGeometry args={[3.2, 24]} />
+        <meshBasicMaterial ref={poolRef} color="#FFB45C" transparent opacity={0.2} depthWrite={false} />
+      </mesh>
+      <pointLight ref={lightRef} color="#FFB45C" intensity={2} distance={26} />
     </group>
   );
 }
@@ -233,6 +317,7 @@ function RootVeins({
   strainRef?: React.MutableRefObject<number>;
 }) {
   const groupRef = useRef<THREE.Group>(null);
+  const rootLightRefs = useRef<(THREE.PointLight | null)[]>([]);
 
   const veinPaths = useMemo(() => {
     const paths: THREE.Vector3[][] = [];
@@ -255,6 +340,14 @@ function RootVeins({
     return paths;
   }, []);
 
+  // A handful of low-intensity emerald lights sitting at the midpoint of
+  // every other vein — depth cues along the path the eye is meant to
+  // follow, not a general-purpose glow-everything pass.
+  const rootLightPositions = useMemo(
+    () => [veinPaths[0][3], veinPaths[2][3], veinPaths[4][3]],
+    [veinPaths]
+  );
+
   useFrame(() => {
     if (!groupRef.current) return;
     const approach = THREE.MathUtils.clamp((progressRef.current - 0.15) / 0.4, 0, 1);
@@ -263,12 +356,27 @@ function RootVeins({
       const mat = (child as THREE.Line).material as THREE.LineBasicMaterial;
       if (mat) mat.opacity = (0.08 + approach * 0.5) * strainDim;
     });
+    rootLightRefs.current.forEach((light) => {
+      if (light) light.intensity = (0.15 + approach * 0.35) * strainDim;
+    });
   });
 
   return (
     <group ref={groupRef}>
       {veinPaths.map((pts, i) => (
-        <Line key={i} points={pts} color="#4CD8E0" lineWidth={1.5} transparent opacity={0.1} />
+        <Line key={i} points={pts} color="#42BFA6" lineWidth={1.5} transparent opacity={0.1} />
+      ))}
+      {rootLightPositions.map((pos, i) => (
+        <pointLight
+          key={i}
+          ref={(el) => {
+            rootLightRefs.current[i] = el;
+          }}
+          position={pos}
+          color="#39E6A3"
+          intensity={0.15}
+          distance={10}
+        />
       ))}
     </group>
   );
@@ -317,74 +425,19 @@ function ProximityMarker({ trees }: { trees: TreeSpec[] }) {
   return (
     <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.04, 0]}>
       <ringGeometry args={[0.55, 0.68, 32]} />
-      <meshBasicMaterial ref={materialRef} color="#4CD8E0" transparent opacity={0} toneMapped={false} />
+      <meshBasicMaterial ref={materialRef} color="#42BFA6" transparent opacity={0} />
     </mesh>
   );
 }
 
-const CONTACT_SHADOW_VERTEX = /* glsl */ `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const CONTACT_SHADOW_FRAGMENT = /* glsl */ `
-  varying vec2 vUv;
-  void main() {
-    float d = length(vUv - 0.5) * 2.0;
-    float alpha = smoothstep(1.0, 0.0, d) * 0.55;
-    gl_FragColor = vec4(0.0, 0.0, 0.0, alpha);
-  }
-`;
-
-/** Real-time shadow mapping only covers a tight frustum near the camera's
- *  start (kept small for GPU cost) — most of the forest sits well outside
- *  it and would otherwise float, ungrounded, on the black plane. A cheap
- *  per-tree soft dark disc guarantees every tree reads as planted in the
- *  ground regardless of whether the shadow camera happens to reach it. */
-function ContactShadows({ trees }: { trees: TreeSpec[] }) {
-  const meshRef = useRef<THREE.InstancedMesh>(null);
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-  const material = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        vertexShader: CONTACT_SHADOW_VERTEX,
-        fragmentShader: CONTACT_SHADOW_FRAGMENT,
-        transparent: true,
-        depthWrite: false,
-      }),
-    []
-  );
-
-  useEffect(() => {
-    const mesh = meshRef.current;
-    if (!mesh) return;
-    trees.forEach((t, i) => {
-      const scale = 1.1 + t.height * 0.16;
-      dummy.position.set(t.x, 0.02, t.z);
-      dummy.rotation.set(-Math.PI / 2, 0, 0);
-      dummy.scale.set(scale, scale, 1);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i, dummy.matrix);
-    });
-    mesh.instanceMatrix.needsUpdate = true;
-  }, [trees, dummy]);
-
-  useEffect(() => () => material.dispose(), [material]);
-
-  return (
-    <instancedMesh
-      ref={meshRef}
-      args={[undefined, material, trees.length]}
-      renderOrder={1}
-      frustumCulled={false}
-    >
-      <planeGeometry args={[1.6, 1.6]} />
-    </instancedMesh>
-  );
-}
+// A per-tree contact-shadow disc lived here — removed. Confirmed by
+// disabling it directly that it was the actual source of the "black dome"
+// bug: alpha-blended discs from nearby trees stack darker wherever they
+// overlap in screen space (three ~0.3-opacity layers compound to roughly
+// 0.7), and reducing per-instance opacity/scale only ever shrank the
+// effect, never fixed the stacking. Real-time shadow mapping near the
+// camera plus the trunk-to-ground color transition already grounds the
+// trees without it, verified visually.
 
 export default function Forest({
   progressRef,
@@ -399,7 +452,6 @@ export default function Forest({
 
   return (
     <>
-      <ContactShadows trees={trees} />
       <TreeCluster trees={trees} strainRef={strainRef} />
       <LivingCore progressRef={progressRef} strainRef={strainRef} />
       <RootVeins progressRef={progressRef} strainRef={strainRef} />

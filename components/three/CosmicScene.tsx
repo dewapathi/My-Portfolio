@@ -31,11 +31,11 @@ type OrbitNodeSpec = {
 // set — fewer competing pastel hues, each one pushed to feel deliberate.
 const NODES: OrbitNodeSpec[] = [
   { label: "Cloud Infrastructure", radius: 2.6, speed: 0.14, yOffset: 0.32, color: "#14E8CB" },
-  { label: "API Gateway", radius: 2.05, speed: -0.19, yOffset: -0.42, color: "#5B4FFF" },
+  { label: "API Gateway", radius: 2.05, speed: -0.19, yOffset: -0.42, color: "#1F8F76" },
   { label: "Database Layer", radius: 3.15, speed: 0.1, yOffset: 0.12, color: "#C3C7D9" },
   { label: "Mobile Clients", radius: 1.75, speed: -0.24, yOffset: 0.5, color: "#FF7A45" },
-  { label: "AI Pipeline", radius: 2.4, speed: 0.17, yOffset: -0.22, color: "#C650FF" },
-  { label: "Deployment", radius: 3.4, speed: -0.12, yOffset: -0.5, color: "#5B4FFF" },
+  { label: "AI Pipeline", radius: 2.4, speed: 0.17, yOffset: -0.22, color: "#39E6A3" },
+  { label: "Deployment", radius: 3.4, speed: -0.12, yOffset: -0.5, color: "#1F8F76" },
 ];
 
 function StarField({ count }: { count: number }) {
@@ -127,8 +127,8 @@ function Core({ scrollProgress }: { scrollProgress: React.MutableRefObject<numbe
       <icosahedronGeometry args={[0.85, 2]} />
       <meshStandardMaterial
         ref={materialRef}
-        color="#5B4FFF"
-        emissive="#5B4FFF"
+        color="#1F8F76"
+        emissive="#1F8F76"
         emissiveIntensity={2.2}
         roughness={0.25}
         metalness={0.5}
@@ -169,8 +169,8 @@ function Scene({
   return (
     <group ref={sceneGroupRef}>
       <ambientLight intensity={0.4} />
-      <pointLight position={[4, 4, 4]} intensity={1.3} color="#5B4FFF" />
-      <pointLight position={[-4, -3, -2]} intensity={0.7} color="#C650FF" />
+      <pointLight position={[4, 4, 4]} intensity={1.3} color="#1F8F76" />
+      <pointLight position={[-4, -3, -2]} intensity={0.7} color="#39E6A3" />
 
       <Core scrollProgress={scrollProgress} />
 

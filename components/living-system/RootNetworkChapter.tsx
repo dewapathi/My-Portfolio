@@ -11,7 +11,7 @@ export const REQUEST_STAGES = [
   { label: "API Gateway", sub: "Routing", color: "#4CD8E0" },
   { label: "Auth", sub: "JWT verified", color: "#D9A25C" },
   { label: "Domain Service", sub: "Business logic", color: "#4CD8E0" },
-  { label: "Cache", sub: "Redis hit", color: "#9B7CFF" },
+  { label: "Cache", sub: "Redis hit", color: "#34D399" },
   { label: "Database", sub: "PostgreSQL", color: "#4CD8E0" },
   { label: "Async Queue", sub: "Celery task queued", color: "#D9A25C" },
   { label: "Response", sub: "200 OK · 42ms", color: "#34D399" },
@@ -143,7 +143,7 @@ export default function RootNetworkChapter({
   return (
     <group>
       <ambientLight intensity={0.3} />
-      <pointLight position={[0, -4, zOffset - 6]} intensity={0.7} color="#9B7CFF" />
+      <pointLight position={[0, -4, zOffset - 6]} intensity={0.7} color="#34D399" />
       <Line points={linePoints} color="#1B2A22" lineWidth={2} transparent opacity={0.5} />
       {REQUEST_STAGES.map((stage, i) => (
         <RootNode

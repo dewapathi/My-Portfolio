@@ -24,8 +24,8 @@ function StrainFog({ strainRef }: { strainRef: React.MutableRefObject<number> })
     const fog = scene.fog as THREE.Fog | null;
     if (!fog) return;
     const s = strainRef.current;
-    fog.near = THREE.MathUtils.lerp(6, 2.5, s);
-    fog.far = THREE.MathUtils.lerp(42, 15, s);
+    fog.near = THREE.MathUtils.lerp(8, 3, s);
+    fog.far = THREE.MathUtils.lerp(46, 16, s);
   });
   return null;
 }
@@ -55,7 +55,7 @@ function Scene({
           this inside a <group> sets `group.fog`, which Three's renderer never
           reads (only `scene.fog` is consulted), so the fog would silently do
           nothing. */}
-      <fog attach="fog" args={["#05070A", 6, 42]} />
+      <fog attach="fog" args={["#050706", 8, 46]} />
       <StrainFog strainRef={strainRef} />
       <CameraRig
         curve={curve}
@@ -99,8 +99,18 @@ export default function LivingSystemCanvas({
       shadows={mode === "cinematic"}
       camera={{ position: [0, 1.6, 6], fov: 50 }}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+      // Explicit rather than relying on R3F's default — ACES Filmic is the
+      // right curve for a moody, mostly-dark scene (it holds shadow detail
+      // instead of crushing it to pure black the way a flatter curve would),
+      // but its default exposure (1) was too dark against light sources this
+      // dim. 1.15 lifts midtones enough that dark surfaces stay readable
+      // without blowing out the emissive highlights.
+      onCreated={({ gl }) => {
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.15;
+      }}
     >
-      <color attach="background" args={["#05070A"]} />
+      <color attach="background" args={["#050706"]} />
       <Suspense fallback={null}>
         <Scene
           mode={mode}

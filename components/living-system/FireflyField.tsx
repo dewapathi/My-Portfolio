@@ -91,7 +91,7 @@ export default function FireflyField({
         uniforms={{
           uTime: { value: 0 },
           uStrain: { value: 0 },
-          uColor: { value: new THREE.Color("#D9A25C") },
+          uColor: { value: new THREE.Color("#FFB45C") },
         }}
         vertexShader={VERTEX}
         fragmentShader={FRAGMENT}

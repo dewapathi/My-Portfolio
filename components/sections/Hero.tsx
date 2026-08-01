@@ -102,7 +102,7 @@ export default function Hero() {
             <Link
               href="#work"
               data-cursor="Explore"
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] text-white px-6 py-3.5 text-sm font-semibold shadow-[0_8px_32px_rgba(91,79,255,0.35)] hover:bg-[var(--accent-hover)] transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] text-white px-6 py-3.5 text-sm font-semibold shadow-[0_8px_32px_rgba(31,143,118,0.35)] hover:bg-[var(--accent-hover)] transition-colors"
             >
               Explore selected work <ArrowUpRight className="h-4 w-4" />
             </Link>
