@@ -27,13 +27,15 @@ type OrbitNodeSpec = {
   color: string;
 };
 
+// Bolder, more electric than the original soft periwinkle/cyan/violet/cream
+// set — fewer competing pastel hues, each one pushed to feel deliberate.
 const NODES: OrbitNodeSpec[] = [
-  { label: "Cloud Infrastructure", radius: 2.6, speed: 0.14, yOffset: 0.32, color: "#4CD8E0" },
-  { label: "API Gateway", radius: 2.05, speed: -0.19, yOffset: -0.42, color: "#6C8CFF" },
-  { label: "Database Layer", radius: 3.15, speed: 0.1, yOffset: 0.12, color: "#AEB4C2" },
-  { label: "Mobile Clients", radius: 1.75, speed: -0.24, yOffset: 0.5, color: "#F2C9A0" },
-  { label: "AI Pipeline", radius: 2.4, speed: 0.17, yOffset: -0.22, color: "#9B7CFF" },
-  { label: "Deployment", radius: 3.4, speed: -0.12, yOffset: -0.5, color: "#6C8CFF" },
+  { label: "Cloud Infrastructure", radius: 2.6, speed: 0.14, yOffset: 0.32, color: "#14E8CB" },
+  { label: "API Gateway", radius: 2.05, speed: -0.19, yOffset: -0.42, color: "#5B4FFF" },
+  { label: "Database Layer", radius: 3.15, speed: 0.1, yOffset: 0.12, color: "#C3C7D9" },
+  { label: "Mobile Clients", radius: 1.75, speed: -0.24, yOffset: 0.5, color: "#FF7A45" },
+  { label: "AI Pipeline", radius: 2.4, speed: 0.17, yOffset: -0.22, color: "#C650FF" },
+  { label: "Deployment", radius: 3.4, speed: -0.12, yOffset: -0.5, color: "#5B4FFF" },
 ];
 
 function StarField({ count }: { count: number }) {
@@ -125,8 +127,8 @@ function Core({ scrollProgress }: { scrollProgress: React.MutableRefObject<numbe
       <icosahedronGeometry args={[0.85, 2]} />
       <meshStandardMaterial
         ref={materialRef}
-        color="#6C8CFF"
-        emissive="#6C8CFF"
+        color="#5B4FFF"
+        emissive="#5B4FFF"
         emissiveIntensity={2.2}
         roughness={0.25}
         metalness={0.5}
@@ -167,8 +169,8 @@ function Scene({
   return (
     <group ref={sceneGroupRef}>
       <ambientLight intensity={0.4} />
-      <pointLight position={[4, 4, 4]} intensity={1.2} color="#6C8CFF" />
-      <pointLight position={[-4, -3, -2]} intensity={0.6} color="#9B7CFF" />
+      <pointLight position={[4, 4, 4]} intensity={1.3} color="#5B4FFF" />
+      <pointLight position={[-4, -3, -2]} intensity={0.7} color="#C650FF" />
 
       <Core scrollProgress={scrollProgress} />
 

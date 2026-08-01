@@ -10,9 +10,9 @@ export default function CosmicBloom() {
   return (
     <EffectComposer multisampling={0}>
       <Bloom
-        intensity={0.55}
-        luminanceThreshold={0.2}
-        luminanceSmoothing={0.4}
+        intensity={0.85}
+        luminanceThreshold={0.12}
+        luminanceSmoothing={0.35}
         mipmapBlur
       />
     </EffectComposer>

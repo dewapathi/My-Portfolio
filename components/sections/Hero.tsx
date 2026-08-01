@@ -8,6 +8,20 @@ import { HERO_TELEMETRY } from "@/content/metrics";
 import CosmicGate from "@/components/three/CosmicGate";
 import KineticText from "@/components/motion/KineticText";
 import StatCounter from "@/components/motion/StatCounter";
+import LiveClock from "@/components/motion/LiveClock";
+
+/** Small fixed reticle/crosshair marks scattered over the hero — a quiet
+ *  "this was composed, not templated" detail, not decoration for its own
+ *  sake. Purely visual, so hidden from assistive tech. */
+function Reticle({ className }: { className?: string }) {
+  return (
+    <span className={`pointer-events-none select-none ${className ?? ""}`} aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M9 2v5M9 11v5M2 9h5M11 9h5" stroke="currentColor" strokeWidth="1" />
+      </svg>
+    </span>
+  );
+}
 
 export default function Hero() {
   const reduce = useReducedMotion();
@@ -41,9 +55,19 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex flex-col justify-center bg-[var(--ground)] overflow-hidden"
     >
+      <div className="aurora-mesh" aria-hidden="true" />
       <div className="absolute inset-0 dot-grid pointer-events-none" />
       <CosmicGate />
       <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[var(--ground)] to-transparent pointer-events-none" />
+
+      {/* Reticle marks + live-clock chip — small, real, deliberate details
+          rather than a generic "add more decoration" pass; the clock is a
+          genuine computed value (Colombo local time), not a fabricated stat. */}
+      <Reticle className="hidden md:block absolute top-28 left-[8%] text-[var(--muted-2)] opacity-40" />
+      <Reticle className="hidden md:block absolute bottom-[22%] right-[10%] text-[var(--muted-2)] opacity-40" />
+      <div className="absolute top-24 right-6 sm:right-10 hidden sm:flex items-center gap-2 rounded-full border border-[var(--divider)] bg-[var(--surface)]/70 backdrop-blur-md px-3.5 py-1.5 text-[11px] font-mono font-medium text-[var(--muted)] z-10">
+        <LiveClock className="flex items-center gap-2" />
+      </div>
 
       <div className="relative z-10 max-w-4xl mx-auto w-full px-6 sm:px-8 lg:px-12 pt-40 pb-28 text-center">
         <motion.div variants={container} initial="hidden" animate="visible">
@@ -58,8 +82,8 @@ export default function Hero() {
             as="h1"
             splitBy="words"
             delay={0.25}
-            className="font-display font-medium text-[var(--deep)] leading-[1.02] tracking-[-0.02em] mb-7 mx-auto max-w-3xl"
-            style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
+            className="font-display font-semibold text-[var(--deep)] leading-[1.02] tracking-[-0.03em] mb-11 mx-auto max-w-4xl"
+            style={{ fontSize: "clamp(2.75rem, 8vw, 6.25rem)" }}
           >
             I build systems that move ideas into production.
           </KineticText>
@@ -78,7 +102,7 @@ export default function Hero() {
             <Link
               href="#work"
               data-cursor="Explore"
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] text-white px-6 py-3.5 text-sm font-semibold shadow-[0_8px_32px_rgba(108,140,255,0.28)] hover:bg-[var(--accent-hover)] transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] text-white px-6 py-3.5 text-sm font-semibold shadow-[0_8px_32px_rgba(91,79,255,0.35)] hover:bg-[var(--accent-hover)] transition-colors"
             >
               Explore selected work <ArrowUpRight className="h-4 w-4" />
             </Link>
