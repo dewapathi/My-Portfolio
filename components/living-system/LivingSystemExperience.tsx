@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SoundProvider, useSound } from "./SoundManager";
+import { useLenis } from "@/components/motion/SmoothScrollProvider";
 import EntryGate from "./EntryGate";
 import IncidentOverlay from "./IncidentOverlay";
 import { useIncidentTimeline } from "@/lib/living-system/use-incident-timeline";
@@ -56,9 +57,14 @@ function LivingSystemInner({ mode }: { mode: ExperienceMode }) {
     sound,
   });
 
-  // Once the incident takes the story over from scroll, the camera stops
-  // advancing along the curve entirely — this is a hard hold, not a slowdown.
-  const frozen = phase !== "dormant" && phase !== "straining";
+  // The camera holds once a choice is actually clicked — not merely once
+  // the choice prompt reaches full strain. "choice" itself has to stay
+  // scrollable in both directions (the timeline hook lets it revert to
+  // "straining"/"dormant" as strain drops), or a visitor who scrolls
+  // slightly too far gets stuck staring at a frozen, maximally-dimmed
+  // scene with no way back except sitting through the whole sequence.
+  // Committing — the actual point of no return — is choosing, not arriving.
+  const frozen = phase !== "dormant" && phase !== "straining" && phase !== "choice";
 
   // The canvas is scoped to this chapter via position:sticky (see
   // living-system.css) rather than pinned to the whole viewport, so it can
@@ -68,14 +74,29 @@ function LivingSystemInner({ mode }: { mode: ExperienceMode }) {
   // mid-sequence, scrolling the overlay text out of view. Locking scroll
   // for exactly the frozen span closes that gap without affecting scroll
   // anywhere else on the page.
+  //
+  // CSS `overflow: hidden` alone doesn't do this: Lenis intercepts wheel
+  // input and drives scroll itself via its own scrollTo calls, which aren't
+  // blocked by the overflow property (that only stops the browser's native
+  // overflow-driven scrolling). Confirmed by testing — scroll kept moving
+  // during the "frozen" phase even with overflow hidden. `lenis.stop()` is
+  // the actual, official way to pause it; the CSS toggle stays too, since
+  // it's what covers reduced-motion visitors (no Lenis instance at all).
+  const lenis = useLenis();
   useEffect(() => {
-    if (!frozen) return;
     const prev = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = "hidden";
+    if (frozen) {
+      document.documentElement.style.overflow = "hidden";
+      lenis?.stop();
+    } else {
+      document.documentElement.style.overflow = prev;
+      lenis?.start();
+    }
     return () => {
       document.documentElement.style.overflow = prev;
+      lenis?.start();
     };
-  }, [frozen]);
+  }, [frozen, lenis]);
 
   useEffect(() => {
     if (!entered || !journeyWrapperRef.current || !awakeningSpacerRef.current) return;

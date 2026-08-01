@@ -75,12 +75,22 @@ export function useIncidentTimeline({
 
     function tick() {
       const ph = phaseRef.current;
-      if (ph === "dormant" || ph === "straining") {
+      if (ph === "dormant" || ph === "straining" || ph === "choice") {
+        // "choice" stays reversible on purpose — reaching it is just "the
+        // system is fully strained," not a commitment. Scrolling back up
+        // relieves the strain and dismisses the prompt exactly the way
+        // scrolling built it up; only clicking an actual choice below
+        // should be the one-way door into the scripted sequence. Without
+        // this, a visitor who scrolled slightly too far got stuck staring
+        // at a frozen, maximally-dimmed scene with no way back except
+        // sitting through the whole ~17s incident.
         const p = awakeningProgressRef.current;
         const s = THREE.MathUtils.clamp((p - STRAIN_START) / (STRAIN_END - STRAIN_START), 0, 1);
         strainRef.current = s;
         if (ph === "dormant" && s > 0.015) setPhase("straining");
-        if (s >= 1) setPhase("choice");
+        else if (ph !== "dormant" && s <= 0.015) setPhase("dormant");
+        else if (ph === "straining" && s >= 1) setPhase("choice");
+        else if (ph === "choice" && s < 1) setPhase("straining");
       } else if (ph === "recovering") {
         if (recoverStartRef.current == null) recoverStartRef.current = performance.now();
         const elapsed = performance.now() - recoverStartRef.current;
